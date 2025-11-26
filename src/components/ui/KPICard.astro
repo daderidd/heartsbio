@@ -1,0 +1,32 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  icon?: string;
+  color?: 'primary' | 'secondary' | 'accent';
+}
+
+const { value, label, icon, color = 'primary' } = Astro.props;
+
+const colorClasses = {
+  primary: 'text-brand-primary bg-brand-primary/10',
+  secondary: 'text-brand-secondary bg-brand-secondary/10',
+  accent: 'text-brand-accent bg-brand-accent/10',
+};
+---
+
+<div class="text-center">
+  {icon && (
+    <div class={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${colorClasses[color]}`}>
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon} />
+      </svg>
+    </div>
+  )}
+  <div class={`text-5xl md:text-6xl font-display font-bold mb-3 ${colorClasses[color].split(' ')[0]}`}>
+    {value}
+  </div>
+  <div class="text-lg text-gray-600 font-medium">
+    {label}
+  </div>
+</div>

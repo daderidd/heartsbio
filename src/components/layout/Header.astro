@@ -1,8 +1,8 @@
 ---
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Technology', href: '/technology' },
-  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Home', href: '/#hero' },
+  { label: 'Technology', href: '/#technology' },
+  { label: 'Portfolio', href: '/#portfolio' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -90,5 +90,26 @@ const currentPath = Astro.url.pathname;
 
   menuButton?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href && href !== '#') {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          // Close mobile menu after clicking
+          mobileMenu?.classList.add('hidden');
+        }
+      }
+    });
   });
 </script>
