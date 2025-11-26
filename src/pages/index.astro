@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="HeartsBio - Innovative Biotechnology R&D">
+  <main>
+    <section class="section bg-gradient-to-br from-blue-50 to-teal-50">
+      <div class="container-custom">
+        <div class="text-center max-w-4xl mx-auto">
+          <h1 class="text-brand-primary mb-6">
+            Welcome to HeartsBio
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-8">
+            Advancing biotechnology through innovative research and development
+          </p>
+          <div class="flex gap-4 justify-center flex-wrap">
+            <a href="#technology" class="btn btn-primary">
+              Our Technology
+            </a>
+            <a href="#portfolio" class="btn btn-outline">
+              View Portfolio
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="technology" class="section">
+      <div class="container-custom">
+        <h2 class="text-center text-brand-primary mb-12">
+          Our Technology
+        </h2>
+        <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto">
+          Content coming soon. This is where we'll showcase HeartsBio's innovative biotechnology solutions.
+        </p>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section bg-gray-50">
+      <div class="container-custom">
+        <h2 class="text-center text-brand-primary mb-12">
+          R&D Portfolio
+        </h2>
+        <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto">
+          Coming soon. Featured research projects and case studies will be displayed here.
+        </p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
