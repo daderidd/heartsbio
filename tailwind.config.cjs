@@ -4,16 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          // Primary: Deep blue - scientific credibility and trust
-          primary: '#2563EB',    // Bright blue
-          // Secondary: Teal - biotechnology and life sciences
-          secondary: '#0D9488',  // Teal
-          // Accent: Purple - innovation and R&D
-          accent: '#7C3AED',     // Purple
-          // Neutral: Dark gray for text
-          neutral: '#1F2937',
-        }
+        // Brand Colors - Minimalist Green & Cream Palette
+        'dark-green': '#1d261d',      // Deep green background
+        'green': '#243f2e',            // Lighter green for cards on dark
+        'cream': '#f5f4f0',            // Cream for light cards/backgrounds
+        'black': '#000000',            // Black text/footer
+        'white': '#ffffff',            // White text
       },
       fontFamily: {
         // Sans-serif for body text - clean and modern

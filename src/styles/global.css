@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply font-sans text-brand-neutral antialiased;
+    @apply font-sans text-black antialiased bg-white;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -43,15 +43,15 @@
   }
 
   .btn-primary {
-    @apply bg-brand-primary text-white hover:bg-blue-700;
+    @apply bg-dark-green text-white hover:bg-green transition-colors;
   }
 
   .btn-secondary {
-    @apply bg-brand-secondary text-white hover:bg-teal-700;
+    @apply bg-green text-white hover:bg-dark-green transition-colors;
   }
 
   .btn-outline {
-    @apply border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white;
+    @apply border-2 border-dark-green text-dark-green hover:bg-dark-green hover:text-white transition-colors;
   }
 
   /* Container */

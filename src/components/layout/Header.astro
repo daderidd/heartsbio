@@ -15,10 +15,10 @@ const currentPath = Astro.url.pathname;
     <div class="flex items-center justify-between">
       <!-- Logo/Brand -->
       <a href="/" class="flex items-center gap-2 group">
-        <div class="w-10 h-10 bg-gradient-to-br from-brand-primary to-brand-accent rounded-lg flex items-center justify-center">
+        <div class="w-10 h-10 bg-dark-green rounded-lg flex items-center justify-center">
           <span class="text-white font-display font-bold text-xl">H</span>
         </div>
-        <span class="font-display font-bold text-2xl text-brand-primary group-hover:text-brand-accent transition-colors">
+        <span class="font-display font-bold text-2xl text-black group-hover:text-green transition-colors">
           HeartsBio
         </span>
       </a>
@@ -31,8 +31,8 @@ const currentPath = Astro.url.pathname;
             class:list={[
               'font-medium transition-colors',
               currentPath === item.href
-                ? 'text-brand-primary'
-                : 'text-gray-600 hover:text-brand-primary'
+                ? 'text-dark-green'
+                : 'text-black/70 hover:text-dark-green'
             ]}
           >
             {item.label}
@@ -50,7 +50,7 @@ const currentPath = Astro.url.pathname;
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden p-2 text-gray-600 hover:text-brand-primary transition-colors"
+        class="md:hidden p-2 text-black/70 hover:text-dark-green transition-colors"
         aria-label="Toggle menu"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,8 +68,8 @@ const currentPath = Astro.url.pathname;
             class:list={[
               'font-medium transition-colors py-2',
               currentPath === item.href
-                ? 'text-brand-primary'
-                : 'text-gray-600 hover:text-brand-primary'
+                ? 'text-dark-green'
+                : 'text-black/70 hover:text-dark-green'
             ]}
           >
             {item.label}

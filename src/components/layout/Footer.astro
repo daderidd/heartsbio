@@ -25,28 +25,28 @@ const socialLinks = [
 ];
 ---
 
-<footer class="bg-gray-900 text-gray-300">
+<footer class="bg-gradient-to-b from-dark-green to-black text-white">
   <!-- Main Footer Content -->
   <div class="container-custom py-12 md:py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
       <!-- Brand Column -->
       <div class="lg:col-span-1">
         <a href="/" class="flex items-center gap-2 mb-4 group">
-          <div class="w-10 h-10 bg-gradient-to-br from-brand-primary to-brand-accent rounded-lg flex items-center justify-center">
-            <span class="text-white font-display font-bold text-xl">H</span>
+          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+            <span class="text-dark-green font-display font-bold text-xl">H</span>
           </div>
-          <span class="font-display font-bold text-2xl text-white group-hover:text-brand-primary transition-colors">
+          <span class="font-display font-bold text-2xl text-white group-hover:text-cream transition-colors">
             HeartsBio
           </span>
         </a>
-        <p class="text-sm text-gray-400 mb-4">
+        <p class="text-sm text-white/70 mb-4">
           Advancing biotechnology through innovative research and development.
         </p>
         <div class="flex gap-4">
           {socialLinks.map((link) => (
             <a
               href={link.href}
-              class="text-gray-400 hover:text-brand-primary transition-colors"
+              class="text-white/70 hover:text-white transition-colors"
               aria-label={link.label}
             >
               <!-- Social icons would go here -->
@@ -63,7 +63,7 @@ const socialLinks = [
             <li>
               <a
                 href={link.href}
-                class="text-sm text-gray-400 hover:text-brand-primary transition-colors"
+                class="text-sm text-white/70 hover:text-white transition-colors"
               >
                 {link.label}
               </a>
@@ -80,7 +80,7 @@ const socialLinks = [
             <li>
               <a
                 href={link.href}
-                class="text-sm text-gray-400 hover:text-brand-primary transition-colors"
+                class="text-sm text-white/70 hover:text-white transition-colors"
               >
                 {link.label}
               </a>
@@ -92,14 +92,14 @@ const socialLinks = [
       <!-- Contact Info -->
       <div>
         <h3 class="font-display font-semibold text-white mb-4">Contact</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
+        <ul class="space-y-2 text-sm text-white/70">
           <li>
-            <a href="mailto:info@heartsbio.nl" class="hover:text-brand-primary transition-colors">
+            <a href="mailto:info@heartsbio.nl" class="hover:text-white transition-colors">
               info@heartsbio.nl
             </a>
           </li>
           <li>
-            <a href="tel:+31" class="hover:text-brand-primary transition-colors">
+            <a href="tel:+31" class="hover:text-white transition-colors">
               +31 (0) XXX XXX XXX
             </a>
           </li>
@@ -112,10 +112,10 @@ const socialLinks = [
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-gray-800">
+  <div class="border-t border-white/10">
     <div class="container-custom py-6">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-sm text-gray-400">
+        <p class="text-sm text-white/50">
           © {currentYear} HeartsBio. All rights reserved.
         </p>
         <div class="flex gap-6">
