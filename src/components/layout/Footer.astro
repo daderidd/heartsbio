@@ -1,0 +1,134 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = {
+  company: [
+    { label: 'About Us', href: '/about' },
+    { label: 'Technology', href: '/technology' },
+    { label: 'Portfolio', href: '/portfolio' },
+  ],
+  resources: [
+    { label: 'Case Studies', href: '/portfolio#case-studies' },
+    { label: 'Research', href: '/portfolio#research' },
+    { label: 'News', href: '/news' },
+  ],
+  legal: [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+  ],
+};
+
+const socialLinks = [
+  // Add social media links as needed
+  // { label: 'LinkedIn', href: '#', icon: 'linkedin' },
+  // { label: 'Twitter', href: '#', icon: 'twitter' },
+];
+---
+
+<footer class="bg-gray-900 text-gray-300">
+  <!-- Main Footer Content -->
+  <div class="container-custom py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <!-- Brand Column -->
+      <div class="lg:col-span-1">
+        <a href="/" class="flex items-center gap-2 mb-4 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-brand-primary to-brand-accent rounded-lg flex items-center justify-center">
+            <span class="text-white font-display font-bold text-xl">H</span>
+          </div>
+          <span class="font-display font-bold text-2xl text-white group-hover:text-brand-primary transition-colors">
+            HeartsBio
+          </span>
+        </a>
+        <p class="text-sm text-gray-400 mb-4">
+          Advancing biotechnology through innovative research and development.
+        </p>
+        <div class="flex gap-4">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-gray-400 hover:text-brand-primary transition-colors"
+              aria-label={link.label}
+            >
+              <!-- Social icons would go here -->
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Company Links -->
+      <div>
+        <h3 class="font-display font-semibold text-white mb-4">Company</h3>
+        <ul class="space-y-2">
+          {footerLinks.company.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-gray-400 hover:text-brand-primary transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources Links -->
+      <div>
+        <h3 class="font-display font-semibold text-white mb-4">Resources</h3>
+        <ul class="space-y-2">
+          {footerLinks.resources.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-gray-400 hover:text-brand-primary transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h3 class="font-display font-semibold text-white mb-4">Contact</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>
+            <a href="mailto:info@heartsbio.nl" class="hover:text-brand-primary transition-colors">
+              info@heartsbio.nl
+            </a>
+          </li>
+          <li>
+            <a href="tel:+31" class="hover:text-brand-primary transition-colors">
+              +31 (0) XXX XXX XXX
+            </a>
+          </li>
+          <li class="pt-2">
+            The Netherlands
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-800">
+    <div class="container-custom py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-gray-400">
+          © {currentYear} HeartsBio. All rights reserved.
+        </p>
+        <div class="flex gap-6">
+          {footerLinks.legal.map((link) => (
+            <a
+              href={link.href}
+              class="text-sm text-gray-400 hover:text-brand-primary transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,4 +1,8 @@
 ---
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description?: string;
@@ -41,7 +45,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
   </head>
-  <body>
-    <slot />
+  <body class="flex flex-col min-h-screen">
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
