@@ -7,15 +7,29 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  keywords?: string;
 }
 
 const {
   title,
   description = "HeartsBio - Advancing biotechnology through innovative R&D",
-  image = "/images/og-image.jpg"
+  image = "/images/og-image.jpg",
+  keywords = "biotechnology, R&D, agriculture, sustainable farming, microbial solutions, biocontrol, phosphate availability, seed coating, climate resilience, fertilizer efficiency"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteName = "HeartsBio";
+
+// Structured data for organization
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": siteName,
+  "url": Astro.site,
+  "logo": new URL("/favicon.svg", Astro.site),
+  "description": description,
+  "sameAs": []
+};
 ---
 
 <!doctype html>
@@ -26,9 +40,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#1d261d" />
+
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={siteName} />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph / Facebook -->
@@ -37,6 +56,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -44,6 +65,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body class="flex flex-col min-h-screen">
     <Header />
