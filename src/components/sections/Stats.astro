@@ -6,47 +6,88 @@ const kpis = [
   {
     value: '220+',
     label: 'Years of Combined Research Experience',
-    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
+    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    featured: false  // Cream background
   },
   {
     value: '10,000+',
     label: 'Proprietary Biobank of Microbial Strains',
-    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+    featured: true  // Dark green background
   },
   {
     value: '32',
     label: 'Versatile Super Strains',
-    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+    featured: false  // Cream background
   },
   {
     value: '100',
     label: 'Characteristics for Each Strain',
-    icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4'
+    icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4',
+    featured: true  // Dark green background
   },
 ];
 ---
 
-<section class="section bg-white">
-  <div class="container-custom">
+<section class="section bg-dark-green relative overflow-hidden">
+  <!-- Decorative background elements -->
+  <div class="absolute top-0 left-0 w-96 h-96 bg-green/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-cream/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+
+  <div class="container-custom relative z-10">
     <!-- Section Header -->
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <h2 class="text-black mb-6">
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <div class="inline-block mb-4">
+        <span class="inline-flex items-center px-4 py-2 rounded-full bg-green/20 text-cream font-semibold text-sm tracking-wide uppercase">
+          Our Impact
+        </span>
+      </div>
+      <h2 class="text-white mb-6">
         Impact by the Numbers
       </h2>
-      <p class="text-xl text-black/70">
-        Our commitment to innovation and excellence drives measurable results
+      <p class="text-xl text-white/80 leading-relaxed">
+        Our commitment to innovation and excellence drives measurable results across research, development, and real-world applications
       </p>
     </div>
 
-    <!-- KPIs Grid -->
+    <!-- KPIs Grid - Uniform Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      {kpis.map((kpi) => (
-        <KPICard
-          value={kpi.value}
-          label={kpi.label}
-          icon={kpi.icon}
-        />
+      {kpis.map((kpi, index) => (
+        <div class="stats-card-animate" style={`animation-delay: ${index * 0.1}s`}>
+          <KPICard
+            value={kpi.value}
+            label={kpi.label}
+            icon={kpi.icon}
+            featured={kpi.featured}
+          />
+        </div>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stats-card-animate {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stats-card-animate {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
