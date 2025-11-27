@@ -4,14 +4,14 @@ const navItems = [
   { label: 'Technology', href: '/#technology' },
   { label: 'Portfolio', href: '/#portfolio' },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
-  <nav class="container-custom py-4">
+<header class="fixed top-4 left-0 right-0 z-50 px-4">
+  <nav class="max-w-7xl mx-auto bg-white/95 backdrop-blur-sm shadow-lg rounded-2xl px-6 py-4 border border-black/5">
     <div class="flex items-center justify-between">
       <!-- Logo/Brand -->
       <a href="/" class="flex items-center gap-2 group">
@@ -42,7 +42,7 @@ const currentPath = Astro.url.pathname;
 
       <!-- CTA Button (Desktop) -->
       <div class="hidden md:block">
-        <a href="/contact" class="btn btn-primary">
+        <a href="#contact" class="btn btn-primary">
           Get in Touch
         </a>
       </div>
@@ -75,7 +75,7 @@ const currentPath = Astro.url.pathname;
             {item.label}
           </a>
         ))}
-        <a href="/contact" class="btn btn-primary mt-2">
+        <a href="#contact" class="btn btn-primary mt-2">
           Get in Touch
         </a>
       </div>

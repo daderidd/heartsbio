@@ -2,26 +2,33 @@
 // Hero Section - Modern, clean hero with background image
 ---
 
-<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Background Image with Overlay -->
-  <div class="absolute inset-0 z-0">
-    <img
-      src="/images/hero-field.jpg"
-      alt="Agricultural field"
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden -mt-20 pt-20">
+  <!-- Background Video with Overlay -->
+  <div class="absolute inset-0 top-0 z-0">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      poster="/images/hero-field.jpg"
       class="w-full h-full object-cover"
-    />
+    >
+      <source src="/videos/hero-field.mp4" type="video/mp4" />
+      <!-- Fallback image for browsers that don't support video -->
+      <img
+        src="/images/hero-field.jpg"
+        alt="Agricultural field"
+        class="w-full h-full object-cover"
+      />
+    </video>
     <!-- Dark overlay for text readability -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-dark-green/90"></div>
   </div>
 
   <!-- Content -->
-  <div class="relative z-10 container-custom text-center text-white py-20">
+  <div class="relative z-10 container-custom text-center text-white py-20 mt-16">
     <div class="max-w-4xl mx-auto">
-      <!-- Tag -->
-      <div class="inline-block mb-6 px-5 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-        <span class="text-white font-semibold text-sm tracking-widest uppercase">Biotechnology Innovation</span>
-      </div>
-
       <!-- Main Headline with Rotating Text -->
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight">
         <span id="rotating-word" class="inline-block transition-all duration-500 ease-in-out">Sustainable</span><br />
@@ -105,6 +112,13 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    #hero video {
+      display: none;
     }
   }
 </style>
