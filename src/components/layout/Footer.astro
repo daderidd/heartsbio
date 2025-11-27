@@ -12,10 +12,10 @@ const footerLinks = {
   //   { label: 'Research', href: '/portfolio#research' },
   //   { label: 'News', href: '/news' },
   // ],
-  // legal: [
-  //   { label: 'Privacy Policy', href: '/privacy' },
-  //   { label: 'Terms of Service', href: '/terms' },
-  // ],
+  legal: [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+  ],
 };
 
 const socialLinks = [
@@ -97,10 +97,20 @@ const socialLinks = [
   <!-- Bottom Bar -->
   <div class="border-t border-white/10">
     <div class="container-custom py-6">
-      <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-sm text-white/50">
           © {currentYear} HeartsBio. All rights reserved.
         </p>
+        <div class="flex gap-6">
+          {footerLinks.legal.map((link) => (
+            <a
+              href={link.href}
+              class="text-sm text-white/50 hover:text-white transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </div>

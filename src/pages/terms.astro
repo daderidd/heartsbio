@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Terms of Service - HeartsBio" description="Terms of Service for HeartsBio website">
+  <div class="min-h-screen bg-cream py-20">
+    <div class="container-custom max-w-4xl">
+      <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
+        <!-- Header -->
+        <div class="mb-8">
+          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 rounded-full">
+            <span class="text-dark-green font-semibold text-sm tracking-wide">LEGAL</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-display font-bold text-black mb-4">
+            Terms of Service
+          </h1>
+          <p class="text-lg text-black/70">
+            Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+        </div>
+
+        <!-- Content Notice -->
+        <div class="bg-cream/50 border border-dark-green/20 rounded-xl p-8 mb-8">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-dark-green rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-xl font-display font-bold text-black mb-2">
+                Terms of Service Under Development
+              </h2>
+              <p class="text-black/70 mb-4">
+                We are currently preparing our comprehensive Terms of Service that will govern the use of our website and services.
+              </p>
+              <p class="text-black/70">
+                These terms will be developed in accordance with Dutch law and EU regulations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temporary Information -->
+        <div class="prose prose-lg max-w-none">
+          <h2 class="text-2xl font-display font-bold text-black mb-4">Website Use</h2>
+          <p class="text-black/70 mb-6">
+            This website is provided for informational purposes about HeartsBio's biotechnology research and development services. By using this website, you agree to:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-black/70 mb-8">
+            <li>Use the website in compliance with applicable laws and regulations</li>
+            <li>Not use the website for any unlawful or prohibited purposes</li>
+            <li>Respect intellectual property rights of HeartsBio</li>
+            <li>Not attempt to gain unauthorized access to any part of the website</li>
+          </ul>
+
+          <h2 class="text-2xl font-display font-bold text-black mb-4">Intellectual Property</h2>
+          <p class="text-black/70 mb-8">
+            All content on this website, including text, graphics, logos, and images, is the property of HeartsBio and is protected by Dutch and international copyright laws.
+          </p>
+
+          <h2 class="text-2xl font-display font-bold text-black mb-4">Limitation of Liability</h2>
+          <p class="text-black/70 mb-8">
+            While we strive to ensure the information on this website is accurate and up-to-date, HeartsBio makes no representations or warranties of any kind regarding the website or its content.
+          </p>
+
+          <h2 class="text-2xl font-display font-bold text-black mb-4">Governing Law</h2>
+          <p class="text-black/70 mb-8">
+            These terms and your use of this website are governed by the laws of the Netherlands.
+          </p>
+
+          <h2 class="text-2xl font-display font-bold text-black mb-4">Contact Us</h2>
+          <p class="text-black/70 mb-4">
+            If you have any questions about these terms, please contact us:
+          </p>
+          <div class="bg-cream rounded-xl p-6">
+            <p class="text-black/70 mb-2">
+              <strong>Email:</strong> <a href="mailto:info@heartsbio.nl" class="text-dark-green hover:underline">info@heartsbio.nl</a>
+            </p>
+            <p class="text-black/70">
+              <strong>Location:</strong> The Netherlands
+            </p>
+          </div>
+        </div>
+
+        <!-- Back Link -->
+        <div class="mt-12 pt-8 border-t border-black/10">
+          <a href="/" class="inline-flex items-center gap-2 text-dark-green hover:text-green transition-colors font-semibold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

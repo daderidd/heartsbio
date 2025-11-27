@@ -405,6 +405,54 @@ This document outlines the complete implementation plan from initial setup to de
 
 ---
 
+## Phase 9.5: Legal & GDPR Compliance
+
+**Goal:** Ensure legal compliance for .nl domain and EU operations
+
+### 9.5.1 Privacy & Legal Pages
+- [ ] Create Privacy Policy page (`/privacy`)
+  - [ ] Data collection disclosure
+  - [ ] Cookie usage policy
+  - [ ] User rights under GDPR (access, deletion, portability)
+  - [ ] Data storage and security measures
+  - [ ] Contact information for data requests
+- [ ] Create Terms of Service page (`/terms`)
+  - [ ] User agreement terms
+  - [ ] Liability limitations
+  - [ ] Intellectual property rights
+  - [ ] Governing law (Netherlands)
+- [ ] Create Cookie Consent banner/modal
+  - [ ] Essential cookies notice
+  - [ ] Analytics/marketing cookies opt-in
+  - [ ] Cookie preferences management
+- [ ] Add Privacy Policy and Terms links to footer
+
+**Completion Date:** _________
+
+### 9.5.2 GDPR Compliance
+- [ ] Audit all data collection points (contact form, analytics, etc.)
+- [ ] Implement cookie consent mechanism
+- [ ] Ensure forms have privacy policy acceptance checkbox
+- [ ] Add data processing agreements if using third-party services
+- [ ] Document data retention policies
+- [ ] Set up process for handling data subject requests
+- [ ] Review email collection and storage practices
+
+**Completion Date:** _________
+
+### 9.5.3 Contact Form Compliance
+- [ ] Add privacy policy link near contact form
+- [ ] Add checkbox for consent to data processing
+- [ ] Add clear explanation of data usage
+- [ ] Ensure SSL/TLS encryption for form submission
+- [ ] Implement data retention policy for form submissions
+
+**Completion Date:** _________
+
+**Note:** GDPR compliance is mandatory for .nl domains and EU operations. Non-compliance can result in significant fines.
+
+---
+
 ## Phase 10: Deployment
 
 **Goal:** Launch the website to production
@@ -519,7 +567,7 @@ This document outlines the complete implementation plan from initial setup to de
 
 ## Progress Tracking
 
-**Overall Progress:** 70% Complete (7/10 phases - Phase 7 on hold)
+**Overall Progress:** 70% Complete (7/11 phases - Phase 7 on hold)
 
 ### Phase Completion
 - [x] Phase 1: Project Setup & Configuration (100%) ✅ **COMPLETE - Nov 26, 2024**
@@ -531,8 +579,10 @@ This document outlines the complete implementation plan from initial setup to de
 - [ ] Phase 7: Additional Pages & Special Components (0%) - **ON HOLD**
 - [x] Phase 8: SEO & Performance (85%) 🔄 **IN PROGRESS - Nov 27, 2024**
 - [ ] Phase 9: Testing & QA (0%)
+- [ ] Phase 9.5: Legal & GDPR Compliance (10%) ⚠️ **CRITICAL - Placeholder pages created**
 - [ ] Phase 10: Deployment (0%)
+- [ ] Phase 11: Launch & Handoff (0%)
 
 ---
 
-**Next Session:** Complete Phase 8 testing (Lighthouse, SEO tools), then Phase 9 - Testing & QA
+**Next Session:** Complete Phase 8 testing (Lighthouse, SEO tools), then Phase 9.5 - Legal & GDPR Compliance (CRITICAL before deployment)
