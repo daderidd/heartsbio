@@ -1,0 +1,67 @@
+---
+// Google Analytics component that respects cookie consent
+// Replace 'G-XXXXXXXXXX' with your actual Google Analytics Measurement ID
+
+interface Props {
+  measurementId?: string;
+}
+
+const { measurementId = 'G-XXXXXXXXXX' } = Astro.props;
+---
+
+<!-- Google Analytics - Only loads if user has consented to analytics cookies -->
+<script define:vars={{ measurementId }}>
+  // Function to initialize Google Analytics
+  function initializeAnalytics() {
+    // Load gtag.js script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(script);
+
+    // Initialize dataLayer and gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', measurementId, {
+      'anonymize_ip': true, // GDPR: Anonymize IP addresses
+      'cookie_flags': 'SameSite=None;Secure' // Modern cookie settings
+    });
+
+    console.log('Google Analytics initialized');
+  }
+
+  // Check if user has consented to analytics cookies
+  function checkAnalyticsConsent() {
+    try {
+      const consent = localStorage.getItem('cookieConsent');
+      if (consent) {
+        const preferences = JSON.parse(consent);
+        if (preferences.analytics === true) {
+          initializeAnalytics();
+        }
+      }
+    } catch (e) {
+      console.error('Error checking cookie consent:', e);
+    }
+  }
+
+  // Check consent on page load
+  checkAnalyticsConsent();
+
+  // Listen for consent changes (when user updates preferences)
+  window.addEventListener('cookieConsentUpdated', (event) => {
+    const preferences = event.detail;
+    if (preferences.analytics === true && !window.gtag) {
+      // User just accepted analytics, initialize GA
+      initializeAnalytics();
+    } else if (preferences.analytics === false && window.gtag) {
+      // User rejected analytics, disable GA
+      window.gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
+    }
+  });
+</script>
