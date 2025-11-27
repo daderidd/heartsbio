@@ -75,22 +75,25 @@ heartsbio-website/
 ## Brand Identity
 
 ### Colors
-HeartsBio's color palette reflects scientific credibility, biotechnology innovation, and trust:
+HeartsBio's minimalist color palette inspired by Phospholutions:
 
-- **Primary (Blue)**: `#2563EB` - Bright blue for scientific credibility and trust
-- **Secondary (Teal)**: `#0D9488` - Teal representing biotechnology and life sciences
-- **Accent (Purple)**: `#7C3AED` - Purple for innovation and R&D
-- **Neutral (Dark Gray)**: `#1F2937` - For body text
+- **Dark Green**: `#1d261d` - Primary brand color for backgrounds and emphasis
+- **Green**: `#243f2e` - Secondary green for accents and cards
+- **Cream**: `#f5f4f0` - Warm neutral for cards and contrast
+- **Black/White**: `#000000` / `#ffffff` - For text and clarity
+
+The palette emphasizes clean, professional aesthetics with natural earth tones reflecting biotechnology and sustainability.
 
 ### Typography
-- **Display Font**: Manrope (headings) - Modern, professional, inspired by Phospholutions
-- **Body Font**: Inter (body text) - Clean, readable, widely supported
+- **Display Font**: System font stack - Modern, professional
+- **Body Font**: System font stack - Clean, readable, performant
 
-Both fonts loaded via Google Fonts CDN.
+Using system fonts for optimal performance and native feel.
 
 ### Logo & Assets
-- Temporary favicon: Blue circle with "H" letter
-- Logo and brand assets to be added to `public/images/`
+- Favicon: Dark green rounded square with white "H" letter
+- Brand assets in `public/images/`
+- R&D portfolio images in `public/images/R&D portfolio/`
 
 ## Key Features
 

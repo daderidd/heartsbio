@@ -82,11 +82,63 @@ const featuredProjects = [
 
     <!-- Projects Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      {featuredProjects.map((project, index) => (
-        <article class:list={[
-          "group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
-          { "lg:col-start-2": index === 3 }
-        ]}>
+      {featuredProjects.slice(0, 3).map((project, index) => (
+        <article class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <!-- Project Image -->
+          <div class="relative aspect-video overflow-hidden bg-green/5">
+            <img
+              src={project.image}
+              alt={project.title}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-2xl font-display font-bold text-white mb-1">
+                {project.title}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Project Content -->
+          <div class="p-6">
+            <div class="text-sm text-dark-green font-semibold mb-3 uppercase tracking-wide">
+              {project.category}
+            </div>
+            <p class="text-black/70 mb-4 leading-relaxed">
+              {project.description}
+            </p>
+
+            <!-- Highlights -->
+            {project.highlights && (
+              <ul class="space-y-2 mb-4">
+                {project.highlights.map((highlight) => (
+                  <li class="flex items-start gap-2 text-sm text-black/70">
+                    <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="px-3 py-1 bg-cream text-black text-xs font-medium rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Last 2 cards centered -->
+    <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+      {featuredProjects.slice(3).map((project, index) => (
+        <article class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           <!-- Project Image -->
           <div class="relative aspect-video overflow-hidden bg-green/5">
             <img
