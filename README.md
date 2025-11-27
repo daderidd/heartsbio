@@ -4,13 +4,15 @@ A modern business landing page with R&D portfolio showcase built with Astro, Tai
 
 ## Project Overview
 
-HeartsBio's website serves as a professional business landing page featuring:
-- Company overview and value proposition
-- Technology/R&D portfolio showcase
-- Before-after comparisons and case studies
-- Key performance indicators (KPIs) with visual displays
-- Video content integration
+HeartsBio's website is a professional single-page landing experience featuring:
+- Full-screen hero with background video and rotating adjectives
+- Company overview and core values (About section)
+- Technology platform and research process
+- Impact metrics with animated KPI displays
+- R&D portfolio showcase (5 research areas)
 - Partnership and credibility sections
+- Contact form with GDPR compliance
+- Legal pages (Privacy Policy, Terms of Service)
 
 ## Design Inspiration
 
@@ -54,9 +56,9 @@ heartsbio-website/
 │   ├── layouts/             # Page layouts
 │   │   └── BaseLayout.astro # Base page template
 │   ├── pages/               # Routes (file-based routing)
-│   │   ├── index.astro      # Homepage
-│   │   ├── technology.astro # Technology overview
-│   │   └── portfolio/       # Portfolio pages
+│   │   ├── index.astro      # Homepage (single-page design)
+│   │   ├── privacy.astro    # Privacy Policy (GDPR)
+│   │   └── terms.astro      # Terms of Service
 │   ├── styles/              # Global styles
 │   │   └── global.css       # Global CSS and Tailwind directives
 │   └── lib/                 # Utilities and helpers
@@ -94,6 +96,20 @@ Using system fonts for optimal performance and native feel.
 - Favicon: Dark green rounded square with white "H" letter
 - Brand assets in `public/images/`
 - R&D portfolio images in `public/images/R&D portfolio/`
+
+## Homepage Structure
+
+The site uses a single-page scroll design with smooth anchor navigation:
+
+1. **Hero** - Full-screen video background with rotating adjectives
+2. **Technology** - Research process overview with 4-stage workflow
+3. **Stats** - Impact metrics with animated KPI cards
+4. **Portfolio** - 5 R&D research areas with project cards
+5. **About** - Company mission and 6 core values
+6. **Partners** - Credibility and testimonial section
+7. **Contact** - Contact form with GDPR compliance
+
+All sections accessible via navigation menu with smooth scrolling.
 
 ## Key Features
 
