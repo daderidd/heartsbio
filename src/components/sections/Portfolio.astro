@@ -1,66 +1,63 @@
 ---
-// Portfolio/R&D Section - Showcase research projects and case studies
+// Products Section - Showcase our biological solutions
 
-const featuredProjects = [
+const products = [
   {
-    title: 'Phosphate Availability & Bio Remediation',
-    category: 'Soil Enhancement',
-    description: 'Advanced enzymatic solutions that unlock legacy phosphorus and enhance fertilizer efficiency while providing comprehensive soil and waterbed remediation.',
+    name: 'Fitazim',
+    title: 'PROVEN Phosphorus Booster',
+    category: 'Phosphate Uptake Solutions',
+    description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
     image: '/images/R&D portfolio/phosphate-availability.jpg',
-    tags: ['Soil Health', 'Sustainability'],
-    highlights: [
-      'Recovers legacy phosphorus from soil reserves',
-      'Maximizes NPK fertilizer efficiency',
-      'Accelerates phosphorus uptake by plants',
+    benefits: [
+      'More plant-available phosphorus through synergistic enzyme action',
+      'Stronger, faster crop development and consistently higher yields',
+      'Recovering residual "legacy phosphorus" from soil',
+      'Less phosphorus runoff, protecting water ecosystems',
     ],
+    tagline: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
   },
   {
-    title: 'Advanced Seed Coating Technology',
-    category: 'Seed Enhancement',
-    description: 'Enhancing seed performance through advanced biological coating technologies combining water-retaining biopolymer, enzymes, and PGP bacteria to accelerate growth.',
-    image: '/images/R&D portfolio/seed-coating.jpg',
-    tags: ['Seeds', 'Growth Enhancement'],
-    highlights: [
-      'Beneficial microorganism selection',
-      'Stable adhesive formulations',
-      'Precision nutrient delivery systems',
-    ],
-  },
-  {
-    title: 'Climate Stress Alleviator',
-    category: 'Climate Resilience',
-    description: 'Patented microbiota transfer technology to help crops deal with increasing climatic challenges in agriculture, enhancing resilience to both biotic and abiotic stresses.',
-    image: '/images/R&D portfolio/climate-stress-alleviator.jpg',
-    tags: ['Climate', 'Resilience'],
-    highlights: [
-      'Patented stress alleviation technology',
-      'Enhanced resilience to climate stress',
-      'Extended harvest seasons',
-    ],
-  },
-  {
-    title: 'Zero-Residue Biocontrol',
-    category: 'Sustainable Protection',
-    description: 'Protecting nature and human health with microbial biocontrol agents that deliver powerful control of fungi, mites, and nematodes through a unique alkaline mechanism.',
-    image: '/images/R&D portfolio/zero-residue-biocontrol.jpg',
-    tags: ['Biocontrol', 'Zero-Residue'],
-    highlights: [
-      'Simultaneous multi-pest control',
-      'Multi-site mode prevents adaptation',
-      'No detectable chemical traces at harvest',
-    ],
-  },
-  {
-    title: 'Enhanced Fertilizer Efficiency',
-    category: 'Nutrient Optimization',
-    description: 'Mastering biological bio-polymers, bacterial solutions, enzymes and natural growth hormones to maximize phosphate fertilizer availability and yields.',
+    name: 'Bio-Dop',
+    title: 'Enzymatic Fertilizer Coating',
+    category: 'Phosphate Uptake Solutions',
+    description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers by improving phosphorus uptake from the production stage onward.',
     image: '/images/R&D portfolio/enhanced-fertilizer.jpg',
-    tags: ['Fertilization', 'Efficiency'],
-    highlights: [
-      'Upstream solutions for phosphate fertilizers',
-      'Significant ROI with enhanced productivity',
-      'Easy integration into existing processes',
+    benefits: [
+      'Upstream solution for maximizing phosphorus efficiency',
+      'Easy to integrate into existing production lines',
+      'High ROI across the entire value chain',
+      'Reduces dependence on finite phosphorus reserves',
     ],
+    tagline: 'Enhancing fertilizer performance from production to field',
+  },
+  {
+    name: 'Purisol',
+    title: 'Full Microbiota Transfer',
+    category: 'Microbiota Transfer',
+    description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
+    image: '/images/R&D portfolio/climate-stress-alleviator.jpg',
+    benefits: [
+      'Enhances tolerance to drought, salinity, and soil-borne diseases',
+      'Promotes vigorous growth and stronger root systems',
+      'Increases fruit, kernel, and calyx size and weight',
+      'Provides earliness, longer picking periods, and shelf life',
+    ],
+    tagline: 'Ecocert-certified, natural prebiotic for sustainable farming',
+    certification: 'Ecocert Certified',
+  },
+  {
+    name: 'SG-2',
+    title: 'Enzymatic Seed Coating',
+    category: 'Seed Coating',
+    description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
+    image: '/images/R&D portfolio/seed-coating.jpg',
+    benefits: [
+      'Faster, more uniform germination',
+      'Early root development',
+      'Enhanced nutrient absorption',
+      'Improved stress tolerance',
+    ],
+    tagline: 'Superior seed performance for optimal crop establishment',
   },
 ];
 ---
@@ -70,135 +67,83 @@ const featuredProjects = [
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
       <div class="inline-block mb-4 px-4 py-2 bg-green/10 rounded-full">
-        <span class="text-dark-green font-semibold text-sm tracking-wide">OUR WORK</span>
+        <span class="text-dark-green font-semibold text-sm tracking-wide">OUR PRODUCTS</span>
       </div>
       <h2 class="text-black mb-6">
-        R&D Portfolio
+        Smart Biological Solutions for Modern Farming
       </h2>
       <p class="text-xl text-black/70">
-        Explore our cutting-edge research projects and innovative solutions that are shaping the future of biotechnology.
+        Our product portfolio delivers proven results through advanced enzyme technology, microbiota transfer, and seed enhancement.
       </p>
     </div>
 
-    <!-- Projects Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      {featuredProjects.slice(0, 3).map((project, index) => (
+    <!-- Products Grid - 2x2 Layout -->
+    <div class="grid md:grid-cols-2 gap-8">
+      {products.map((product, index) => (
         <article class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <!-- Project Image -->
+          <!-- Product Image with Label -->
           <div class="relative aspect-video overflow-hidden bg-green/5">
             <img
-              src={project.image}
-              alt={project.title}
+              src={product.image}
+              alt={product.name}
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
               decoding="async"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+            <!-- Product Name Label (top-left) -->
+            <div class="absolute top-4 left-4">
+              <span class="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-sm shadow-lg">
+                {product.name}
+              </span>
+            </div>
+
+            <!-- Product Title (bottom) -->
             <div class="absolute bottom-4 left-4 right-4">
               <h3 class="text-2xl font-display font-bold text-white mb-1">
-                {project.title}
+                {product.title}
               </h3>
             </div>
           </div>
 
-          <!-- Project Content -->
+          <!-- Product Content -->
           <div class="p-6">
             <div class="text-sm text-dark-green font-semibold mb-3 uppercase tracking-wide">
-              {project.category}
+              {product.category}
             </div>
-            <p class="text-black/70 mb-4 leading-relaxed">
-              {project.description}
-            </p>
 
-            <!-- Highlights -->
-            {project.highlights && (
-              <ul class="space-y-2 mb-4">
-                {project.highlights.map((highlight) => (
-                  <li class="flex items-start gap-2 text-sm text-black/70">
-                    <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
+            {product.certification && (
+              <div class="mb-3">
+                <span class="inline-block px-3 py-1 bg-green/10 text-dark-green text-xs font-semibold rounded-full">
+                  ✓ {product.certification}
+                </span>
+              </div>
             )}
 
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span class="px-3 py-1 bg-cream text-black text-xs font-medium rounded-full">
-                  {tag}
-                </span>
+            <p class="text-black/70 mb-4 leading-relaxed">
+              {product.description}
+            </p>
+
+            <!-- Benefits -->
+            <ul class="space-y-2 mb-4">
+              {product.benefits.map((benefit) => (
+                <li class="flex items-start gap-2 text-sm text-black/70">
+                  <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span>{benefit}</span>
+                </li>
               ))}
-            </div>
+            </ul>
+
+            <!-- Tagline -->
+            <p class="text-sm text-dark-green font-semibold italic">
+              {product.tagline}
+            </p>
           </div>
         </article>
       ))}
     </div>
-
-    <!-- Last 2 cards centered -->
-    <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-      {featuredProjects.slice(3).map((project, index) => (
-        <article class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <!-- Project Image -->
-          <div class="relative aspect-video overflow-hidden bg-green/5">
-            <img
-              src={project.image}
-              alt={project.title}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-4 left-4 right-4">
-              <h3 class="text-2xl font-display font-bold text-white mb-1">
-                {project.title}
-              </h3>
-            </div>
-          </div>
-
-          <!-- Project Content -->
-          <div class="p-6">
-            <div class="text-sm text-dark-green font-semibold mb-3 uppercase tracking-wide">
-              {project.category}
-            </div>
-            <p class="text-black/70 mb-4 leading-relaxed">
-              {project.description}
-            </p>
-
-            <!-- Highlights -->
-            {project.highlights && (
-              <ul class="space-y-2 mb-4">
-                {project.highlights.map((highlight) => (
-                  <li class="flex items-start gap-2 text-sm text-black/70">
-                    <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span class="px-3 py-1 bg-cream text-black text-xs font-medium rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-
-    <!-- View All Projects CTA -->
-    <!-- <div class="text-center">
-      <a href="/portfolio" class="btn btn-outline text-lg px-8 py-4">
-        View All Projects
-      </a>
-    </div> -->
   </div>
 </section>
