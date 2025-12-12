@@ -662,3 +662,155 @@ This document outlines the complete implementation plan from initial setup to de
 4. Submit sitemap to Google Search Console after custom domain
 5. Incorporate stakeholder feedback
 6. Legal review of Privacy Policy and Terms (recommended)
+
+---
+
+## Phase 12: Products Page Enhancement & Content Improvements
+
+**Date:** December 12, 2025
+**Goal:** Create comprehensive products page with trial data, improve content, and enhance navigation
+
+### 12.1 Bug Fixes & Technical Issues
+- [x] Fixed React hooks error in CookieConsent component
+  - Changed from `client:load` to `client:only="react"` to prevent hydration issues
+  - Location: `src/layouts/BaseLayout.astro:83`
+- [x] Removed hero-field.jpg 404 errors
+  - Removed poster attribute from video element
+  - Replaced fallback image with text fallback
+  - Location: `src/components/sections/Hero.astro:8-18`
+
+**Completion Date:** December 12, 2025
+
+### 12.2 Technology Section Image Updates
+- [x] Replaced single lab-equipment.jpg with research team grid
+  - Created 2x2 grid of research-lab-person-1 through 4
+  - Added hover scale effects and gradient overlays
+  - Implemented proper object positioning for images 3 & 4 (`object-right`)
+  - Fixed aspect ratio cropping to show researchers properly
+  - Location: `src/components/sections/Technology.astro:106-150`
+
+**Completion Date:** December 12, 2025
+
+### 12.3 Dedicated Products Page Creation
+- [x] Created comprehensive `/products` page (`src/pages/products.astro`)
+  - Full-page layout with hero section
+  - Detailed product cards for all 4 products (Fitazim, Bio-Dop, Purisol, SG-2)
+  - Alternating left/right image layout for visual interest
+  - Full descriptions, benefits, features, and taglines
+  - CTA section linking to contact form
+  - Responsive design for all devices
+
+**Key Features:**
+- Full-height product images (min-h-[400px] mobile, min-h-[600px] desktop)
+- Magazine-style split layout (gap-0 between image and content)
+- Refined gradient overlays (dark-green to black)
+- Elegant hover animations (700ms transitions)
+- Premium badges and certifications display
+
+**Completion Date:** December 12, 2025
+
+### 12.4 Fitazim Product Enhancement
+- [x] Updated Fitazim branding
+  - Changed title from "PROVEN Phosphorus Booster" to "Proven Phosphorus Booster"
+  - Replaced product image with `leaves-bg.jpg` for cleaner aesthetic
+  - Maintained consistency across homepage and products page
+
+**Completion Date:** December 12, 2025
+
+### 12.5 Fitazim Trial Data Integration
+- [x] Installed Recharts library for data visualization
+  - Added 38 packages for interactive charts
+  - Zero vulnerabilities reported
+
+- [x] Created trial comparison section
+  - Added two trial images (Fitazim Trial 1 & 1-2) in clean side-by-side layout
+  - Removed overlays and labels for clean visual comparison
+  - Added key observations cards below images (Leaf Color, Plant Vigor, Growth Rate)
+  - Location: `src/pages/products.astro:213-254`
+
+- [x] Integrated interactive data visualization
+  - Created `FitazimVisualization.tsx` component with HeartsBio branding
+  - Toggle between Plant Biomass and Phosphorus Uptake metrics
+  - Interactive line charts showing dose-response data (0, 2, 4, 6 L/Ha)
+  - Displays improvement percentages (+44% to +79%) at different P levels
+  - Shows trial metadata (35 days, pH 7.8, alkaline soil)
+  - Adapted color scheme to match HeartsBio brand (dark-green instead of emerald)
+  - Location: `src/components/FitazimVisualization.tsx`
+
+**Completion Date:** December 12, 2025
+
+### 12.6 Homepage Product Cards - Clickable Links
+- [x] Made product cards interactive
+  - Added unique IDs to all products (fitazim, bio-dop, purisol, sg-2)
+  - Wrapped cards in anchor tags linking to `/products#[product-id]`
+  - Added "Learn More" call-to-action with animated arrow
+  - Enhanced hover effects (border color change, card lift, gap animation)
+  - Added proper aria-labels for accessibility
+  - Location: `src/components/sections/Portfolio.astro:87-163`
+
+**User Flow:**
+```
+Homepage product card → Click → /products page (scrolls to specific product)
+```
+
+**Completion Date:** December 12, 2025
+
+### 12.7 Navigation Structure Optimization
+- [x] Resolved navigation confusion
+  - Changed nav "Products" link from `/#portfolio` to `/products`
+  - Established clear hierarchy: Homepage = preview, Products page = comprehensive
+  - Location: `src/components/layout/Header.astro:5`
+
+- [x] Added "View All Products" CTA button
+  - Positioned at bottom of homepage portfolio section
+  - Links to full products page
+  - Styled with dark-green background and hover effects
+  - Animated arrow on hover
+  - Location: `src/components/sections/Portfolio.astro:167-179`
+
+**New User Flows:**
+1. Nav "Products" → `/products` (full page)
+2. Homepage card click → `/products#[product-id]` (specific product)
+3. "View All Products" button → `/products` (top of page)
+
+**Completion Date:** December 12, 2025
+
+### 12.8 Content Consistency Updates
+- [x] Synchronized product data between homepage and products page
+  - Updated Portfolio.astro to match products page data
+  - Changed Fitazim title to "Proven Phosphorus Booster"
+  - Updated Fitazim image to `leaves-bg.jpg`
+  - Ensured consistent descriptions and benefits
+
+**Completion Date:** December 12, 2025
+
+---
+
+## Phase 12 Summary
+
+**Files Created:**
+- `src/pages/products.astro` - Comprehensive products page
+- `src/components/FitazimVisualization.tsx` - Interactive trial data visualization
+
+**Files Modified:**
+- `src/layouts/BaseLayout.astro` - Fixed CookieConsent loading
+- `src/components/sections/Hero.astro` - Removed hero-field.jpg references
+- `src/components/sections/Technology.astro` - Updated to research team grid
+- `src/components/sections/Portfolio.astro` - Made cards clickable, added CTA
+- `src/components/layout/Header.astro` - Updated Products navigation link
+- `package.json` - Added recharts dependency
+
+**Dependencies Added:**
+- `recharts` - Data visualization library (38 packages)
+
+**Overall Impact:**
+- ✅ Enhanced user experience with dedicated products page
+- ✅ Added scientific credibility with Fitazim trial data and visualizations
+- ✅ Improved navigation clarity and user flows
+- ✅ Fixed technical bugs (React hooks, 404 errors)
+- ✅ Consistent branding and content across site
+- ✅ Professional, data-driven product presentation
+
+**Completion Date:** December 12, 2025 ✅
+
+**Session Status:** 🎉 Successfully completed - Ready for review
