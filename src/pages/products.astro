@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const products = [
+  {
+    id: 'fitazim',
+    name: 'Fitazim',
+    title: 'PROVEN Phosphorus Booster',
+    category: 'Phosphate Uptake Solutions',
+    description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
+    fullDescription: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years—often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
+    image: '/images/R&D portfolio/phosphate-availability.jpg',
+    benefits: [
+      'More plant-available phosphorus through synergistic enzyme action',
+      'Stronger, faster crop development and consistently higher yields',
+      'Recovering residual "legacy phosphorus" from soil',
+      'Less phosphorus runoff, protecting water ecosystems',
+    ],
+    tagline: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
+    features: [
+      'Proprietary enzyme blend optimized for soil conditions',
+      'Compatible with existing fertilizer programs',
+      'Reduces reliance on new phosphate inputs',
+      'Environmentally sustainable and cost-effective',
+    ],
+  },
+  {
+    id: 'bio-dop',
+    name: 'Bio-Dop',
+    title: 'Enzymatic Fertilizer Coating',
+    category: 'Phosphate Uptake Solutions',
+    description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers by improving phosphorus uptake from the production stage onward.',
+    fullDescription: 'Bio-Dop is the fertilizer industry\'s answer to phosphorus efficiency. Applied directly during fertilizer production, this enzymatic coating ensures that every granule of fertilizer delivers maximum phosphorus availability. The result is higher ROI for manufacturers, distributors, and farmers alike.',
+    image: '/images/R&D portfolio/enhanced-fertilizer.jpg',
+    benefits: [
+      'Upstream solution for maximizing phosphorus efficiency',
+      'Easy to integrate into existing production lines',
+      'High ROI across the entire value chain',
+      'Reduces dependence on finite phosphorus reserves',
+    ],
+    tagline: 'Enhancing fertilizer performance from production to field',
+    features: [
+      'Seamless integration with manufacturing processes',
+      'Stable coating that activates in soil',
+      'Compatible with all major fertilizer types',
+      'Proven results in diverse soil conditions',
+    ],
+  },
+  {
+    id: 'purisol',
+    name: 'Purisol',
+    title: 'Full Microbiota Transfer',
+    category: 'Microbiota Transfer',
+    description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
+    fullDescription: 'Purisol is inspired by nature\'s own soil regeneration processes. This Ecocert-certified prebiotic creates the ideal environment for beneficial microorganisms to thrive, restoring soil health from the ground up. Unlike synthetic alternatives, Purisol works in harmony with natural soil ecosystems to deliver sustainable, long-term benefits.',
+    image: '/images/R&D portfolio/climate-stress-alleviator.jpg',
+    benefits: [
+      'Enhances tolerance to drought, salinity, and soil-borne diseases',
+      'Promotes vigorous growth and stronger root systems',
+      'Increases fruit, kernel, and calyx size and weight',
+      'Provides earliness, longer picking periods, and shelf life',
+    ],
+    tagline: 'Ecocert-certified, natural prebiotic for sustainable farming',
+    certification: 'Ecocert Certified',
+    features: [
+      '100% natural and unprocessed',
+      'Optimized carrier for beneficial bacteria',
+      'Improves soil structure and water retention',
+      'Safe for organic farming systems',
+    ],
+  },
+  {
+    id: 'sg-2',
+    name: 'SG-2',
+    title: 'Enzymatic Seed Coating',
+    category: 'Seed Coating',
+    description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
+    fullDescription: 'SG-2 is engineered to give seeds the best possible start. By enhancing germination rates, accelerating root development, and improving early nutrient uptake, SG-2 sets the foundation for healthier, more resilient crops. Every seed coated with SG-2 has a competitive advantage from day one.',
+    image: '/images/R&D portfolio/seed-coating.jpg',
+    benefits: [
+      'Faster, more uniform germination',
+      'Early root development',
+      'Enhanced nutrient absorption',
+      'Improved stress tolerance',
+    ],
+    tagline: 'Superior seed performance for optimal crop establishment',
+    features: [
+      'Applied directly to seeds pre-planting',
+      'Works across multiple crop types',
+      'Increases seedling vigor and uniformity',
+      'Reduces replanting and crop loss',
+    ],
+  },
+];
+---
+
+<BaseLayout title="Our Products - HeartsBio" description="Explore HeartsBio's portfolio of advanced biological solutions for modern agriculture">
+  <div class="min-h-screen bg-cream">
+    <!-- Hero Section -->
+    <section class="bg-dark-green text-white py-20 md:py-28">
+      <div class="container-custom">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="inline-block mb-6 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
+            <span class="text-white font-semibold text-sm tracking-wide">OUR PRODUCTS</span>
+          </div>
+          <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">
+            Smart Biological Solutions for Modern Farming
+          </h1>
+          <p class="text-xl md:text-2xl text-white/90">
+            Proven products that unlock soil potential, enhance nutrient efficiency, and build sustainable agricultural systems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 md:py-20">
+      <div class="container-custom max-w-6xl">
+        <div class="space-y-20">
+          {products.map((product, index) => (
+            <article id={product.id} class="bg-white rounded-3xl overflow-hidden shadow-lg">
+              <!-- Product Layout -->
+              <div class={`grid lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                <!-- Image Side -->
+                <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <div class="relative aspect-square lg:aspect-auto lg:h-full overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/40 via-transparent to-transparent"></div>
+
+                    <!-- Product Badge -->
+                    <div class="absolute top-6 left-6">
+                      <span class="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold shadow-lg">
+                        {product.name}
+                      </span>
+                    </div>
+
+                    {product.certification && (
+                      <div class="absolute bottom-6 left-6">
+                        <span class="inline-block px-4 py-2 bg-green/90 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+                          ✓ {product.certification}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <!-- Content Side -->
+                <div class={`p-8 md:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                  <!-- Category Badge -->
+                  <div class="inline-block mb-4 px-3 py-1 bg-dark-green/10 rounded-full">
+                    <span class="text-dark-green font-semibold text-xs tracking-wide uppercase">
+                      {product.category}
+                    </span>
+                  </div>
+
+                  <!-- Product Title -->
+                  <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-4">
+                    {product.title}
+                  </h2>
+
+                  <!-- Tagline -->
+                  <p class="text-lg text-dark-green font-semibold italic mb-6">
+                    {product.tagline}
+                  </p>
+
+                  <!-- Description -->
+                  <p class="text-black/70 text-lg mb-6 leading-relaxed">
+                    {product.fullDescription}
+                  </p>
+
+                  <!-- Key Benefits -->
+                  <div class="mb-8">
+                    <h3 class="text-xl font-display font-bold text-black mb-4">Key Benefits</h3>
+                    <ul class="space-y-3">
+                      {product.benefits.map((benefit) => (
+                        <li class="flex items-start gap-3">
+                          <svg class="w-5 h-5 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          <span class="text-black/80">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <!-- Features -->
+                  <div class="bg-cream/50 rounded-xl p-6">
+                    <h3 class="text-lg font-display font-bold text-black mb-3">Product Features</h3>
+                    <ul class="space-y-2">
+                      {product.features.map((feature) => (
+                        <li class="flex items-start gap-2">
+                          <span class="text-dark-green mt-1">●</span>
+                          <span class="text-black/70 text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-20 bg-white">
+      <div class="container-custom max-w-4xl text-center">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-6">
+          Ready to Transform Your Agricultural Practices?
+        </h2>
+        <p class="text-xl text-black/70 mb-8">
+          Contact us to learn more about how our products can benefit your operations.
+        </p>
+        <a
+          href="/#contact"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-dark-green text-white font-semibold rounded-full hover:bg-green transition-colors shadow-lg hover:shadow-xl"
+        >
+          Get in Touch
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Back to Home -->
+    <section class="py-12 bg-cream">
+      <div class="container-custom text-center">
+        <a href="/" class="inline-flex items-center gap-2 text-dark-green hover:text-green transition-colors font-semibold">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
