@@ -3,11 +3,12 @@
 
 const products = [
   {
+    id: 'fitazim',
     name: 'Fitazim',
-    title: 'PROVEN Phosphorus Booster',
+    title: 'Proven Phosphorus Booster',
     category: 'Phosphate Uptake Solutions',
     description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
-    image: '/images/R&D portfolio/phosphate-availability.jpg',
+    image: '/images/products/leaves-bg.jpg',
     benefits: [
       'More plant-available phosphorus through synergistic enzyme action',
       'Stronger, faster crop development and consistently higher yields',
@@ -17,6 +18,7 @@ const products = [
     tagline: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
   },
   {
+    id: 'bio-dop',
     name: 'Bio-Dop',
     title: 'Enzymatic Fertilizer Coating',
     category: 'Phosphate Uptake Solutions',
@@ -31,6 +33,7 @@ const products = [
     tagline: 'Enhancing fertilizer performance from production to field',
   },
   {
+    id: 'purisol',
     name: 'Purisol',
     title: 'Full Microbiota Transfer',
     category: 'Microbiota Transfer',
@@ -46,6 +49,7 @@ const products = [
     certification: 'Ecocert Certified',
   },
   {
+    id: 'sg-2',
     name: 'SG-2',
     title: 'Enzymatic Seed Coating',
     category: 'Seed Coating',
@@ -80,69 +84,83 @@ const products = [
     <!-- Products Grid - 2x2 Layout -->
     <div class="grid md:grid-cols-2 gap-8">
       {products.map((product, index) => (
-        <article class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <!-- Product Image with Label -->
-          <div class="relative aspect-video overflow-hidden bg-green/5">
-            <img
-              src={product.image}
-              alt={product.name}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+        <a
+          href={`/products#${product.id}`}
+          class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-dark-green/30 cursor-pointer block"
+          aria-label={`Learn more about ${product.name}`}
+        >
+          <article>
+            <!-- Product Image with Label -->
+            <div class="relative aspect-video overflow-hidden bg-green/5">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
-            <!-- Product Name Label (top-left) -->
-            <div class="absolute top-4 left-4">
-              <span class="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-sm shadow-lg">
-                {product.name}
-              </span>
-            </div>
-
-            <!-- Product Title (bottom) -->
-            <div class="absolute bottom-4 left-4 right-4">
-              <h3 class="text-2xl font-display font-bold text-white mb-1">
-                {product.title}
-              </h3>
-            </div>
-          </div>
-
-          <!-- Product Content -->
-          <div class="p-6">
-            <div class="text-sm text-dark-green font-semibold mb-3 uppercase tracking-wide">
-              {product.category}
-            </div>
-
-            {product.certification && (
-              <div class="mb-3">
-                <span class="inline-block px-3 py-1 bg-green/10 text-dark-green text-xs font-semibold rounded-full">
-                  ✓ {product.certification}
+              <!-- Product Name Label (top-left) -->
+              <div class="absolute top-4 left-4">
+                <span class="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-sm shadow-lg">
+                  {product.name}
                 </span>
               </div>
-            )}
 
-            <p class="text-black/70 mb-4 leading-relaxed">
-              {product.description}
-            </p>
+              <!-- Product Title (bottom) -->
+              <div class="absolute bottom-4 left-4 right-4">
+                <h3 class="text-2xl font-display font-bold text-white mb-1">
+                  {product.title}
+                </h3>
+              </div>
+            </div>
 
-            <!-- Benefits -->
-            <ul class="space-y-2 mb-4">
-              {product.benefits.map((benefit) => (
-                <li class="flex items-start gap-2 text-sm text-black/70">
-                  <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span>{benefit}</span>
-                </li>
-              ))}
-            </ul>
+            <!-- Product Content -->
+            <div class="p-6">
+              <div class="text-sm text-dark-green font-semibold mb-3 uppercase tracking-wide">
+                {product.category}
+              </div>
 
-            <!-- Tagline -->
-            <p class="text-sm text-dark-green font-semibold italic">
-              {product.tagline}
-            </p>
-          </div>
-        </article>
+              {product.certification && (
+                <div class="mb-3">
+                  <span class="inline-block px-3 py-1 bg-green/10 text-dark-green text-xs font-semibold rounded-full">
+                    ✓ {product.certification}
+                  </span>
+                </div>
+              )}
+
+              <p class="text-black/70 mb-4 leading-relaxed">
+                {product.description}
+              </p>
+
+              <!-- Benefits -->
+              <ul class="space-y-2 mb-6">
+                {product.benefits.map((benefit) => (
+                  <li class="flex items-start gap-2 text-sm text-black/70">
+                    <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>{benefit}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- Tagline -->
+              <p class="text-sm text-dark-green font-semibold italic mb-4">
+                {product.tagline}
+              </p>
+
+              <!-- Learn More Link -->
+              <div class="flex items-center gap-2 text-dark-green font-semibold group-hover:gap-3 transition-all">
+                <span>Learn More</span>
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </div>
+            </div>
+          </article>
+        </a>
       ))}
     </div>
   </div>

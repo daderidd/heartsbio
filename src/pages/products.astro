@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import FitazimVisualization from '../components/FitazimVisualization';
 
 const products = [
   {
     id: 'fitazim',
     name: 'Fitazim',
-    title: 'PROVEN Phosphorus Booster',
+    title: 'Proven Phosphorus Booster',
     category: 'Phosphate Uptake Solutions',
     description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
     fullDescription: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years—often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
-    image: '/images/R&D portfolio/phosphate-availability.jpg',
+    image: '/images/products/leaves-bg.jpg',
     benefits: [
       'More plant-available phosphorus through synergistic enzyme action',
       'Stronger, faster crop development and consistently higher yields',
@@ -118,31 +119,32 @@ const products = [
       <div class="container-custom max-w-6xl">
         <div class="space-y-20">
           {products.map((product, index) => (
+            <>
             <article id={product.id} class="bg-white rounded-3xl overflow-hidden shadow-lg">
               <!-- Product Layout -->
-              <div class={`grid lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+              <div class={`grid lg:grid-cols-2 gap-0 items-stretch ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                 <!-- Image Side -->
                 <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div class="relative aspect-square lg:aspect-auto lg:h-full overflow-hidden">
+                  <div class="relative h-full min-h-[400px] lg:min-h-[600px] overflow-hidden group">
                     <img
                       src={product.image}
                       alt={product.name}
-                      class="w-full h-full object-cover"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
                       decoding="async"
                     />
-                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/40 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/30 via-transparent to-black/20"></div>
 
                     <!-- Product Badge -->
-                    <div class="absolute top-6 left-6">
-                      <span class="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold shadow-lg">
+                    <div class="absolute top-8 left-8">
+                      <span class="inline-block px-6 py-3 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-lg shadow-xl">
                         {product.name}
                       </span>
                     </div>
 
                     {product.certification && (
-                      <div class="absolute bottom-6 left-6">
-                        <span class="inline-block px-4 py-2 bg-green/90 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+                      <div class="absolute bottom-8 left-8">
+                        <span class="inline-block px-5 py-2 bg-dark-green backdrop-blur-sm text-white text-sm font-semibold rounded-full shadow-lg">
                           ✓ {product.certification}
                         </span>
                       </div>
@@ -204,6 +206,93 @@ const products = [
                 </div>
               </div>
             </article>
+
+            {/* Fitazim Enhanced Section - Trial Data */}
+            {product.id === 'fitazim' && (
+              <div class="space-y-12">
+                {/* Trial Comparison Images */}
+                <div class="bg-gradient-to-br from-white to-cream rounded-3xl overflow-hidden shadow-lg">
+                  <div class="p-8 md:p-12">
+                    <div class="text-center mb-12">
+                      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 rounded-full">
+                        <span class="text-dark-green font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
+                      </div>
+                      <h3 class="text-3xl md:text-4xl font-display font-bold text-black mb-4">
+                        Visual Proof: Control vs Fitazim
+                      </h3>
+                      <p class="text-xl text-black/70 max-w-2xl mx-auto">
+                        Dramatic differences in crop health and vigor under identical soil conditions
+                      </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-12">
+                      {/* Control Image */}
+                      <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden">
+                          <img
+                            src="/images/products/Fitazim Trial 1.jpeg"
+                            alt="Control plants showing nutrient deficiency and stress"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Fitazim Image */}
+                      <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden">
+                          <img
+                            src="/images/products/Fitazim Trial 1-2.jpeg"
+                            alt="Fitazim-treated plants showing superior health and growth"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Key Observations */}
+                    <div class="grid md:grid-cols-3 gap-4 mt-8">
+                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
+                        <div class="flex items-center gap-3 mb-2">
+                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          <h4 class="font-bold text-black">Leaf Color</h4>
+                        </div>
+                        <p class="text-sm text-black/70">Significantly greener, indicating optimal nutrient uptake</p>
+                      </div>
+                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
+                        <div class="flex items-center gap-3 mb-2">
+                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          <h4 class="font-bold text-black">Plant Vigor</h4>
+                        </div>
+                        <p class="text-sm text-black/70">Stronger stems and more robust overall structure</p>
+                      </div>
+                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
+                        <div class="flex items-center gap-3 mb-2">
+                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          <h4 class="font-bold text-black">Growth Rate</h4>
+                        </div>
+                        <p class="text-sm text-black/70">Faster development and superior biomass production</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Interactive Data Visualization */}
+                <div>
+                  <FitazimVisualization client:load />
+                </div>
+              </div>
+            )}
+            </>
           ))}
         </div>
       </div>
