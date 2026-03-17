@@ -14,23 +14,44 @@ interface Props {
 
 const {
   title,
-  description = "HeartsBio - Advancing biotechnology through innovative R&D",
-  image = "/images/og-image.webp",
-  keywords = "biotechnology, R&D, agriculture, sustainable farming, microbial solutions, biocontrol, phosphate availability, seed coating, climate resilience, fertilizer efficiency"
+  description = "HeartsBio is a Dutch biotech R&D company developing enzyme-based solutions for sustainable agriculture — phosphate bioavailability, biopesticides, microbial soil health, and advanced seed coatings. Products by Supersol in Turkey.",
+  image = "/videos/hero-poster.jpg",
+  keywords = "HeartsBio, heartsbio.nl, Supersol, biotechnology, agricultural biotech, enzyme technology, phosphorus recovery, phosphate bioavailability, nutrient bioavailability, biopesticides, biocontrol, microbial solutions, seed coating, sustainable farming, soil health, Fitazim, Purisol, Bio-Dop, SG-2, Netherlands, Europe, Turkey, biotech R&D"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const siteName = "HeartsBio";
 
 // Structured data for organization
-const structuredData = {
+const orgStructuredData = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": siteName,
-  "url": Astro.site,
+  "alternateName": "HeartsBio B.V.",
+  "url": "https://www.heartsbio.nl",
   "logo": new URL("/favicon.svg", Astro.site),
-  "description": description,
+  "description": "Dutch biotech R&D company developing enzyme-based biological solutions for sustainable agriculture.",
+  "foundingDate": "2020",
+  "areaServed": ["Europe", "United States", "Turkey"],
+  "knowsAbout": ["Enzyme technology", "Phosphorus recovery", "Phosphate bioavailability", "Nutrient bioavailability", "Biopesticides", "Biocontrol", "Microbial soil health", "Seed coating technology", "Sustainable agriculture"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "NL"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "info@heartsbio.nl",
+    "contactType": "customer service"
+  },
   "sameAs": []
+};
+
+// WebSite structured data for sitelinks search box
+const webSiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteName,
+  "url": "https://www.heartsbio.nl"
 };
 ---
 
@@ -59,6 +80,15 @@ const structuredData = {
     <meta name="author" content={siteName} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Geo targeting — EU, US, Turkey -->
+    <meta name="geo.region" content="NL" />
+    <meta name="geo.placename" content="Netherlands" />
+    <meta name="DC.coverage" content="Europe, United States, Turkey" />
+
+    <!-- Language -->
+    <link rel="alternate" hreflang="en" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
@@ -76,7 +106,8 @@ const structuredData = {
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
     <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgStructuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webSiteStructuredData)} />
 
     <!-- Google Analytics (respects cookie consent) -->
     <GoogleAnalytics />
