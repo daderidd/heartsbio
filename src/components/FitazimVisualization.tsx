@@ -52,21 +52,43 @@ interface Step {
 }
 
 const steps: Step[] = [
-  // 0 — The Problem
+  // 0 — Reading the chart: explain the axes
   {
     data: [],
     metric: 'p',
     showLines: false,
     highlight: false,
     showResults: false,
+    notes: [
+      {
+        text: '→ This axis shows how much Fitazim was applied (from none to maximum dose)',
+        x: '25%', y: '82%',
+        arrowDx: 0, arrowDy: 0, arrowLen: 0,
+        maxW: '320px',
+      },
+      {
+        text: '↑ This axis measures how much phosphorus the plants actually absorbed',
+        x: '3%', y: '15%',
+        arrowDx: 0, arrowDy: 0, arrowLen: 0,
+        maxW: '200px',
+      },
+    ],
+  },
+  // 1 — Explain the three soil types (baseline dots only)
+  {
+    data: [fullData[0]],
+    metric: 'p',
+    showLines: false,
+    highlight: false,
+    showResults: false,
     notes: [{
-      text: 'Billions in fertilizer sit locked in the soil — inaccessible to crops',
-      x: '25%', y: '35%',
-      arrowDx: 0, arrowDy: 0, arrowLen: 0,
-      maxW: '300px',
+      text: 'Three soils were tested — each with a different amount of existing phosphorus. Without Fitazim, plants access only a fraction.',
+      x: '40%', y: '10%',
+      arrowDx: -20, arrowDy: 35, arrowLen: 45,
+      maxW: '260px',
     }],
   },
-  // 1 — Baseline + lines (P Uptake)
+  // 2 — P Uptake lines animate
   {
     data: fullData,
     metric: 'p',
@@ -74,13 +96,27 @@ const steps: Step[] = [
     highlight: false,
     showResults: false,
     notes: [{
-      text: 'Fitazim unlocks what\'s already there — the more you apply, the more plants absorb',
-      x: '58%', y: '5%',
-      arrowDx: -30, arrowDy: 40, arrowLen: 55,
-      maxW: '210px',
+      text: 'As Fitazim dose increases, phosphorus absorption rises across all soil types',
+      x: '55%', y: '5%',
+      arrowDx: -25, arrowDy: 40, arrowLen: 50,
+      maxW: '220px',
     }],
   },
-  // 2 — Switch to biomass
+  // 3 — Highlight 240 ppm divergence (still P Uptake)
+  {
+    data: fullData,
+    metric: 'p',
+    showLines: true,
+    highlight: true,
+    showResults: false,
+    notes: [{
+      text: 'Soils with more legacy phosphorus show the most dramatic improvement — up to +79%',
+      x: '52%', y: '3%',
+      arrowDx: 28, arrowDy: 28, arrowLen: 38,
+      maxW: '230px',
+    }],
+  },
+  // 4 — Switch to biomass (last data step)
   {
     data: fullData,
     metric: 'dm',
@@ -88,13 +124,13 @@ const steps: Step[] = [
     highlight: false,
     showResults: false,
     notes: [{
-      text: 'More available phosphorus translates directly into bigger, healthier crops',
-      x: '55%', y: '5%',
-      arrowDx: -25, arrowDy: 35, arrowLen: 50,
-      maxW: '220px',
+      text: 'The effect carries through to the harvest — more phosphorus means bigger, healthier crops',
+      x: '50%', y: '5%',
+      arrowDx: -20, arrowDy: 35, arrowLen: 45,
+      maxW: '240px',
     }],
   },
-  // 3 — Results
+  // 5 — Results
   {
     data: fullData,
     metric: 'p',
@@ -102,9 +138,9 @@ const steps: Step[] = [
     highlight: true,
     showResults: true,
     notes: [{
-      text: 'The richest soils show the strongest response — a clear dose–performance relationship',
+      text: 'A clear dose–performance relationship, proven across multiple soil conditions',
       x: '52%', y: '3%',
-      arrowDx: 30, arrowDy: 30, arrowLen: 40,
+      arrowDx: 28, arrowDy: 28, arrowLen: 38,
       maxW: '230px',
     }],
   },
@@ -315,20 +351,34 @@ const FitazimVisualization = () => {
         </div>
 
         {/* Results cards — slide up on final step */}
-        <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-48 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
-          <div className="pt-4 border-t border-gray-100">
-            <p className="text-center text-sm text-black/40 mb-3 font-medium">Improvement at highest dose vs. untreated</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {[
-                { label: 'P recovery (high-P soil)', value: '+79%', sub: 'Phosphorus uptake', color: '#f59e0b' },
-                { label: 'P recovery (medium-P soil)', value: '+71%', sub: 'Phosphorus uptake', color: '#243f2e' },
-                { label: 'Crop growth (high-P soil)', value: '+46%', sub: 'Plant biomass', color: '#f59e0b' },
-              ].map((r, i) => (
-                <div key={i} className="text-center p-4 rounded-xl border border-dark-green/10" style={{ background: `linear-gradient(135deg, ${r.color}08, ${r.color}12)` }}>
-                  <div className="text-3xl md:text-4xl font-bold text-dark-green">{r.value}</div>
-                  <div className="text-xs text-black/50 mt-1 font-medium">{r.label}</div>
+        <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-64 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
+          <div className="pt-5 border-t border-gray-100">
+            <p className="text-center text-xs text-black/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
+                  <span className="text-xs font-semibold text-black/40">High-phosphorus soil</span>
                 </div>
-              ))}
+                <div className="text-3xl font-bold text-dark-green mb-1">+79%</div>
+                <p className="text-xs text-black/50 leading-relaxed">more phosphorus absorbed by plants</p>
+              </div>
+              <div className="p-5 rounded-xl border border-dark-green/10 bg-dark-green/[0.03]">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-[#243f2e]" />
+                  <span className="text-xs font-semibold text-black/40">Medium-phosphorus soil</span>
+                </div>
+                <div className="text-3xl font-bold text-dark-green mb-1">+71%</div>
+                <p className="text-xs text-black/50 leading-relaxed">more phosphorus absorbed by plants</p>
+              </div>
+              <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
+                  <span className="text-xs font-semibold text-black/40">High-phosphorus soil</span>
+                </div>
+                <div className="text-3xl font-bold text-dark-green mb-1">+46%</div>
+                <p className="text-xs text-black/50 leading-relaxed">more crop biomass produced</p>
+              </div>
             </div>
           </div>
         </div>
