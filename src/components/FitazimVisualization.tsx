@@ -114,9 +114,9 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'Soils with more legacy phosphorus show the most dramatic improvement — up to +79%',
-      x: '52%', y: '3%',
-      arrowDx: 28, arrowDy: 28, arrowLen: 38,
-      maxW: '230px',
+      x: '62%', y: '3%',
+      arrowDx: 25, arrowDy: 20, arrowLen: 30,
+      maxW: '210px',
     }],
   },
   // 4 — Results (P Uptake)
@@ -128,9 +128,9 @@ const steps: Step[] = [
     showResults: true,
     notes: [{
       text: 'A clear dose–performance relationship, proven across multiple soil conditions',
-      x: '52%', y: '3%',
-      arrowDx: 28, arrowDy: 28, arrowLen: 38,
-      maxW: '230px',
+      x: '55%', y: '3%',
+      arrowDx: 0, arrowDy: 0, arrowLen: 0,
+      maxW: '250px',
     }],
   },
   // 5 — Biomass (LAST)
@@ -139,7 +139,7 @@ const steps: Step[] = [
     metric: 'dm',
     showLines: true,
     highlight: false,
-    showResults: false,
+    showResults: true,
     notes: [{
       text: 'The effect carries through to harvest — more phosphorus means bigger, healthier crops',
       x: '50%', y: '5%',
