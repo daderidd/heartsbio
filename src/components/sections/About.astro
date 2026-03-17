@@ -1,5 +1,7 @@
 ---
 // About Section - Company overview and values
+import { Image } from 'astro:assets';
+import facilityImg from '../../assets/images/facility.webp';
 ---
 
 <!-- Company Overview -->
@@ -40,12 +42,13 @@
         </div>
       </div>
       <div class="rounded-2xl overflow-hidden shadow-xl">
-        <img
-          src="/images/facility.jpg"
+        <Image
+          src={facilityImg}
           alt="HeartsBio research facility"
           class="w-full h-full object-cover"
           loading="lazy"
-          decoding="async"
+          width={600}
+          height={400}
         />
       </div>
     </div>

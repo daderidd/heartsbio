@@ -1,5 +1,10 @@
 ---
 // Products Section - Showcase our biological solutions
+import { Image } from 'astro:assets';
+import leavesBg from '../../assets/images/products/leaves-bg.webp';
+import enhancedFertilizer from '../../assets/images/R&D portfolio/enhanced-fertilizer.webp';
+import climateStress from '../../assets/images/R&D portfolio/climate-stress-alleviator.webp';
+import seedCoating from '../../assets/images/R&D portfolio/seed-coating.webp';
 
 const products = [
   {
@@ -8,7 +13,7 @@ const products = [
     title: 'Proven Phosphorus Booster',
     category: 'Phosphate Uptake Solutions',
     description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
-    image: '/images/products/leaves-bg.jpg',
+    image: leavesBg,
     benefits: [
       'More plant-available phosphorus through synergistic enzyme action',
       'Stronger, faster crop development and consistently higher yields',
@@ -23,7 +28,7 @@ const products = [
     title: 'Enzymatic Fertilizer Coating',
     category: 'Phosphate Uptake Solutions',
     description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers by improving phosphorus uptake from the production stage onward.',
-    image: '/images/R&D portfolio/enhanced-fertilizer.jpg',
+    image: enhancedFertilizer,
     benefits: [
       'Upstream solution for maximizing phosphorus efficiency',
       'Easy to integrate into existing production lines',
@@ -38,7 +43,7 @@ const products = [
     title: 'Full Microbiota Transfer',
     category: 'Microbiota Transfer',
     description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
-    image: '/images/R&D portfolio/climate-stress-alleviator.jpg',
+    image: climateStress,
     benefits: [
       'Enhances tolerance to drought, salinity, and soil-borne diseases',
       'Promotes vigorous growth and stronger root systems',
@@ -54,7 +59,7 @@ const products = [
     title: 'Enzymatic Seed Coating',
     category: 'Seed Coating',
     description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
-    image: '/images/R&D portfolio/seed-coating.jpg',
+    image: seedCoating,
     benefits: [
       'Faster, more uniform germination',
       'Early root development',
@@ -92,12 +97,13 @@ const products = [
           <article>
             <!-- Product Image with Label -->
             <div class="relative aspect-video overflow-hidden bg-green/5">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
-                decoding="async"
+                width={600}
+                height={340}
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 

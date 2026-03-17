@@ -1,6 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FitazimVisualization from '../components/FitazimVisualization';
+import leavesBg from '../assets/images/products/leaves-bg.webp';
+import enhancedFertilizer from '../assets/images/R&D portfolio/enhanced-fertilizer.webp';
+import climateStress from '../assets/images/R&D portfolio/climate-stress-alleviator.webp';
+import seedCoating from '../assets/images/R&D portfolio/seed-coating.webp';
+import fitazimTrial1 from '../assets/images/products/Fitazim Trial 1.webp';
+import fitazimTrial2 from '../assets/images/products/Fitazim Trial 1-2.webp';
 
 const products = [
   {
@@ -10,7 +17,7 @@ const products = [
     category: 'Phosphate Uptake Solutions',
     description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
     fullDescription: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years—often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
-    image: '/images/products/leaves-bg.jpg',
+    image: leavesBg,
     benefits: [
       'More plant-available phosphorus through synergistic enzyme action',
       'Stronger, faster crop development and consistently higher yields',
@@ -32,7 +39,7 @@ const products = [
     category: 'Phosphate Uptake Solutions',
     description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers by improving phosphorus uptake from the production stage onward.',
     fullDescription: 'Bio-Dop is the fertilizer industry\'s answer to phosphorus efficiency. Applied directly during fertilizer production, this enzymatic coating ensures that every granule of fertilizer delivers maximum phosphorus availability. The result is higher ROI for manufacturers, distributors, and farmers alike.',
-    image: '/images/R&D portfolio/enhanced-fertilizer.jpg',
+    image: enhancedFertilizer,
     benefits: [
       'Upstream solution for maximizing phosphorus efficiency',
       'Easy to integrate into existing production lines',
@@ -54,7 +61,7 @@ const products = [
     category: 'Microbiota Transfer',
     description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
     fullDescription: 'Purisol is inspired by nature\'s own soil regeneration processes. This Ecocert-certified prebiotic creates the ideal environment for beneficial microorganisms to thrive, restoring soil health from the ground up. Unlike synthetic alternatives, Purisol works in harmony with natural soil ecosystems to deliver sustainable, long-term benefits.',
-    image: '/images/R&D portfolio/climate-stress-alleviator.jpg',
+    image: climateStress,
     benefits: [
       'Enhances tolerance to drought, salinity, and soil-borne diseases',
       'Promotes vigorous growth and stronger root systems',
@@ -77,7 +84,7 @@ const products = [
     category: 'Seed Coating',
     description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
     fullDescription: 'SG-2 is engineered to give seeds the best possible start. By enhancing germination rates, accelerating root development, and improving early nutrient uptake, SG-2 sets the foundation for healthier, more resilient crops. Every seed coated with SG-2 has a competitive advantage from day one.',
-    image: '/images/R&D portfolio/seed-coating.jpg',
+    image: seedCoating,
     benefits: [
       'Faster, more uniform germination',
       'Early root development',
@@ -126,12 +133,13 @@ const products = [
                 <!-- Image Side -->
                 <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                   <div class="relative h-full min-h-[400px] lg:min-h-[600px] overflow-hidden group">
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
-                      decoding="async"
+                      width={800}
+                      height={600}
                     />
                     <div class="absolute inset-0 bg-gradient-to-br from-dark-green/30 via-transparent to-black/20"></div>
 
@@ -229,12 +237,13 @@ const products = [
                       {/* Control Image */}
                       <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                         <div class="aspect-[4/3] overflow-hidden">
-                          <img
-                            src="/images/products/Fitazim Trial 1.jpeg"
+                          <Image
+                            src={fitazimTrial1}
                             alt="Control plants showing nutrient deficiency and stress"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
-                            decoding="async"
+                            width={600}
+                            height={450}
                           />
                         </div>
                       </div>
@@ -242,12 +251,13 @@ const products = [
                       {/* Fitazim Image */}
                       <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                         <div class="aspect-[4/3] overflow-hidden">
-                          <img
-                            src="/images/products/Fitazim Trial 1-2.jpeg"
+                          <Image
+                            src={fitazimTrial2}
                             alt="Fitazim-treated plants showing superior health and growth"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
-                            decoding="async"
+                            width={600}
+                            height={450}
                           />
                         </div>
                       </div>

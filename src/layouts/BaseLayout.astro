@@ -15,7 +15,7 @@ interface Props {
 const {
   title,
   description = "HeartsBio - Advancing biotechnology through innovative R&D",
-  image = "/images/og-image.jpg",
+  image = "/images/og-image.webp",
   keywords = "biotechnology, R&D, agriculture, sustainable farming, microbial solutions, biocontrol, phosphate availability, seed coating, climate resilience, fertilizer efficiency"
 } = Astro.props;
 
@@ -44,6 +44,13 @@ const structuredData = {
 
     <!-- Theme color for mobile browsers -->
     <meta name="theme-color" content="#1d261d" />
+
+    <!-- Preload hero poster for fast first paint -->
+    <link rel="preload" as="image" href="/videos/hero-poster.jpg" type="image/jpeg" />
+
+    <!-- Preconnect to Google Fonts for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- SEO -->
     <title>{title}</title>
