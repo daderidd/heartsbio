@@ -87,7 +87,7 @@ const FitazimVisualization = () => {
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-8 text-center">
         <div className="inline-block bg-dark-green text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-          Clinical Trial Results
+          Field Trial Results
         </div>
         <h2 className="text-3xl md:text-4xl font-display font-bold text-black mb-3">
           Fitazim<span className="text-dark-green">®</span> Field Trial Data

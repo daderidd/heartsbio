@@ -7,6 +7,11 @@ interface Props {
 }
 
 const { value, label, icon, featured = false } = Astro.props;
+
+// Parse numeric value and suffix for counting animation
+const numMatch = value.match(/^([\d,]+)(.*)$/);
+const numericValue = numMatch ? parseInt(numMatch[1].replace(/,/g, ''), 10) : null;
+const suffix = numMatch ? numMatch[2] : '';
 ---
 
 <div class={`
@@ -42,7 +47,11 @@ const { value, label, icon, featured = false } = Astro.props;
       text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-5 transition-transform duration-300 group-hover:scale-105
       ${featured ? 'text-white' : 'text-dark-green'}
     `}>
-      {value}
+      {numericValue !== null ? (
+        <span data-count={numericValue} data-suffix={suffix}>0{suffix}</span>
+      ) : (
+        value
+      )}
     </div>
 
     <div class={`

@@ -25,13 +25,13 @@
   <div class="relative z-10 container-custom text-center text-white py-20 mt-16">
     <div class="max-w-4xl mx-auto">
       <!-- Main Headline with Rotating Text -->
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-12 leading-tight">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-12 leading-tight hero-fade hero-fade-1">
         <span id="rotating-word" class="inline-block transition-all duration-500 ease-in-out">Sustainable</span><br />
         Biotechnology Solutions
       </h1>
 
       <!-- Subheadline -->
-      <div class="mb-16 max-w-3xl mx-auto">
+      <div class="mb-16 max-w-3xl mx-auto hero-fade hero-fade-2">
         <p class="text-xl md:text-2xl text-white/90 leading-relaxed">
           <span class="font-bold">Stronger Crops. Healthier Soils. Cleaner Waters.</span>
           <br />
@@ -40,11 +40,11 @@
       </div>
 
       <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="#portfolio" class="btn btn-primary text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream transition-all shadow-lg" aria-label="Explore our R&D portfolio">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-fade hero-fade-3">
+        <a href="#portfolio" class="btn text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg animate-pulse-glow" aria-label="Explore our R&D portfolio">
           Explore Our Work
         </a>
-        <a href="#technology" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green transition-all" aria-label="Learn about our technology">
+        <a href="#technology" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green hover:shadow-xl hover:-translate-y-1 transition-all" aria-label="Learn about our technology">
           Our Technology
         </a>
       </div>
@@ -114,10 +114,33 @@
     }
   }
 
+  /* Hero entrance animations */
+  .hero-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-fade-1 { animation-delay: 0.2s; }
+  .hero-fade-2 { animation-delay: 0.5s; }
+  .hero-fade-3 { animation-delay: 0.8s; }
+
+  @keyframes heroFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
     #hero video {
       display: none;
+    }
+    .hero-fade {
+      opacity: 1;
+      transform: none;
+      animation: none;
     }
   }
 </style>

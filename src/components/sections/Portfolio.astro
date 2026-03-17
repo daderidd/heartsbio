@@ -74,7 +74,7 @@ const products = [
 <section id="portfolio" class="section bg-white">
   <div class="container-custom">
     <!-- Section Header -->
-    <div class="text-center max-w-3xl mx-auto mb-16">
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-green/10 rounded-full">
         <span class="text-dark-green font-semibold text-sm tracking-wide">OUR PRODUCTS</span>
       </div>
@@ -91,7 +91,7 @@ const products = [
       {products.map((product, index) => (
         <a
           href={`/products#${product.id}`}
-          class="group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-dark-green/30 cursor-pointer block"
+          class={`group bg-white rounded-2xl border border-black/10 overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-dark-green/30 cursor-pointer block reveal stagger-${index + 1}`}
           aria-label={`Learn more about ${product.name}`}
         >
           <article>
