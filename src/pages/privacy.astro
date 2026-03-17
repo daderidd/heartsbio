@@ -3,24 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Privacy Policy - HeartsBio" description="Privacy Policy and data protection information for HeartsBio">
-  <div class="min-h-screen bg-cream py-20">
+  <div class="min-h-screen bg-cream dark:bg-[#1a1a1a] py-20">
     <div class="container-custom max-w-4xl">
-      <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
+      <div class="bg-white dark:bg-[#111] rounded-3xl p-8 md:p-12 shadow-sm">
         <!-- Header -->
         <div class="mb-8">
-          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 rounded-full">
+          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 dark:bg-white/10 rounded-full">
             <span class="text-dark-green font-semibold text-sm tracking-wide">LEGAL</span>
           </div>
-          <h1 class="text-4xl md:text-5xl font-display font-bold text-black mb-4">
+          <h1 class="text-4xl md:text-5xl font-display font-bold text-black dark:text-white mb-4">
             Privacy Policy
           </h1>
-          <p class="text-lg text-black/70">
+          <p class="text-lg text-black/70 dark:text-white/60">
             Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
 
         <!-- Content Notice -->
-        <div class="bg-cream/50 border border-dark-green/20 rounded-xl p-8 mb-8">
+        <div class="bg-cream/50 dark:bg-[#1a1a1a] border border-dark-green/20 dark:border-white/10 rounded-xl p-8 mb-8">
           <div class="flex items-start gap-4">
             <div class="w-12 h-12 bg-dark-green rounded-lg flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,7 +28,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               </svg>
             </div>
             <div>
-              <h2 class="text-xl font-display font-bold text-black mb-2">
+              <h2 class="text-xl font-display font-bold text-black dark:text-white mb-2">
                 Privacy Policy Under Development
               </h2>
               <p class="text-black/70 mb-4">

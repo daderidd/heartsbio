@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply font-sans text-black antialiased bg-white;
+    @apply font-sans text-black antialiased bg-white dark:bg-[#111] dark:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {

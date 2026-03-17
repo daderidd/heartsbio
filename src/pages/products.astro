@@ -57,7 +57,7 @@ const otherProducts = [
 ---
 
 <BaseLayout title="Products — Fitazim, Bio-Dop, Purisol, SG-2 | HeartsBio" description="Explore HeartsBio's enzyme-based agricultural products: Fitazim for phosphorus recovery, Bio-Dop fertilizer coating, Purisol microbiota transfer, and SG-2 seed coating.">
-  <div class="min-h-screen bg-cream">
+  <div class="min-h-screen bg-cream dark:bg-[#1a1a1a]">
 
     <!-- ═══════════════════════════════════════
          FITAZIM — Flagship Product (dominant)
@@ -85,13 +85,13 @@ const otherProducts = [
         <!-- Overview -->
         <div class="grid lg:grid-cols-2 gap-10 items-center mb-16">
           <div class="reveal-left">
-            <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 rounded-full">
-              <span class="text-dark-green font-semibold text-xs tracking-wide uppercase">Phosphate Uptake Solutions</span>
+            <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 dark:bg-white/10 rounded-full">
+              <span class="text-dark-green dark:text-cream font-semibold text-xs tracking-wide uppercase">Phosphate Uptake Solutions</span>
             </div>
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-4">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-4">
               Unlock the Phosphorus Already in Your Soil
             </h2>
-            <p class="text-black/60 leading-relaxed mb-6">
+            <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
               Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years — often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.
             </p>
             <ul class="space-y-2.5">
@@ -105,7 +105,7 @@ const otherProducts = [
                   <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                   </svg>
-                  <span class="text-sm text-black/65 leading-relaxed">{b}</span>
+                  <span class="text-sm text-black/65 dark:text-white/60 leading-relaxed">{b}</span>
                 </li>
               ))}
             </ul>
@@ -131,16 +131,16 @@ const otherProducts = [
         </div>
 
         <!-- Trial Comparison -->
-        <div class="bg-white rounded-3xl overflow-hidden shadow-lg mb-12">
+        <div class="bg-white dark:bg-[#111] rounded-3xl overflow-hidden shadow-lg mb-12">
           <div class="p-8 md:p-12">
             <div class="text-center mb-10 reveal">
-              <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 rounded-full">
-                <span class="text-dark-green font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
+              <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+                <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
               </div>
-              <h3 class="text-2xl md:text-3xl font-display font-bold text-black mb-3">
+              <h3 class="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-3">
                 Control vs Fitazim-Treated
               </h3>
-              <p class="text-black/50 max-w-xl mx-auto">
+              <p class="text-black/50 dark:text-white/50 max-w-xl mx-auto">
                 Side-by-side comparison under identical soil conditions
               </p>
             </div>
@@ -170,16 +170,16 @@ const otherProducts = [
                 { title: 'Plant Vigor', desc: 'Stronger stems and more robust overall structure' },
                 { title: 'Growth Rate', desc: 'Faster development and increased biomass production' },
               ].map((obs) => (
-                <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
+                <div class="bg-cream/50 dark:bg-[#1a1a1a] rounded-xl p-5 border border-dark-green/5 dark:border-white/10">
                   <div class="flex items-center gap-2.5 mb-2">
-                    <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-lg bg-dark-green/10 dark:bg-white/10 flex items-center justify-center">
                       <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                       </svg>
                     </div>
-                    <h4 class="text-sm font-bold text-black">{obs.title}</h4>
+                    <h4 class="text-sm font-bold text-black dark:text-white">{obs.title}</h4>
                   </div>
-                  <p class="text-xs text-black/55 leading-relaxed">{obs.desc}</p>
+                  <p class="text-xs text-black/55 dark:text-white/50 leading-relaxed">{obs.desc}</p>
                 </div>
               ))}
             </div>
@@ -197,23 +197,23 @@ const otherProducts = [
          OTHER PRODUCTS — Compact treatment
          ═══════════════════════════════════════ -->
 
-    <section class="py-16 md:py-20 bg-white">
+    <section class="py-16 md:py-20 bg-white dark:bg-[#111]">
       <div class="container-custom max-w-6xl">
         <div class="text-center max-w-3xl mx-auto mb-14 reveal">
-          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 rounded-full">
-            <span class="text-dark-green font-semibold text-sm tracking-wide">MORE PRODUCTS</span>
+          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">MORE PRODUCTS</span>
           </div>
-          <h2 class="text-black mb-4">
+          <h2 class="text-black dark:text-white mb-4">
             Completing the Agricultural Cycle
           </h2>
-          <p class="text-lg text-black/50">
+          <p class="text-lg text-black/50 dark:text-white/50">
             Beyond phosphorus recovery — solutions for fertilizer enhancement, soil health, and seed performance.
           </p>
         </div>
 
         <div class="space-y-8">
           {otherProducts.map((product, index) => (
-            <article id={product.id} class={`reveal stagger-${index + 1} bg-cream/50 rounded-2xl overflow-hidden border border-black/5 hover:shadow-lg transition-all duration-300`}>
+            <article id={product.id} class={`reveal stagger-${index + 1} bg-cream/50 dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-black/5 dark:border-white/10 hover:shadow-lg transition-all duration-300`}>
               <div class={`grid md:grid-cols-3 gap-0 items-stretch ${index % 2 === 1 ? '' : ''}`}>
                 <!-- Image (1/3) -->
                 <div class={`relative overflow-hidden group ${index % 2 === 1 ? 'md:order-2 md:col-span-1' : 'md:col-span-1'}`}>
@@ -244,18 +244,18 @@ const otherProducts = [
                 <!-- Content (2/3) -->
                 <div class={`md:col-span-2 p-6 md:p-8 flex flex-col justify-center ${index % 2 === 1 ? 'md:order-1' : ''}`}>
                   <div class="flex items-center gap-3 mb-3">
-                    <span class="text-[10px] uppercase tracking-wider text-black/30 font-semibold">{product.category}</span>
+                    <span class="text-[10px] uppercase tracking-wider text-black/30 dark:text-white/30 font-semibold">{product.category}</span>
                   </div>
-                  <h3 class="text-2xl font-display font-bold text-black mb-1">{product.name}</h3>
-                  <p class="text-base text-dark-green/60 font-medium mb-3">{product.title}</p>
-                  <p class="text-sm text-black/55 leading-relaxed mb-4">{product.description}</p>
+                  <h3 class="text-2xl font-display font-bold text-black dark:text-white mb-1">{product.name}</h3>
+                  <p class="text-base text-dark-green/60 dark:text-cream/60 font-medium mb-3">{product.title}</p>
+                  <p class="text-sm text-black/55 dark:text-white/50 leading-relaxed mb-4">{product.description}</p>
                   <ul class="grid grid-cols-2 gap-x-4 gap-y-1.5">
                     {product.benefits.map((b) => (
                       <li class="flex items-start gap-2">
                         <svg class="w-3.5 h-3.5 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                         </svg>
-                        <span class="text-xs text-black/55 leading-relaxed">{b}</span>
+                        <span class="text-xs text-black/55 dark:text-white/50 leading-relaxed">{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -268,12 +268,12 @@ const otherProducts = [
     </section>
 
     <!-- CTA -->
-    <section class="py-16 md:py-20 bg-cream">
+    <section class="py-16 md:py-20 bg-cream dark:bg-[#1a1a1a]">
       <div class="container-custom max-w-4xl text-center">
-        <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-6">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-6">
           Ready to Learn More?
         </h2>
-        <p class="text-lg text-black/50 mb-8">
+        <p class="text-lg text-black/50 dark:text-white/50 mb-8">
           Contact us to discuss how our products can fit into your operations.
         </p>
         <a
