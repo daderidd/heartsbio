@@ -62,9 +62,11 @@
 </section>
 
 <style>
-  /* Rotating text animation — fade only, no height constraints */
+  /* Rotating text animation — fixed width so surrounding text doesn't shift */
   #rotating-word {
-    display: inline;
+    display: inline-block;
+    width: 4.5em;
+    text-align: center;
   }
 
   .word-fade-out {
