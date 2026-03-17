@@ -54,8 +54,18 @@ interface Step {
   notes: Note[];
 }
 
+/*
+ * Annotation positioning reference (calculated from chart margins & data ranges)
+ * Chart: 420px height, margins T30 R30 B45 L15 → plot area 345px tall
+ * P Uptake Y-axis 0–20: val → (1 - val/20) * 345 + 30 → /420 for %
+ *   16.16 → 23%, 9.70 → 49%, 9.01 → 52%, 5.68 → 66%, 4.00 → 73%
+ * Dry Matter Y-axis 0–12: val → (1 - val/12) * 345 + 30 → /420 for %
+ *   10.41 → 18%, 8.37 → 34%
+ * X-axis 0–6: dose → ~5% + dose/6 * 81%
+ *   0 → 5%, 2 → 32%, 4 → 59%, 6 → 86%
+ */
 const steps: Step[] = [
-  // 0 — Explain axes (show empty chart WITH axes visible)
+  // 0 — Explain axes (empty chart with visible grid)
   {
     data: emptyData,
     metric: 'p',
@@ -65,19 +75,20 @@ const steps: Step[] = [
     notes: [
       {
         text: '→ How much Fitazim was applied, from none to the highest dose',
-        x: '30%', y: '80%',
+        x: '25%', y: '82%',
         arrowDx: 0, arrowDy: 0, arrowLen: 0,
         maxW: '300px',
       },
       {
         text: '↑ How much phosphorus the plants actually absorbed from the soil',
-        x: '5%', y: '12%',
+        x: '5%', y: '10%',
         arrowDx: 0, arrowDy: 0, arrowLen: 0,
         maxW: '190px',
       },
     ],
   },
-  // 1 — Baseline dots (3 soil types)
+  // 1 — Baseline dots at dose 0
+  // Target: cluster of 3 dots at x≈5%, y≈52-73% → place note top-right, arrow points left-down
   {
     data: [fullData[0]],
     metric: 'p',
@@ -86,12 +97,13 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'Three soils tested, each with different phosphorus levels. Without Fitazim, plants access only a fraction.',
-      x: '40%', y: '10%',
-      arrowDx: -20, arrowDy: 35, arrowLen: 45,
-      maxW: '260px',
+      x: '18%', y: '20%',
+      arrowDx: -40, arrowDy: 20, arrowLen: 30,
+      maxW: '250px',
     }],
   },
-  // 2 — P Uptake lines
+  // 2 — P Uptake lines animate
+  // Target: general upward trend → place note top-center, arrow points toward middle of chart
   {
     data: fullData,
     metric: 'p',
@@ -100,12 +112,13 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'As Fitazim dose increases, phosphorus absorption rises across all soil types',
-      x: '55%', y: '5%',
-      arrowDx: -25, arrowDy: 40, arrowLen: 50,
-      maxW: '220px',
+      x: '42%', y: '5%',
+      arrowDx: 0, arrowDy: 0, arrowLen: 0,
+      maxW: '280px',
     }],
   },
-  // 3 — Highlight 240 ppm
+  // 3 — Highlight 240 ppm at dose 6
+  // Target: 240ppm endpoint at x≈86%, y≈23% → place note to its left, arrow points right toward dot
   {
     data: fullData,
     metric: 'p',
@@ -114,12 +127,12 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'Soils with more legacy phosphorus show the most dramatic improvement — up to +79%',
-      x: '62%', y: '3%',
-      arrowDx: 25, arrowDy: 20, arrowLen: 30,
-      maxW: '210px',
+      x: '55%', y: '5%',
+      arrowDx: 50, arrowDy: 10, arrowLen: 20,
+      maxW: '220px',
     }],
   },
-  // 4 — Results (P Uptake)
+  // 4 — Results (P Uptake) — summary, no arrow needed
   {
     data: fullData,
     metric: 'p',
@@ -128,12 +141,13 @@ const steps: Step[] = [
     showResults: true,
     notes: [{
       text: 'A clear dose–performance relationship, proven across multiple soil conditions',
-      x: '55%', y: '3%',
+      x: '40%', y: '3%',
       arrowDx: 0, arrowDy: 0, arrowLen: 0,
-      maxW: '250px',
+      maxW: '300px',
     }],
   },
   // 5 — Biomass (LAST)
+  // Target: 240ppm DM endpoint at x≈86%, y≈18% → place note left of it, arrow right
   {
     data: fullData,
     metric: 'dm',
@@ -142,8 +156,8 @@ const steps: Step[] = [
     showResults: true,
     notes: [{
       text: 'The effect carries through to harvest — more phosphorus means bigger, healthier crops',
-      x: '50%', y: '5%',
-      arrowDx: -20, arrowDy: 35, arrowLen: 45,
+      x: '45%', y: '5%',
+      arrowDx: 45, arrowDy: 8, arrowLen: 18,
       maxW: '240px',
     }],
   },
