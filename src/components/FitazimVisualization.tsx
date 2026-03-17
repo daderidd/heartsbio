@@ -6,11 +6,14 @@ import {
 
 /* ─── Data ─── */
 const fullData = [
-  { dose: 0, doseLabel: 'None', p60: 4.00, p120: 5.68, p240: 9.01, dm60: 4.29, dm120: 6.22, dm240: 7.15 },
-  { dose: 2, doseLabel: 'Low', p60: 4.60, p120: 7.32, p240: 11.39, dm60: 5.12, dm120: 7.24, dm240: 9.09 },
-  { dose: 4, doseLabel: 'Medium', p60: 4.37, p120: 8.80, p240: 12.15, dm60: 5.14, dm120: 7.57, dm240: 9.06 },
-  { dose: 6, doseLabel: 'High', p60: 5.74, p120: 9.70, p240: 16.16, dm60: 6.20, dm120: 8.37, dm240: 10.41 },
+  { dose: 0, p60: 4.00, p120: 5.68, p240: 9.01, dm60: 4.29, dm120: 6.22, dm240: 7.15 },
+  { dose: 2, p60: 4.60, p120: 7.32, p240: 11.39, dm60: 5.12, dm120: 7.24, dm240: 9.09 },
+  { dose: 4, p60: 4.37, p120: 8.80, p240: 12.15, dm60: 5.14, dm120: 7.57, dm240: 9.06 },
+  { dose: 6, p60: 5.74, p120: 9.70, p240: 16.16, dm60: 6.20, dm120: 8.37, dm240: 10.41 },
 ];
+
+// Dummy data to render axes with no visible lines
+const emptyData = [{ dose: 0 }, { dose: 6 }];
 
 /* ─── Annotation ─── */
 interface Note {
@@ -43,7 +46,7 @@ const Arrow = ({ dx, dy, len }: { dx: number; dy: number; len: number }) => {
 type Metric = 'p' | 'dm';
 
 interface Step {
-  data: typeof fullData;
+  data: typeof fullData | typeof emptyData;
   metric: Metric;
   showLines: boolean;
   highlight: boolean;
@@ -52,29 +55,29 @@ interface Step {
 }
 
 const steps: Step[] = [
-  // 0 — Reading the chart: explain the axes
+  // 0 — Explain axes (show empty chart WITH axes visible)
   {
-    data: [],
+    data: emptyData,
     metric: 'p',
     showLines: false,
     highlight: false,
     showResults: false,
     notes: [
       {
-        text: '→ This axis shows how much Fitazim was applied (from none to maximum dose)',
-        x: '25%', y: '82%',
+        text: '→ How much Fitazim was applied, from none to the highest dose',
+        x: '30%', y: '80%',
         arrowDx: 0, arrowDy: 0, arrowLen: 0,
-        maxW: '320px',
+        maxW: '300px',
       },
       {
-        text: '↑ This axis measures how much phosphorus the plants actually absorbed',
-        x: '3%', y: '15%',
+        text: '↑ How much phosphorus the plants actually absorbed from the soil',
+        x: '5%', y: '12%',
         arrowDx: 0, arrowDy: 0, arrowLen: 0,
-        maxW: '200px',
+        maxW: '190px',
       },
     ],
   },
-  // 1 — Explain the three soil types (baseline dots only)
+  // 1 — Baseline dots (3 soil types)
   {
     data: [fullData[0]],
     metric: 'p',
@@ -82,13 +85,13 @@ const steps: Step[] = [
     highlight: false,
     showResults: false,
     notes: [{
-      text: 'Three soils were tested — each with a different amount of existing phosphorus. Without Fitazim, plants access only a fraction.',
+      text: 'Three soils tested, each with different phosphorus levels. Without Fitazim, plants access only a fraction.',
       x: '40%', y: '10%',
       arrowDx: -20, arrowDy: 35, arrowLen: 45,
       maxW: '260px',
     }],
   },
-  // 2 — P Uptake lines animate
+  // 2 — P Uptake lines
   {
     data: fullData,
     metric: 'p',
@@ -102,7 +105,7 @@ const steps: Step[] = [
       maxW: '220px',
     }],
   },
-  // 3 — Highlight 240 ppm divergence (still P Uptake)
+  // 3 — Highlight 240 ppm
   {
     data: fullData,
     metric: 'p',
@@ -116,21 +119,7 @@ const steps: Step[] = [
       maxW: '230px',
     }],
   },
-  // 4 — Switch to biomass (last data step)
-  {
-    data: fullData,
-    metric: 'dm',
-    showLines: true,
-    highlight: false,
-    showResults: false,
-    notes: [{
-      text: 'The effect carries through to the harvest — more phosphorus means bigger, healthier crops',
-      x: '50%', y: '5%',
-      arrowDx: -20, arrowDy: 35, arrowLen: 45,
-      maxW: '240px',
-    }],
-  },
-  // 5 — Results
+  // 4 — Results (P Uptake)
   {
     data: fullData,
     metric: 'p',
@@ -144,15 +133,42 @@ const steps: Step[] = [
       maxW: '230px',
     }],
   },
+  // 5 — Biomass (LAST)
+  {
+    data: fullData,
+    metric: 'dm',
+    showLines: true,
+    highlight: false,
+    showResults: false,
+    notes: [{
+      text: 'The effect carries through to harvest — more phosphorus means bigger, healthier crops',
+      x: '50%', y: '5%',
+      arrowDx: -20, arrowDy: 35, arrowLen: 45,
+      maxW: '240px',
+    }],
+  },
 ];
 
 /* ─── Main ─── */
 const FitazimVisualization = () => {
   const [step, setStep] = useState(0);
+  const [prevStep, setPrevStep] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const total = steps.length;
   const cur = steps[step];
+
+  // Smooth transition handler
+  const transitionTo = useCallback((target: number) => {
+    if (target === step || target < 0 || target >= total) return;
+    setTransitioning(true);
+    setTimeout(() => {
+      setPrevStep(step);
+      setStep(target);
+      setTimeout(() => setTransitioning(false), 50);
+    }, 300); // fade out duration
+  }, [step, total]);
 
   // Auto-play 3s
   useEffect(() => {
@@ -160,6 +176,7 @@ const FitazimVisualization = () => {
     const id = setInterval(() => {
       setStep(s => {
         if (s >= total - 1) { setPaused(true); return s; }
+        setPrevStep(s);
         return s + 1;
       });
     }, 3000);
@@ -168,8 +185,8 @@ const FitazimVisualization = () => {
 
   const goTo = useCallback((i: number) => {
     setPaused(true);
-    setStep(Math.max(0, Math.min(i, total - 1)));
-  }, [total]);
+    transitionTo(Math.max(0, Math.min(i, total - 1)));
+  }, [total, transitionTo]);
 
   // Keyboard
   useEffect(() => {
@@ -190,6 +207,8 @@ const FitazimVisualization = () => {
   const soilLabels: Record<string, string> = { '60': 'Low-P soil (60 ppm)', '120': 'Medium-P soil (120 ppm)', '240': 'High-P soil (240 ppm)' };
   const soilColors = { '60': '#93c5fd', '120': '#243f2e', '240': '#f59e0b' };
 
+  const handFont = "'Virgil', 'Segoe Print', 'Comic Sans MS', cursive";
+
   return (
     <div ref={ref} className="w-full bg-gradient-to-br from-cream to-green/5 p-6 md:p-8 rounded-3xl">
       {/* Header */}
@@ -208,7 +227,7 @@ const FitazimVisualization = () => {
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-4 md:p-6">
         {/* Metric indicator */}
         <div className="flex justify-center mb-3">
-          <div className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-500 ${
+          <div className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-700 ${
             cur.metric === 'p'
               ? 'bg-dark-green/10 text-dark-green'
               : 'bg-amber-50 text-amber-700'
@@ -219,8 +238,11 @@ const FitazimVisualization = () => {
 
         {/* Chart + annotations */}
         <div className="relative" style={{ minHeight: '420px' }}>
-          {/* Annotations */}
-          <div className="absolute inset-0 z-20 pointer-events-none">
+          {/* Annotations with smooth fade */}
+          <div
+            className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-300"
+            style={{ opacity: transitioning ? 0 : 1 }}
+          >
             {cur.notes.map((n, i) => (
               <div
                 key={`${step}-${i}`}
@@ -228,7 +250,10 @@ const FitazimVisualization = () => {
                 style={{ left: n.x, top: n.y, maxWidth: n.maxW || '250px' }}
               >
                 <div className="relative">
-                  <p className="text-base md:text-lg leading-snug text-dark-green/80" style={{ fontFamily: "'Caveat', cursive", fontWeight: 600 }}>
+                  <p
+                    className="text-base md:text-lg leading-snug text-dark-green/80"
+                    style={{ fontFamily: handFont, fontWeight: 400 }}
+                  >
                     {n.text}
                   </p>
                   {n.arrowLen > 0 && <Arrow dx={n.arrowDx} dy={n.arrowDy} len={n.arrowLen} />}
@@ -237,22 +262,8 @@ const FitazimVisualization = () => {
             ))}
           </div>
 
-          {/* Empty-state prompt (step 0) */}
-          {step === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="text-center mt-16">
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-dark-green/5 flex items-center justify-center animate-pulse">
-                  <svg className="w-6 h-6 text-dark-green/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-                <p className="text-black/30 text-sm">The data tells the story</p>
-              </div>
-            </div>
-          )}
-
           <ResponsiveContainer width="100%" height={420}>
-            <LineChart data={cur.data} margin={{ top: 30, right: 30, bottom: 45, left: 15 }}>
+            <LineChart data={cur.data as any[]} margin={{ top: 30, right: 30, bottom: 45, left: 15 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
               <XAxis
                 dataKey="dose"
@@ -293,41 +304,23 @@ const FitazimVisualization = () => {
                 />
               )}
 
-              {/* Low-P soil */}
-              <Line
-                type="monotone"
-                dataKey={k('60')}
-                name={soilLabels['60']}
-                stroke={soilColors['60']}
+              {/* Lines — always rendered, visibility controlled by strokeWidth */}
+              <Line type="monotone" dataKey={k('60')} name={soilLabels['60']} stroke={soilColors['60']}
                 strokeWidth={cur.showLines ? 2.5 : 0}
-                dot={{ r: cur.data.length === 1 ? 6 : 4, fill: soilColors['60'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1400}
-                animationEasing="ease-out"
+                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 6 : 4, fill: soilColors['60'], strokeWidth: 2, stroke: '#fff' }}
+                animationDuration={1200} animationEasing="ease-out"
               />
-              {/* Medium-P soil */}
-              <Line
-                type="monotone"
-                dataKey={k('120')}
-                name={soilLabels['120']}
-                stroke={soilColors['120']}
+              <Line type="monotone" dataKey={k('120')} name={soilLabels['120']} stroke={soilColors['120']}
                 strokeWidth={cur.showLines ? 2.5 : 0}
-                dot={{ r: cur.data.length === 1 ? 6 : 4, fill: soilColors['120'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1400}
-                animationEasing="ease-out"
+                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 6 : 4, fill: soilColors['120'], strokeWidth: 2, stroke: '#fff' }}
+                animationDuration={1200} animationEasing="ease-out"
               />
-              {/* High-P soil */}
-              <Line
-                type="monotone"
-                dataKey={k('240')}
-                name={soilLabels['240']}
-                stroke={soilColors['240']}
+              <Line type="monotone" dataKey={k('240')} name={soilLabels['240']} stroke={soilColors['240']}
                 strokeWidth={cur.showLines ? 3 : 0}
-                dot={{ r: cur.data.length === 1 ? 7 : 5, fill: soilColors['240'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1400}
-                animationEasing="ease-out"
+                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 7 : 5, fill: soilColors['240'], strokeWidth: 2, stroke: '#fff' }}
+                animationDuration={1200} animationEasing="ease-out"
               />
 
-              {/* Highlight rings on final step */}
               {cur.highlight && cur.metric === 'p' && (
                 <>
                   <ReferenceDot x={6} y={16.16} r={14} fill="#f59e0b" fillOpacity={0.12} stroke="#f59e0b" strokeWidth={2} strokeOpacity={0.4} />
@@ -339,7 +332,7 @@ const FitazimVisualization = () => {
 
           {/* Legend */}
           {step >= 1 && (
-            <div className="flex justify-center gap-6 mt-2 mb-1">
+            <div className="flex justify-center gap-6 mt-2 mb-1 transition-opacity duration-500" style={{ opacity: transitioning ? 0 : 1 }}>
               {Object.entries(soilLabels).map(([key, label]) => (
                 <div key={key} className="flex items-center gap-1.5 text-xs text-gray-400">
                   <div className="w-3 h-0.5 rounded-full" style={{ backgroundColor: soilColors[key as keyof typeof soilColors] }} />
@@ -350,7 +343,7 @@ const FitazimVisualization = () => {
           )}
         </div>
 
-        {/* Results cards — slide up on final step */}
+        {/* Results cards */}
         <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-64 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
           <div className="pt-5 border-t border-gray-100">
             <p className="text-center text-xs text-black/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
@@ -383,7 +376,7 @@ const FitazimVisualization = () => {
           </div>
         </div>
 
-        {/* Nav bar */}
+        {/* Nav */}
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
           <button onClick={() => goTo(step - 1)} disabled={step === 0}
             className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Previous">
@@ -403,12 +396,19 @@ const FitazimVisualization = () => {
         </div>
       </div>
 
-      {/* Scientific footnote — small for credibility */}
+      {/* Footnote */}
       <div className="max-w-5xl mx-auto mt-3 text-center text-[10px] text-black/25">
         Corn growth trial &middot; pH 7.8 alkaline soil &middot; DAP fertilizer &middot; 60/120/240 ppm P supply rates &middot; Doses: 0–6 L/Ha &middot; Mean values &plusmn; SE
       </div>
 
       <style>{`
+        @font-face {
+          font-family: 'Virgil';
+          src: url('/fonts/Virgil.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
         @keyframes noteIn {
           from { opacity: 0; transform: translateY(10px) scale(0.96); }
           to { opacity: 1; transform: translateY(0) scale(1); }
