@@ -27,7 +27,7 @@ interface Note {
 }
 
 /* ─── Arrow ─── */
-const Arrow = ({ dx, dy, len }: { dx: number; dy: number; len: number }) => {
+const Arrow = ({ dx, dy, len, color = '#1d261d' }: { dx: number; dy: number; len: number; color?: string }) => {
   const ex = dx;
   const ey = dy + len;
   const cpx = dx * 0.5;
@@ -36,8 +36,8 @@ const Arrow = ({ dx, dy, len }: { dx: number; dy: number; len: number }) => {
   const hl = 7;
   return (
     <svg className="absolute pointer-events-none" style={{ left: '50%', top: '100%', overflow: 'visible' }} width="1" height="1">
-      <path d={`M0 0Q${cpx} ${cpy} ${ex} ${ey}`} fill="none" stroke="#1d261d" strokeWidth="1.5" strokeDasharray="4 3" opacity=".45" />
-      <polygon points={`${ex},${ey} ${ex - hl * Math.cos(a - .4)},${ey - hl * Math.sin(a - .4)} ${ex - hl * Math.cos(a + .4)},${ey - hl * Math.sin(a + .4)}`} fill="#1d261d" opacity=".45" />
+      <path d={`M0 0Q${cpx} ${cpy} ${ex} ${ey}`} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 3" opacity=".45" />
+      <polygon points={`${ex},${ey} ${ex - hl * Math.cos(a - .4)},${ey - hl * Math.sin(a - .4)} ${ex - hl * Math.cos(a + .4)},${ey - hl * Math.sin(a + .4)}`} fill={color} opacity=".45" />
     </svg>
   );
 };
@@ -155,7 +155,17 @@ const FitazimVisualization = () => {
   const [prevStep, setPrevStep] = useState(0);
   const [paused, setPaused] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  // Detect dark mode
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    setIsDark(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
   const total = steps.length;
   const cur = steps[step];
 
@@ -205,31 +215,39 @@ const FitazimVisualization = () => {
   const unit = cur.metric === 'p' ? 'mg/plant' : 'g/plant';
 
   const soilLabels: Record<string, string> = { '60': 'Low-P soil (60 ppm)', '120': 'Medium-P soil (120 ppm)', '240': 'High-P soil (240 ppm)' };
-  const soilColors = { '60': '#93c5fd', '120': '#243f2e', '240': '#f59e0b' };
+  const soilColors = { '60': '#93c5fd', '120': isDark ? '#6fba8a' : '#243f2e', '240': '#f59e0b' };
+
+  // Dark-mode aware colors
+  const gridColor = isDark ? '#2a2a2a' : '#f3f4f6';
+  const axisColor = isDark ? '#444' : '#d1d5db';
+  const tickColor = isDark ? '#888' : '#9ca3af';
+  const labelColor = isDark ? '#999' : '#9ca3af';
+  const annotationColor = isDark ? 'rgba(245,244,240,0.8)' : 'rgba(29,38,29,0.8)';
+  const arrowColor = isDark ? '#f5f4f0' : '#1d261d';
 
   const handFont = "'Virgil', 'Segoe Print', 'Comic Sans MS', cursive";
 
   return (
-    <div ref={ref} className="w-full bg-gradient-to-br from-cream to-green/5 p-6 md:p-8 rounded-3xl">
+    <div ref={ref} className="w-full bg-gradient-to-br from-cream to-green/5 dark:from-[#1a1a1a] dark:to-[#111] p-6 md:p-8 rounded-3xl">
       {/* Header */}
       <div className="max-w-5xl mx-auto mb-4 text-center">
         <div className="inline-block bg-dark-green text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
           Field Trial Results
         </div>
-        <h2 className="text-2xl md:text-3xl font-display font-bold text-black mb-1">
+        <h2 className="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-1">
           How Fitazim Unlocks Soil Phosphorus
         </h2>
-        <p className="text-sm text-black/50">
+        <p className="text-sm text-black/50 dark:text-white/50">
           Independent corn growth trial &middot; 35 days &middot; alkaline soil
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-4 md:p-6">
+      <div className="max-w-5xl mx-auto bg-white dark:bg-[#111] rounded-2xl shadow-xl p-4 md:p-6">
         {/* Metric indicator */}
         <div className="flex justify-center mb-3">
           <div className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-700 ${
             cur.metric === 'p'
-              ? 'bg-dark-green/10 text-dark-green'
+              ? 'bg-dark-green/10 text-dark-green dark:bg-white/10 dark:text-cream'
               : 'bg-amber-50 text-amber-700'
           }`}>
             {cur.metric === 'p' ? 'Measuring: Phosphorus Uptake (mg/plant)' : 'Measuring: Plant Biomass — Dry Matter (g/plant)'}
@@ -251,12 +269,12 @@ const FitazimVisualization = () => {
               >
                 <div className="relative">
                   <p
-                    className="text-base md:text-lg leading-snug text-dark-green/80"
-                    style={{ fontFamily: handFont, fontWeight: 400 }}
+                    className="text-base md:text-lg leading-snug"
+                    style={{ fontFamily: handFont, fontWeight: 400, color: annotationColor }}
                   >
                     {n.text}
                   </p>
-                  {n.arrowLen > 0 && <Arrow dx={n.arrowDx} dy={n.arrowDy} len={n.arrowLen} />}
+                  {n.arrowLen > 0 && <Arrow dx={n.arrowDx} dy={n.arrowDy} len={n.arrowLen} color={arrowColor} />}
                 </div>
               </div>
             ))}
@@ -264,21 +282,21 @@ const FitazimVisualization = () => {
 
           <ResponsiveContainer width="100%" height={420}>
             <LineChart data={cur.data as any[]} margin={{ top: 30, right: 30, bottom: 45, left: 15 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
               <XAxis
                 dataKey="dose"
                 type="number"
                 domain={[0, 6]}
                 ticks={[0, 2, 4, 6]}
-                stroke="#d1d5db"
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
-                label={{ value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: '#9ca3af' } }}
+                stroke={axisColor}
+                tick={{ fontSize: 12, fill: tickColor }}
+                label={{ value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: labelColor } }}
               />
               <YAxis
                 domain={[0, yMax]}
-                stroke="#d1d5db"
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
-                label={{ value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: '#9ca3af' } }}
+                stroke={axisColor}
+                tick={{ fontSize: 12, fill: tickColor }}
+                label={{ value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: labelColor } }}
               />
 
               {cur.showLines && (
@@ -286,7 +304,7 @@ const FitazimVisualization = () => {
                   content={({ active, payload, label }) => {
                     if (active && payload?.length) {
                       return (
-                        <div className="bg-white/95 backdrop-blur p-3 rounded-lg shadow-lg border border-gray-100 text-sm">
+                        <div className="bg-white/95 dark:bg-[#222]/95 backdrop-blur p-3 rounded-lg shadow-lg border border-gray-100 dark:border-white/10 text-sm">
                           <p className="font-semibold text-gray-600 mb-1">
                             Fitazim dose: {label === 0 ? 'None' : label === 2 ? 'Low' : label === 4 ? 'Medium' : 'High'}
                           </p>
@@ -345,41 +363,41 @@ const FitazimVisualization = () => {
 
         {/* Results cards */}
         <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-64 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
-          <div className="pt-5 border-t border-gray-100">
-            <p className="text-center text-xs text-black/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
+          <div className="pt-5 border-t border-gray-100 dark:border-white/10">
+            <p className="text-center text-xs text-black/30 dark:text-white/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40">High-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High-phosphorus soil</span>
                 </div>
-                <div className="text-3xl font-bold text-dark-green mb-1">+79%</div>
-                <p className="text-xs text-black/50 leading-relaxed">more phosphorus absorbed by plants</p>
+                <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+79%</div>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
               </div>
               <div className="p-5 rounded-xl border border-dark-green/10 bg-dark-green/[0.03]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#243f2e]" />
-                  <span className="text-xs font-semibold text-black/40">Medium-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">Medium-phosphorus soil</span>
                 </div>
-                <div className="text-3xl font-bold text-dark-green mb-1">+71%</div>
-                <p className="text-xs text-black/50 leading-relaxed">more phosphorus absorbed by plants</p>
+                <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+71%</div>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
               </div>
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40">High-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High-phosphorus soil</span>
                 </div>
-                <div className="text-3xl font-bold text-dark-green mb-1">+46%</div>
-                <p className="text-xs text-black/50 leading-relaxed">more crop biomass produced</p>
+                <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+46%</div>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more crop biomass produced</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Nav */}
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-white/10">
           <button onClick={() => goTo(step - 1)} disabled={step === 0}
-            className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Previous">
+            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Previous">
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
           <div className="flex items-center gap-2">
@@ -390,14 +408,14 @@ const FitazimVisualization = () => {
             ))}
           </div>
           <button onClick={() => goTo(step + 1)} disabled={step === total - 1}
-            className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Next">
+            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Next">
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
       </div>
 
       {/* Footnote */}
-      <div className="max-w-5xl mx-auto mt-3 text-center text-[10px] text-black/25">
+      <div className="max-w-5xl mx-auto mt-3 text-center text-[10px] text-black/25 dark:text-white/20">
         Corn growth trial &middot; pH 7.8 alkaline soil &middot; DAP fertilizer &middot; 60/120/240 ppm P supply rates &middot; Doses: 0–6 L/Ha &middot; Mean values &plusmn; SE
       </div>
 
