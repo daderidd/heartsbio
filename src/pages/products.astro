@@ -18,6 +18,8 @@ const products = [
     description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
     fullDescription: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years—often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
     image: leavesBg,
+    imageWidth: 1600,
+    imageHeight: 906,
     benefits: [
       'More plant-available phosphorus through synergistic enzyme action',
       'Stronger, faster crop development and consistently higher yields',
@@ -40,6 +42,8 @@ const products = [
     description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers by improving phosphorus uptake from the production stage onward.',
     fullDescription: 'Bio-Dop is the fertilizer industry\'s answer to phosphorus efficiency. Applied directly during fertilizer production, this enzymatic coating ensures that every granule of fertilizer delivers maximum phosphorus availability. The result is higher ROI for manufacturers, distributors, and farmers alike.',
     image: enhancedFertilizer,
+    imageWidth: 1600,
+    imageHeight: 1067,
     benefits: [
       'Upstream solution for maximizing phosphorus efficiency',
       'Easy to integrate into existing production lines',
@@ -62,6 +66,8 @@ const products = [
     description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
     fullDescription: 'Purisol is inspired by nature\'s own soil regeneration processes. This Ecocert-certified prebiotic creates the ideal environment for beneficial microorganisms to thrive, restoring soil health from the ground up. Unlike synthetic alternatives, Purisol works in harmony with natural soil ecosystems to deliver sustainable, long-term benefits.',
     image: climateStress,
+    imageWidth: 1376,
+    imageHeight: 768,
     benefits: [
       'Enhances tolerance to drought, salinity, and soil-borne diseases',
       'Promotes vigorous growth and stronger root systems',
@@ -85,6 +91,8 @@ const products = [
     description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
     fullDescription: 'SG-2 is engineered to give seeds the best possible start. By enhancing germination rates, accelerating root development, and improving early nutrient uptake, SG-2 sets the foundation for healthier, more resilient crops. Every seed coated with SG-2 has a competitive advantage from day one.',
     image: seedCoating,
+    imageWidth: 1408,
+    imageHeight: 768,
     benefits: [
       'Faster, more uniform germination',
       'Early root development',
@@ -127,34 +135,36 @@ const products = [
         <div class="space-y-20">
           {products.map((product, index) => (
             <>
-            <article id={product.id} class="bg-white rounded-3xl overflow-hidden shadow-lg">
-              <!-- Product Layout -->
+            <article id={product.id} class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-500">
               <div class={`grid lg:grid-cols-2 gap-0 items-stretch ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                 <!-- Image Side -->
                 <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div class="relative h-full min-h-[400px] lg:min-h-[600px] overflow-hidden group">
+                  <div class="relative h-full min-h-[350px] lg:min-h-[550px] overflow-hidden group">
                     <Image
                       src={product.image}
                       alt={product.name}
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
-                      width={1200}
-                      height={900}
-                      quality={80}
+                      width={product.imageWidth}
+                      height={product.imageHeight}
+                      quality={85}
                     />
-                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/30 via-transparent to-black/20"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/25 via-transparent to-black/15"></div>
 
                     <!-- Product Badge -->
-                    <div class="absolute top-8 left-8">
-                      <span class="inline-block px-6 py-3 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-lg shadow-xl">
+                    <div class="absolute top-6 left-6">
+                      <span class="inline-block px-5 py-2.5 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-base shadow-lg">
                         {product.name}
                       </span>
                     </div>
 
                     {product.certification && (
-                      <div class="absolute bottom-8 left-8">
-                        <span class="inline-block px-5 py-2 bg-dark-green backdrop-blur-sm text-white text-sm font-semibold rounded-full shadow-lg">
-                          ✓ {product.certification}
+                      <div class="absolute bottom-6 left-6">
+                        <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-dark-green/90 backdrop-blur-sm text-white text-sm font-semibold rounded-full shadow-lg">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          {product.certification}
                         </span>
                       </div>
                     )}
@@ -162,52 +172,52 @@ const products = [
                 </div>
 
                 <!-- Content Side -->
-                <div class={`p-8 md:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <!-- Category Badge -->
-                  <div class="inline-block mb-4 px-3 py-1 bg-dark-green/10 rounded-full">
+                <div class={`p-8 md:p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                  <!-- Category -->
+                  <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 rounded-full self-start">
                     <span class="text-dark-green font-semibold text-xs tracking-wide uppercase">
                       {product.category}
                     </span>
                   </div>
 
-                  <!-- Product Title -->
-                  <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-4">
+                  <!-- Title -->
+                  <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-3">
                     {product.title}
                   </h2>
 
                   <!-- Tagline -->
-                  <p class="text-lg text-dark-green font-semibold italic mb-6">
+                  <p class="text-base text-dark-green/70 font-medium italic mb-5">
                     {product.tagline}
                   </p>
 
                   <!-- Description -->
-                  <p class="text-black/70 text-lg mb-6 leading-relaxed">
+                  <p class="text-black/65 leading-relaxed mb-6">
                     {product.fullDescription}
                   </p>
 
-                  <!-- Key Benefits -->
-                  <div class="mb-8">
-                    <h3 class="text-xl font-display font-bold text-black mb-4">Key Benefits</h3>
-                    <ul class="space-y-3">
+                  <!-- Benefits -->
+                  <div class="mb-6">
+                    <h3 class="text-sm font-bold text-black/40 uppercase tracking-wider mb-3">Key Benefits</h3>
+                    <ul class="space-y-2.5">
                       {product.benefits.map((benefit) => (
-                        <li class="flex items-start gap-3">
-                          <svg class="w-5 h-5 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        <li class="flex items-start gap-2.5">
+                          <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                           </svg>
-                          <span class="text-black/80">{benefit}</span>
+                          <span class="text-sm text-black/70 leading-relaxed">{benefit}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <!-- Features -->
-                  <div class="bg-cream/50 rounded-xl p-6">
-                    <h3 class="text-lg font-display font-bold text-black mb-3">Product Features</h3>
+                  <div class="bg-cream/60 rounded-xl p-5">
+                    <h3 class="text-sm font-bold text-black/40 uppercase tracking-wider mb-3">Product Features</h3>
                     <ul class="space-y-2">
                       {product.features.map((feature) => (
-                        <li class="flex items-start gap-2">
-                          <span class="text-dark-green mt-1">●</span>
-                          <span class="text-black/70 text-sm">{feature}</span>
+                        <li class="flex items-start gap-2.5">
+                          <span class="w-1.5 h-1.5 rounded-full bg-dark-green/40 flex-shrink-0 mt-[7px]"></span>
+                          <span class="text-sm text-black/60 leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -219,87 +229,99 @@ const products = [
             {/* Fitazim Enhanced Section - Trial Data */}
             {product.id === 'fitazim' && (
               <div class="space-y-12">
-                {/* Trial Comparison Images */}
-                <div class="bg-gradient-to-br from-white to-cream rounded-3xl overflow-hidden shadow-lg">
+                <!-- Trial Comparison Images -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                   <div class="p-8 md:p-12">
-                    <div class="text-center mb-12">
-                      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 rounded-full">
+                    <div class="text-center mb-10">
+                      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 rounded-full">
                         <span class="text-dark-green font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
                       </div>
-                      <h3 class="text-3xl md:text-4xl font-display font-bold text-black mb-4">
-                        Visual Proof: Control vs Fitazim
+                      <h3 class="text-2xl md:text-3xl font-display font-bold text-black mb-3">
+                        Control vs Fitazim-Treated
                       </h3>
-                      <p class="text-xl text-black/70 max-w-2xl mx-auto">
-                        Dramatic differences in crop health and vigor under identical soil conditions
+                      <p class="text-black/50 max-w-xl mx-auto">
+                        Side-by-side comparison under identical soil conditions
                       </p>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-8 mb-12">
-                      {/* Control Image */}
-                      <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="grid md:grid-cols-2 gap-6 mb-10">
+                      <!-- Control -->
+                      <div class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
                         <div class="aspect-[4/3] overflow-hidden">
                           <Image
                             src={fitazimTrial1}
-                            alt="Control plants showing nutrient deficiency and stress"
+                            alt="Control plants without Fitazim treatment"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                             width={1072}
                             height={628}
-                            quality={85}
+                            quality={90}
                           />
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                          <span class="text-white text-sm font-semibold">Control (untreated)</span>
                         </div>
                       </div>
 
-                      {/* Fitazim Image */}
-                      <div class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                      <!-- Fitazim -->
+                      <div class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
                         <div class="aspect-[4/3] overflow-hidden">
                           <Image
                             src={fitazimTrial2}
-                            alt="Fitazim-treated plants showing superior health and growth"
+                            alt="Fitazim-treated plants showing improved growth"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
-                            width={1072}
-                            height={628}
-                            quality={85}
+                            width={1224}
+                            height={898}
+                            quality={90}
                           />
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-green/70 to-transparent p-4">
+                          <span class="text-white text-sm font-semibold">Fitazim-treated</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Key Observations */}
-                    <div class="grid md:grid-cols-3 gap-4 mt-8">
-                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
-                        <div class="flex items-center gap-3 mb-2">
-                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          <h4 class="font-bold text-black">Leaf Color</h4>
+                    <!-- Key Observations -->
+                    <div class="grid md:grid-cols-3 gap-4">
+                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
+                        <div class="flex items-center gap-2.5 mb-2">
+                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                          </div>
+                          <h4 class="text-sm font-bold text-black">Leaf Color</h4>
                         </div>
-                        <p class="text-sm text-black/70">Significantly greener, indicating optimal nutrient uptake</p>
+                        <p class="text-xs text-black/55 leading-relaxed">Greener leaves indicating improved nutrient uptake</p>
                       </div>
-                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
-                        <div class="flex items-center gap-3 mb-2">
-                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          <h4 class="font-bold text-black">Plant Vigor</h4>
+                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
+                        <div class="flex items-center gap-2.5 mb-2">
+                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                          </div>
+                          <h4 class="text-sm font-bold text-black">Plant Vigor</h4>
                         </div>
-                        <p class="text-sm text-black/70">Stronger stems and more robust overall structure</p>
+                        <p class="text-xs text-black/55 leading-relaxed">Stronger stems and more robust overall structure</p>
                       </div>
-                      <div class="bg-white rounded-xl p-6 border border-dark-green/10">
-                        <div class="flex items-center gap-3 mb-2">
-                          <svg class="w-6 h-6 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          <h4 class="font-bold text-black">Growth Rate</h4>
+                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
+                        <div class="flex items-center gap-2.5 mb-2">
+                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                          </div>
+                          <h4 class="text-sm font-bold text-black">Growth Rate</h4>
                         </div>
-                        <p class="text-sm text-black/70">Faster development and superior biomass production</p>
+                        <p class="text-xs text-black/55 leading-relaxed">Faster development and increased biomass production</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Interactive Data Visualization */}
+                <!-- Interactive Data Visualization -->
                 <div>
                   <FitazimVisualization client:load />
                 </div>
@@ -317,12 +339,12 @@ const products = [
         <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-6">
           Ready to Transform Your Agricultural Practices?
         </h2>
-        <p class="text-xl text-black/70 mb-8">
+        <p class="text-lg text-black/60 mb-8">
           Contact us to learn more about how our products can benefit your operations.
         </p>
         <a
           href="/#contact"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-dark-green text-white font-semibold rounded-full hover:bg-green transition-colors shadow-lg hover:shadow-xl"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-dark-green text-white font-semibold rounded-full hover:bg-green hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-lg"
         >
           Get in Touch
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,10 +355,10 @@ const products = [
     </section>
 
     <!-- Back to Home -->
-    <section class="py-12 bg-cream">
+    <section class="py-10 bg-cream">
       <div class="container-custom text-center">
-        <a href="/" class="inline-flex items-center gap-2 text-dark-green hover:text-green transition-colors font-semibold">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="/" class="inline-flex items-center gap-2 text-dark-green/60 hover:text-dark-green transition-colors font-medium text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
           Back to Home

@@ -61,9 +61,9 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'Billions in fertilizer sit locked in the soil — inaccessible to crops',
-      x: '22%', y: '30%',
+      x: '25%', y: '35%',
       arrowDx: 0, arrowDy: 0, arrowLen: 0,
-      maxW: '280px',
+      maxW: '300px',
     }],
   },
   // 1 — Baseline + lines (P Uptake)
@@ -75,9 +75,9 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'Fitazim unlocks what\'s already there — the more you apply, the more plants absorb',
-      x: '28%', y: '8%',
-      arrowDx: 15, arrowDy: 38, arrowLen: 42,
-      maxW: '230px',
+      x: '58%', y: '5%',
+      arrowDx: -30, arrowDy: 40, arrowLen: 55,
+      maxW: '210px',
     }],
   },
   // 2 — Switch to biomass
@@ -89,9 +89,9 @@ const steps: Step[] = [
     showResults: false,
     notes: [{
       text: 'More available phosphorus translates directly into bigger, healthier crops',
-      x: '30%', y: '8%',
-      arrowDx: 20, arrowDy: 35, arrowLen: 40,
-      maxW: '230px',
+      x: '55%', y: '5%',
+      arrowDx: -25, arrowDy: 35, arrowLen: 50,
+      maxW: '220px',
     }],
   },
   // 3 — Results
@@ -103,9 +103,9 @@ const steps: Step[] = [
     showResults: true,
     notes: [{
       text: 'The richest soils show the strongest response — a clear dose–performance relationship',
-      x: '48%', y: '4%',
-      arrowDx: 22, arrowDy: 28, arrowLen: 32,
-      maxW: '220px',
+      x: '52%', y: '3%',
+      arrowDx: 30, arrowDy: 30, arrowLen: 40,
+      maxW: '230px',
     }],
   },
 ];
@@ -216,7 +216,7 @@ const FitazimVisualization = () => {
           )}
 
           <ResponsiveContainer width="100%" height={420}>
-            <LineChart data={cur.data} margin={{ top: 30, right: 30, bottom: 35, left: 15 }}>
+            <LineChart data={cur.data} margin={{ top: 30, right: 30, bottom: 45, left: 15 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
               <XAxis
                 dataKey="dose"
@@ -303,7 +303,7 @@ const FitazimVisualization = () => {
 
           {/* Legend */}
           {step >= 1 && (
-            <div className="flex justify-center gap-6 -mt-5 mb-1">
+            <div className="flex justify-center gap-6 mt-2 mb-1">
               {Object.entries(soilLabels).map(([key, label]) => (
                 <div key={key} className="flex items-center gap-1.5 text-xs text-gray-400">
                   <div className="w-3 h-0.5 rounded-full" style={{ backgroundColor: soilColors[key as keyof typeof soilColors] }} />
