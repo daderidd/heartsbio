@@ -36,20 +36,20 @@ const founders = [
     </div>
 
     <!-- Founders -->
-    <div class="max-w-4xl mx-auto">
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+    <div class="max-w-2xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
         {founders.map((founder, i) => (
           <div class={`reveal stagger-${i + 1} group`}>
             <div class="relative overflow-hidden rounded-2xl bg-cream dark:bg-[#1a1a1a]">
               <!-- Photo -->
-              <div class="aspect-[3/4] overflow-hidden">
+              <div class="aspect-square overflow-hidden">
                 <Image
                   src={founder.image}
                   alt={founder.name}
                   class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                  width={500}
-                  height={667}
-                  quality={85}
+                  width={320}
+                  height={320}
+                  quality={90}
                 />
               </div>
               <!-- Gradient overlay -->
