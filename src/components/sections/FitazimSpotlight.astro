@@ -1,6 +1,7 @@
 ---
 // Fitazim Spotlight — Homepage flagship product section
 import { Image } from 'astro:assets';
+import FitazimVisualization from '../FitazimVisualization';
 import fitazimTrial1 from '../../assets/images/products/Fitazim Trial 1.webp';
 import fitazimTrial2 from '../../assets/images/products/Fitazim Trial 1-2.webp';
 ---
@@ -20,25 +21,8 @@ import fitazimTrial2 from '../../assets/images/products/Fitazim Trial 1-2.webp';
       </p>
     </div>
 
-    <!-- Content: Stats + Trial Images -->
     <div class="max-w-6xl mx-auto">
-      <!-- Key results bar -->
-      <div class="grid grid-cols-3 gap-4 md:gap-6 mb-12 reveal">
-        <div class="text-center p-5 md:p-6 bg-white dark:bg-[#111] rounded-2xl shadow-sm border border-dark-green/5 dark:border-white/10">
-          <div class="text-3xl md:text-4xl font-display font-bold text-dark-green dark:text-cream">+79%</div>
-          <div class="text-xs md:text-sm text-black/40 dark:text-white/30 mt-1 font-medium">Phosphorus recovery</div>
-        </div>
-        <div class="text-center p-5 md:p-6 bg-white dark:bg-[#111] rounded-2xl shadow-sm border border-dark-green/5 dark:border-white/10">
-          <div class="text-3xl md:text-4xl font-display font-bold text-dark-green dark:text-cream">+46%</div>
-          <div class="text-xs md:text-sm text-black/40 dark:text-white/30 mt-1 font-medium">Crop growth</div>
-        </div>
-        <div class="text-center p-5 md:p-6 bg-white dark:bg-[#111] rounded-2xl shadow-sm border border-dark-green/5 dark:border-white/10">
-          <div class="text-3xl md:text-4xl font-display font-bold text-dark-green dark:text-cream">35 days</div>
-          <div class="text-xs md:text-sm text-black/40 dark:text-white/30 mt-1 font-medium">Trial duration</div>
-        </div>
-      </div>
-
-      <!-- Trial comparison -->
+      <!-- Trial comparison photos -->
       <div class="grid md:grid-cols-2 gap-5 mb-10">
         <div class="reveal-left group relative rounded-2xl overflow-hidden shadow-lg">
           <div class="aspect-[4/3] overflow-hidden">
@@ -72,13 +56,18 @@ import fitazimTrial2 from '../../assets/images/products/Fitazim Trial 1-2.webp';
         </div>
       </div>
 
+      <!-- Interactive storytelling visualization -->
+      <div class="reveal-scale mb-10">
+        <FitazimVisualization client:visible />
+      </div>
+
       <!-- CTA -->
       <div class="text-center reveal">
         <a
           href="/products#fitazim"
           class="inline-flex items-center gap-2 px-8 py-4 bg-dark-green text-white font-semibold rounded-full hover:bg-green hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-lg group"
         >
-          See the Full Trial Data
+          Explore All Products
           <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>

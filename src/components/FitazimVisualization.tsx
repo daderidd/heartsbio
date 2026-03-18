@@ -133,6 +133,7 @@ const FitazimVisualization = () => {
   const [paused, setPaused] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const total = steps.length;
@@ -145,6 +146,14 @@ const FitazimVisualization = () => {
     const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  // Detect mobile
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   const yMax = cur.metric === 'p' ? 20 : 12;
@@ -266,59 +275,60 @@ const FitazimVisualization = () => {
         </div>
 
         {/* Chart + overlay annotations */}
-        <div ref={chartContainerRef} className="relative" style={{ minHeight: '420px' }}>
+        <div ref={chartContainerRef} className="relative" style={{ minHeight: isMobile ? '280px' : '420px' }}>
           <div
             className="transition-opacity duration-300"
             style={{ opacity: transitioning ? 0 : 1 }}
           >
-            {/* Annotation overlay: arrows (SVG) + text (HTML) */}
-            <div className="absolute inset-0 z-20 pointer-events-none">
-              {/* Single SVG layer for all arrows */}
-              <svg className="absolute inset-0 w-full h-full overflow-visible">
-                {positions.map((p, i) => p.hasTarget ? (
-                  <g key={`arrow-${step}-${i}`} className="anim-note">
-                    <line
-                      x1={p.targetX > p.textX ? p.textX + (p.maxW || 220) / 2 : p.textX - (p.maxW || 220) / 2} y1={p.textY + 35}
-                      x2={p.targetX} y2={p.targetY}
-                      stroke={arrowColor} strokeWidth={1.5} strokeDasharray="4 3" opacity={0.4}
-                    />
-                    <circle cx={p.targetX} cy={p.targetY} r={4} fill={arrowColor} opacity={0.35} />
-                  </g>
-                ) : null)}
-              </svg>
-              {/* Text labels */}
-              {positions.map((p, i) => (
-                <div
-                  key={`text-${step}-${i}`}
-                  className="absolute anim-note"
-                  style={{
-                    left: p.textX - (p.maxW || 220) / 2,
-                    top: p.textY,
-                    width: p.maxW || 220,
-                    fontFamily: handFont,
-                    fontWeight: 400,
-                    fontSize: '16px',
-                    lineHeight: '1.3',
-                    color: annotationColor,
-                    textAlign: 'center',
-                  }}
-                >
-                  {p.text}
-                </div>
-              ))}
-            </div>
+            {/* Desktop: overlay annotations with arrows */}
+            {!isMobile && (
+              <div className="absolute inset-0 z-20 pointer-events-none">
+                <svg className="absolute inset-0 w-full h-full overflow-visible">
+                  {positions.map((p, i) => p.hasTarget ? (
+                    <g key={`arrow-${step}-${i}`} className="anim-note">
+                      <line
+                        x1={p.targetX > p.textX ? p.textX + (p.maxW || 220) / 2 : p.textX - (p.maxW || 220) / 2} y1={p.textY + 35}
+                        x2={p.targetX} y2={p.targetY}
+                        stroke={arrowColor} strokeWidth={1.5} strokeDasharray="4 3" opacity={0.4}
+                      />
+                      <circle cx={p.targetX} cy={p.targetY} r={4} fill={arrowColor} opacity={0.35} />
+                    </g>
+                  ) : null)}
+                </svg>
+                {positions.map((p, i) => (
+                  <div
+                    key={`text-${step}-${i}`}
+                    className="absolute anim-note"
+                    style={{
+                      left: p.textX - (p.maxW || 220) / 2,
+                      top: p.textY,
+                      width: p.maxW || 220,
+                      fontFamily: handFont,
+                      fontWeight: 400,
+                      fontSize: '16px',
+                      lineHeight: '1.3',
+                      color: annotationColor,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {p.text}
+                  </div>
+                ))}
+              </div>
+            )}
 
-            <ResponsiveContainer width="100%" height={420}>
-              <LineChart data={cur.data} margin={{ top: 40, right: 30, bottom: 45, left: 15 }}>
+            <ResponsiveContainer width="100%" height={isMobile ? 280 : 420}>
+              <LineChart data={cur.data} margin={isMobile ? { top: 15, right: 15, bottom: 35, left: 0 } : { top: 40, right: 30, bottom: 45, left: 15 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
                 <XAxis
                   dataKey="dose" type="number" domain={[0, 6]} ticks={[0, 2, 4, 6]}
-                  stroke={axisColor} tick={{ fontSize: 12, fill: tickColor }}
-                  label={{ value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: tickColor } }}
+                  stroke={axisColor} tick={{ fontSize: isMobile ? 10 : 12, fill: tickColor }}
+                  label={isMobile ? undefined : { value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: tickColor } }}
                 />
                 <YAxis
-                  domain={[0, yMax]} stroke={axisColor} tick={{ fontSize: 12, fill: tickColor }}
-                  label={{ value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: tickColor } }}
+                  domain={[0, yMax]} stroke={axisColor} tick={{ fontSize: isMobile ? 10 : 12, fill: tickColor }}
+                  width={isMobile ? 30 : 60}
+                  label={isMobile ? undefined : { value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: tickColor } }}
                 />
 
                 {cur.showLines && (
@@ -373,22 +383,31 @@ const FitazimVisualization = () => {
 
           {/* Legend */}
           {step >= 1 && (
-            <div className="flex justify-center gap-6 mt-2 mb-1 transition-opacity duration-500" style={{ opacity: transitioning ? 0 : 1 }}>
+            <div className={`flex justify-center gap-3 sm:gap-6 mt-2 mb-1 transition-opacity duration-500 ${isMobile ? 'flex-wrap' : ''}`} style={{ opacity: transitioning ? 0 : 1 }}>
               {Object.entries(soilLabels).map(([key, label]) => (
-                <div key={key} className="flex items-center gap-1.5 text-xs text-gray-400">
-                  <div className="w-3 h-0.5 rounded-full" style={{ backgroundColor: soilColors[key as keyof typeof soilColors] }} />
-                  {label}
+                <div key={key} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-400">
+                  <div className="w-2.5 sm:w-3 h-0.5 rounded-full" style={{ backgroundColor: soilColors[key as keyof typeof soilColors] }} />
+                  {isMobile ? label.split(' (')[0] : label}
                 </div>
               ))}
             </div>
           )}
         </div>
 
+        {/* Mobile: step text below chart */}
+        {isMobile && (
+          <div key={`mobile-text-${step}`} className="anim-note px-2 py-3 text-center">
+            <p style={{ fontFamily: handFont, fontWeight: 400, fontSize: '15px', lineHeight: '1.4', color: annotationColor }}>
+              {cur.annotations[0]?.text}
+            </p>
+          </div>
+        )}
+
         {/* Results cards */}
-        <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-64 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
+        <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
           <div className="pt-5 border-t border-gray-100 dark:border-white/10">
             <p className="text-center text-xs text-black/30 dark:text-white/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
