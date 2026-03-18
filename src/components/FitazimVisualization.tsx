@@ -46,8 +46,8 @@ const steps: Step[] = [
   {
     data: emptyData, metric: 'p', showLines: false, highlight: false, showResults: false,
     annotations: [
-      { text: '→ How much Fitazim was applied (none to highest dose)', textOffsetX: 0, textOffsetY: 300, maxW: 300 },
-      { text: '↑ How much phosphorus plants absorbed', textOffsetX: -200, textOffsetY: 50, maxW: 170 },
+      { text: '→ How much Fitazim was applied (none to highest dose)', textOffsetX: 0, textOffsetY: 260, maxW: 300 },
+      { text: '↑ How much phosphorus plants absorbed', targetDose: 0, targetValue: 13, textOffsetX: 100, textOffsetY: -15, maxW: 170 },
     ],
   },
   // 1 — Baseline dots
