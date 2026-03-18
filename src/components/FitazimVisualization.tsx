@@ -209,7 +209,7 @@ const FitazimVisualization = () => {
   const yLabel = cur.metric === 'p' ? 'P Uptake (mg/plant)' : 'Dry Matter (g/plant)';
   const unit = cur.metric === 'p' ? 'mg/plant' : 'g/plant';
 
-  const soilLabels: Record<string, string> = { '60': 'Low-P soil (60 ppm)', '120': 'Medium-P soil (120 ppm)', '240': 'High-P soil (240 ppm)' };
+  const soilLabels: Record<string, string> = { '60': 'Low locked-P soil (60 ppm)', '120': 'Medium locked-P soil (120 ppm)', '240': 'High locked-P soil (240 ppm)' };
   const soilColors = { '60': '#93c5fd', '120': isDark ? '#6fba8a' : '#243f2e', '240': '#f59e0b' };
   const handFont = "'Virgil', 'Segoe Print', 'Comic Sans MS', cursive";
 
@@ -411,7 +411,7 @@ const FitazimVisualization = () => {
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High locked-P soil</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+79%</div>
                 <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
@@ -419,7 +419,7 @@ const FitazimVisualization = () => {
               <div className="p-5 rounded-xl border border-dark-green/10 bg-dark-green/[0.03]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#243f2e]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">Medium-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">Medium locked-P soil</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+71%</div>
                 <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
@@ -427,7 +427,7 @@ const FitazimVisualization = () => {
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High-phosphorus soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High locked-P soil</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+46%</div>
                 <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more crop biomass produced</p>
@@ -440,18 +440,18 @@ const FitazimVisualization = () => {
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-white/10">
           <button onClick={() => goTo(step - 1)} disabled={step === 0}
             className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Previous">
-            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
           <div className="flex items-center gap-2">
             {steps.map((_, i) => (
               <button key={i} onClick={() => goTo(i)}
-                className={`rounded-full transition-all duration-500 ${i === step ? 'w-6 h-2 bg-dark-green' : i < step ? 'w-2 h-2 bg-dark-green/30' : 'w-2 h-2 bg-gray-200'}`}
+                className={`rounded-full transition-all duration-500 ${i === step ? 'w-6 h-2 bg-dark-green dark:bg-cream' : i < step ? 'w-2 h-2 bg-dark-green/30 dark:bg-cream/30' : 'w-2 h-2 bg-gray-200 dark:bg-white/20'}`}
                 aria-label={`Step ${i + 1}`} />
             ))}
           </div>
           <button onClick={() => goTo(step + 1)} disabled={step === total - 1}
             className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Next">
-            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
       </div>
