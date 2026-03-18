@@ -86,7 +86,7 @@ const steps: Step[] = [
   {
     data: fullData, metric: 'dm', showLines: true, highlight: false, showResults: true,
     annotations: [{
-      text: 'More phosphorus means bigger, healthier crops',
+      text: 'More available phosphorus means bigger, healthier crops',
       targetDose: 6, targetValue: 10.41, textOffsetX: -130, textOffsetY: -50, maxW: 200,
     }],
   },
