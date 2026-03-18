@@ -416,7 +416,7 @@ const FitazimVisualization = () => {
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+79%</div>
                 <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
               </div>
-              <div className="p-5 rounded-xl border border-dark-green/10 bg-dark-green/[0.03]">
+              <div className="p-5 rounded-xl border border-dark-green/10 dark:border-white/20 bg-dark-green/[0.03] dark:bg-white/[0.05]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#243f2e]" />
                   <span className="text-xs font-semibold text-black/40 dark:text-white/40">Medium locked-P soil</span>
