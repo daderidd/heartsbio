@@ -12,156 +12,119 @@ const fullData = [
   { dose: 6, p60: 5.74, p120: 9.70, p240: 16.16, dm60: 6.20, dm120: 8.37, dm240: 10.41 },
 ];
 
-// Dummy data to render axes with no visible lines
-const emptyData = [{ dose: 0 }, { dose: 6 }];
+const emptyData = [
+  { dose: 0, p60: null, p120: null, p240: null, dm60: null, dm120: null, dm240: null },
+  { dose: 6, p60: null, p120: null, p240: null, dm60: null, dm120: null, dm240: null },
+];
 
-/* ─── Annotation ─── */
+/* ─── Annotation type ─── */
 interface Note {
   text: string;
-  x: string;
-  y: string;
-  arrowDx: number;
-  arrowDy: number;
-  arrowLen: number;
-  maxW?: string;
+  // If targetDose+targetValue set, arrow points to that data coordinate
+  targetDose?: number;
+  targetValue?: number;
+  // Pixel offset from target (or from chart center if no target)
+  textOffsetX: number;
+  textOffsetY: number;
+  maxW?: number;
 }
-
-/* ─── Arrow ─── */
-const Arrow = ({ dx, dy, len }: { dx: number; dy: number; len: number }) => {
-  const ex = dx;
-  const ey = dy + len;
-  const cpx = dx * 0.5;
-  const cpy = dy + len * 0.35;
-  const a = Math.atan2(ey - cpy, ex - cpx);
-  const hl = 7;
-  return (
-    <svg className="absolute pointer-events-none" style={{ left: '50%', top: '100%', overflow: 'visible' }} width="1" height="1">
-      <path d={`M0 0Q${cpx} ${cpy} ${ex} ${ey}`} fill="none" stroke="#1d261d" strokeWidth="1.5" strokeDasharray="4 3" opacity=".45" />
-      <polygon points={`${ex},${ey} ${ex - hl * Math.cos(a - .4)},${ey - hl * Math.sin(a - .4)} ${ex - hl * Math.cos(a + .4)},${ey - hl * Math.sin(a + .4)}`} fill="#1d261d" opacity=".45" />
-    </svg>
-  );
-};
 
 /* ─── Step definitions ─── */
 type Metric = 'p' | 'dm';
 
 interface Step {
-  data: typeof fullData | typeof emptyData;
+  data: any[];
   metric: Metric;
   showLines: boolean;
   highlight: boolean;
   showResults: boolean;
-  notes: Note[];
+  annotations: Note[];
 }
 
-/*
- * Annotation positioning reference (calculated from chart margins & data ranges)
- * Chart: 420px height, margins T30 R30 B45 L15 → plot area 345px tall
- * P Uptake Y-axis 0–20: val → (1 - val/20) * 345 + 30 → /420 for %
- *   16.16 → 23%, 9.70 → 49%, 9.01 → 52%, 5.68 → 66%, 4.00 → 73%
- * Dry Matter Y-axis 0–12: val → (1 - val/12) * 345 + 30 → /420 for %
- *   10.41 → 18%, 8.37 → 34%
- * X-axis 0–6: dose → ~5% + dose/6 * 81%
- *   0 → 5%, 2 → 32%, 4 → 59%, 6 → 86%
- */
 const steps: Step[] = [
-  // 0 — Explain axes (empty chart with visible grid)
+  // 0 — Explain axes
   {
-    data: emptyData,
-    metric: 'p',
-    showLines: false,
-    highlight: false,
-    showResults: false,
-    notes: [
-      {
-        text: '→ How much Fitazim was applied, from none to the highest dose',
-        x: '25%', y: '82%',
-        arrowDx: 0, arrowDy: 0, arrowLen: 0,
-        maxW: '300px',
-      },
-      {
-        text: '↑ How much phosphorus the plants actually absorbed from the soil',
-        x: '5%', y: '10%',
-        arrowDx: 0, arrowDy: 0, arrowLen: 0,
-        maxW: '190px',
-      },
+    data: emptyData, metric: 'p', showLines: false, highlight: false, showResults: false,
+    annotations: [
+      { text: '→ How much Fitazim was applied (none to highest dose)', textOffsetX: 0, textOffsetY: 300, maxW: 300 },
+      { text: '↑ How much phosphorus plants absorbed', targetDose: 1, targetValue: 17, textOffsetX: 60, textOffsetY: 0, maxW: 170 },
     ],
   },
-  // 1 — Baseline dots at dose 0
-  // Target: cluster of 3 dots at x≈5%, y≈52-73% → place note top-right, arrow points left-down
+  // 1 — Baseline dots
   {
-    data: [fullData[0]],
-    metric: 'p',
-    showLines: false,
-    highlight: false,
-    showResults: false,
-    notes: [{
-      text: 'Three soils tested, each with different phosphorus levels. Without Fitazim, plants access only a fraction.',
-      x: '18%', y: '20%',
-      arrowDx: -40, arrowDy: 20, arrowLen: 30,
-      maxW: '250px',
+    data: [fullData[0]], metric: 'p', showLines: false, highlight: false, showResults: false,
+    annotations: [{
+      text: 'Three soils tested — without Fitazim, plants access only a fraction',
+      targetDose: 0, targetValue: 9.01, textOffsetX: 120, textOffsetY: -50, maxW: 230,
     }],
   },
-  // 2 — P Uptake lines animate
-  // Target: general upward trend → place note top-center, arrow points toward middle of chart
+  // 2 — P Uptake lines
   {
-    data: fullData,
-    metric: 'p',
-    showLines: true,
-    highlight: false,
-    showResults: false,
-    notes: [{
+    data: fullData, metric: 'p', showLines: true, highlight: false, showResults: false,
+    annotations: [{
       text: 'As Fitazim dose increases, phosphorus absorption rises across all soil types',
-      x: '42%', y: '5%',
-      arrowDx: 0, arrowDy: 0, arrowLen: 0,
-      maxW: '280px',
+      textOffsetX: 0, textOffsetY: 35, maxW: 320,
     }],
   },
   // 3 — Highlight 240 ppm at dose 6
-  // Target: 240ppm endpoint at x≈86%, y≈23% → place note to its left, arrow points right toward dot
   {
-    data: fullData,
-    metric: 'p',
-    showLines: true,
-    highlight: true,
-    showResults: false,
-    notes: [{
-      text: 'Soils with more legacy phosphorus show the most dramatic improvement — up to +79%',
-      x: '55%', y: '5%',
-      arrowDx: 50, arrowDy: 10, arrowLen: 20,
-      maxW: '220px',
+    data: fullData, metric: 'p', showLines: true, highlight: true, showResults: false,
+    annotations: [{
+      text: 'The richest soils show the strongest response — up to +79%',
+      targetDose: 6, targetValue: 16.16, textOffsetX: -140, textOffsetY: -50, maxW: 200,
     }],
   },
-  // 4 — Results (P Uptake) — summary, no arrow needed
+  // 4 — Results
   {
-    data: fullData,
-    metric: 'p',
-    showLines: true,
-    highlight: true,
-    showResults: true,
-    notes: [{
-      text: 'A clear dose–performance relationship, proven across multiple soil conditions',
-      x: '40%', y: '3%',
-      arrowDx: 0, arrowDy: 0, arrowLen: 0,
-      maxW: '300px',
+    data: fullData, metric: 'p', showLines: true, highlight: true, showResults: true,
+    annotations: [{
+      text: 'A clear dose–performance relationship across all soil conditions',
+      textOffsetX: 0, textOffsetY: 35, maxW: 320,
     }],
   },
   // 5 — Biomass (LAST)
-  // Target: 240ppm DM endpoint at x≈86%, y≈18% → place note left of it, arrow right
   {
-    data: fullData,
-    metric: 'dm',
-    showLines: true,
-    highlight: false,
-    showResults: true,
-    notes: [{
-      text: 'The effect carries through to harvest — more phosphorus means bigger, healthier crops',
-      x: '45%', y: '5%',
-      arrowDx: 45, arrowDy: 8, arrowLen: 18,
-      maxW: '240px',
+    data: fullData, metric: 'dm', showLines: true, highlight: false, showResults: true,
+    annotations: [{
+      text: 'More phosphorus means bigger, healthier crops',
+      targetDose: 6, targetValue: 10.41, textOffsetX: -130, textOffsetY: -50, maxW: 200,
     }],
   },
 ];
+
+/* ─── Hook: read chart plot area from DOM ─── */
+function useChartArea(containerRef: React.RefObject<HTMLDivElement | null>, deps: any[]) {
+  const [area, setArea] = useState<{
+    x: number; y: number; width: number; height: number;
+    xMin: number; xMax: number; yMin: number; yMax: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    // Wait for Recharts to render
+    const timer = setTimeout(() => {
+      const svg = el.querySelector('.recharts-wrapper svg');
+      const cartesian = el.querySelector('.recharts-cartesian-grid');
+      if (!svg || !cartesian) { setArea(null); return; }
+
+      const svgRect = svg.getBoundingClientRect();
+      const gridRect = cartesian.getBoundingClientRect();
+
+      setArea({
+        x: gridRect.left - svgRect.left,
+        y: gridRect.top - svgRect.top,
+        width: gridRect.width,
+        height: gridRect.height,
+        xMin: 0, xMax: 6,
+        yMin: 0, yMax: 0, // set per step
+      });
+    }, 200);
+    return () => clearTimeout(timer);
+  }, deps);
+
+  return area;
+}
 
 /* ─── Main ─── */
 const FitazimVisualization = () => {
@@ -169,11 +132,23 @@ const FitazimVisualization = () => {
   const [prevStep, setPrevStep] = useState(0);
   const [paused, setPaused] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const total = steps.length;
   const cur = steps[step];
 
-  // Smooth transition handler
+  const yMax = cur.metric === 'p' ? 20 : 12;
+  const chartArea = useChartArea(chartContainerRef, [step, cur.metric]);
+
+  // Convert data coordinates to pixel position relative to chart container
+  const dataToPixel = useCallback((dose: number, value: number) => {
+    if (!chartArea) return { x: 0, y: 0 };
+    const x = chartArea.x + (dose / 6) * chartArea.width;
+    const y = chartArea.y + (1 - value / yMax) * chartArea.height;
+    return { x, y };
+  }, [chartArea, yMax]);
+
+  // Smooth transition
   const transitionTo = useCallback((target: number) => {
     if (target === step || target < 0 || target >= total) return;
     setTransitioning(true);
@@ -181,7 +156,7 @@ const FitazimVisualization = () => {
       setPrevStep(step);
       setStep(target);
       setTimeout(() => setTransitioning(false), 50);
-    }, 300); // fade out duration
+    }, 300);
   }, [step, total]);
 
   // Auto-play 3s
@@ -202,7 +177,6 @@ const FitazimVisualization = () => {
     transitionTo(Math.max(0, Math.min(i, total - 1)));
   }, [total, transitionTo]);
 
-  // Keyboard
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') goTo(step + 1);
@@ -212,16 +186,39 @@ const FitazimVisualization = () => {
     return () => window.removeEventListener('keydown', h);
   }, [goTo, step]);
 
-  // Keys based on metric
   const k = (level: string) => (cur.metric === 'p' ? `p${level}` : `dm${level}`) as keyof typeof fullData[0];
-  const yMax = cur.metric === 'p' ? 20 : 12;
   const yLabel = cur.metric === 'p' ? 'P Uptake (mg/plant)' : 'Dry Matter (g/plant)';
   const unit = cur.metric === 'p' ? 'mg/plant' : 'g/plant';
 
   const soilLabels: Record<string, string> = { '60': 'Low-P soil (60 ppm)', '120': 'Medium-P soil (120 ppm)', '240': 'High-P soil (240 ppm)' };
   const soilColors = { '60': '#93c5fd', '120': '#243f2e', '240': '#f59e0b' };
-
   const handFont = "'Virgil', 'Segoe Print', 'Comic Sans MS', cursive";
+
+  // Compute annotation positions
+  const getAnnotationPositions = () => {
+    if (!chartArea) return [];
+    const centerX = chartArea.x + chartArea.width / 2;
+
+    return cur.annotations.map((ann) => {
+      const hasTarget = ann.targetDose !== undefined && ann.targetValue !== undefined;
+      let textX: number, textY: number, targetX = 0, targetY = 0;
+
+      if (hasTarget) {
+        const tp = dataToPixel(ann.targetDose!, ann.targetValue!);
+        targetX = tp.x;
+        targetY = tp.y;
+        textX = targetX + ann.textOffsetX;
+        textY = targetY + ann.textOffsetY;
+      } else {
+        textX = centerX + ann.textOffsetX;
+        textY = chartArea.y + ann.textOffsetY;
+      }
+
+      return { ...ann, textX, textY, targetX, targetY, hasTarget };
+    });
+  };
+
+  const positions = getAnnotationPositions();
 
   return (
     <div ref={ref} className="w-full bg-gradient-to-br from-cream to-green/5 p-6 md:p-8 rounded-3xl">
@@ -250,99 +247,111 @@ const FitazimVisualization = () => {
           </div>
         </div>
 
-        {/* Chart + annotations */}
-        <div className="relative" style={{ minHeight: '420px' }}>
-          {/* Annotations with smooth fade */}
+        {/* Chart + overlay annotations */}
+        <div ref={chartContainerRef} className="relative" style={{ minHeight: '420px' }}>
           <div
-            className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-300"
+            className="transition-opacity duration-300"
             style={{ opacity: transitioning ? 0 : 1 }}
           >
-            {cur.notes.map((n, i) => (
-              <div
-                key={`${step}-${i}`}
-                className="absolute anim-note"
-                style={{ left: n.x, top: n.y, maxWidth: n.maxW || '250px' }}
-              >
-                <div className="relative">
-                  <p
-                    className="text-base md:text-lg leading-snug text-dark-green/80"
-                    style={{ fontFamily: handFont, fontWeight: 400 }}
-                  >
-                    {n.text}
-                  </p>
-                  {n.arrowLen > 0 && <Arrow dx={n.arrowDx} dy={n.arrowDy} len={n.arrowLen} />}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <ResponsiveContainer width="100%" height={420}>
-            <LineChart data={cur.data as any[]} margin={{ top: 30, right: 30, bottom: 45, left: 15 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-              <XAxis
-                dataKey="dose"
-                type="number"
-                domain={[0, 6]}
-                ticks={[0, 2, 4, 6]}
-                stroke="#d1d5db"
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
-                label={{ value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: '#9ca3af' } }}
-              />
-              <YAxis
-                domain={[0, yMax]}
-                stroke="#d1d5db"
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
-                label={{ value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: '#9ca3af' } }}
-              />
-
-              {cur.showLines && (
-                <Tooltip
-                  content={({ active, payload, label }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="bg-white/95 backdrop-blur p-3 rounded-lg shadow-lg border border-gray-100 text-sm">
-                          <p className="font-semibold text-gray-600 mb-1">
-                            Fitazim dose: {label === 0 ? 'None' : label === 2 ? 'Low' : label === 4 ? 'Medium' : 'High'}
-                          </p>
-                          {payload.map((e: any, idx: number) => (
-                            <p key={idx} style={{ color: e.color }} className="flex justify-between gap-4">
-                              <span>{e.name}</span>
-                              <span className="font-semibold">{e.value.toFixed(1)} {unit}</span>
-                            </p>
-                          ))}
-                        </div>
-                      );
-                    }
-                    return null;
+            {/* Annotation overlay: arrows (SVG) + text (HTML) */}
+            <div className="absolute inset-0 z-20 pointer-events-none">
+              {/* Single SVG layer for all arrows */}
+              <svg className="absolute inset-0 w-full h-full overflow-visible">
+                {positions.map((p, i) => p.hasTarget ? (
+                  <g key={`arrow-${step}-${i}`} className="anim-note">
+                    <line
+                      x1={p.textX + (p.maxW || 220) / 2} y1={p.textY + 35}
+                      x2={p.targetX} y2={p.targetY}
+                      stroke="#1d261d" strokeWidth={1.5} strokeDasharray="4 3" opacity={0.4}
+                    />
+                    <circle cx={p.targetX} cy={p.targetY} r={4} fill="#1d261d" opacity={0.35} />
+                  </g>
+                ) : null)}
+              </svg>
+              {/* Text labels */}
+              {positions.map((p, i) => (
+                <div
+                  key={`text-${step}-${i}`}
+                  className="absolute anim-note"
+                  style={{
+                    left: p.textX - (p.maxW || 220) / 2,
+                    top: p.textY,
+                    width: p.maxW || 220,
+                    fontFamily: handFont,
+                    fontWeight: 400,
+                    fontSize: '16px',
+                    lineHeight: '1.3',
+                    color: 'rgba(29,38,29,0.8)',
+                    textAlign: 'center',
                   }}
+                >
+                  {p.text}
+                </div>
+              ))}
+            </div>
+
+            <ResponsiveContainer width="100%" height={420}>
+              <LineChart data={cur.data} margin={{ top: 40, right: 30, bottom: 45, left: 15 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <XAxis
+                  dataKey="dose" type="number" domain={[0, 6]} ticks={[0, 2, 4, 6]}
+                  stroke="#d1d5db" tick={{ fontSize: 12, fill: '#9ca3af' }}
+                  label={{ value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: '#9ca3af' } }}
                 />
-              )}
+                <YAxis
+                  domain={[0, yMax]} stroke="#d1d5db" tick={{ fontSize: 12, fill: '#9ca3af' }}
+                  label={{ value: yLabel, angle: -90, position: 'insideLeft', offset: 5, style: { fontSize: 12, fill: '#9ca3af' } }}
+                />
 
-              {/* Lines — always rendered, visibility controlled by strokeWidth */}
-              <Line type="monotone" dataKey={k('60')} name={soilLabels['60']} stroke={soilColors['60']}
-                strokeWidth={cur.showLines ? 2.5 : 0}
-                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 6 : 4, fill: soilColors['60'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1200} animationEasing="ease-out"
-              />
-              <Line type="monotone" dataKey={k('120')} name={soilLabels['120']} stroke={soilColors['120']}
-                strokeWidth={cur.showLines ? 2.5 : 0}
-                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 6 : 4, fill: soilColors['120'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1200} animationEasing="ease-out"
-              />
-              <Line type="monotone" dataKey={k('240')} name={soilLabels['240']} stroke={soilColors['240']}
-                strokeWidth={cur.showLines ? 3 : 0}
-                dot={{ r: (cur.data as any[]).length <= 2 ? 0 : (cur.data as any[]).length === 1 ? 7 : 5, fill: soilColors['240'], strokeWidth: 2, stroke: '#fff' }}
-                animationDuration={1200} animationEasing="ease-out"
-              />
+                {cur.showLines && (
+                  <Tooltip
+                    content={({ active, payload, label }) => {
+                      if (active && payload?.length) {
+                        return (
+                          <div className="bg-white/95 backdrop-blur p-3 rounded-lg shadow-lg border border-gray-100 text-sm">
+                            <p className="font-semibold text-gray-600 mb-1">
+                              Fitazim dose: {label === 0 ? 'None' : label === 2 ? 'Low' : label === 4 ? 'Medium' : 'High'}
+                            </p>
+                            {payload.map((e: any, idx: number) => (
+                              <p key={idx} style={{ color: e.color }} className="flex justify-between gap-4">
+                                <span>{e.name}</span>
+                                <span className="font-semibold">{e.value.toFixed(1)} {unit}</span>
+                              </p>
+                            ))}
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                )}
 
-              {cur.highlight && cur.metric === 'p' && (
-                <>
-                  <ReferenceDot x={6} y={16.16} r={14} fill="#f59e0b" fillOpacity={0.12} stroke="#f59e0b" strokeWidth={2} strokeOpacity={0.4} />
-                  <ReferenceDot x={6} y={9.70} r={11} fill="#243f2e" fillOpacity={0.08} stroke="#243f2e" strokeWidth={1.5} strokeOpacity={0.3} />
-                </>
-              )}
-            </LineChart>
-          </ResponsiveContainer>
+                <Line type="monotone" dataKey={k('60')} name={soilLabels['60']} stroke={soilColors['60']}
+                  strokeWidth={cur.showLines ? 2.5 : 0} connectNulls={false}
+                  dot={{ r: cur.data.length === 1 ? 6 : cur.data === emptyData ? 0 : 4, fill: soilColors['60'], strokeWidth: 2, stroke: '#fff' }}
+                  animationDuration={1200} animationEasing="ease-out"
+                />
+                <Line type="monotone" dataKey={k('120')} name={soilLabels['120']} stroke={soilColors['120']}
+                  strokeWidth={cur.showLines ? 2.5 : 0} connectNulls={false}
+                  dot={{ r: cur.data.length === 1 ? 6 : cur.data === emptyData ? 0 : 4, fill: soilColors['120'], strokeWidth: 2, stroke: '#fff' }}
+                  animationDuration={1200} animationEasing="ease-out"
+                />
+                <Line type="monotone" dataKey={k('240')} name={soilLabels['240']} stroke={soilColors['240']}
+                  strokeWidth={cur.showLines ? 3 : 0} connectNulls={false}
+                  dot={{ r: cur.data.length === 1 ? 7 : cur.data === emptyData ? 0 : 5, fill: soilColors['240'], strokeWidth: 2, stroke: '#fff' }}
+                  animationDuration={1200} animationEasing="ease-out"
+                />
+
+                {cur.highlight && cur.metric === 'p' && (
+                  <>
+                    <ReferenceDot x={6} y={16.16} r={14} fill="#f59e0b" fillOpacity={0.12} stroke="#f59e0b" strokeWidth={2} strokeOpacity={0.4} />
+                    <ReferenceDot x={6} y={9.70} r={11} fill="#243f2e" fillOpacity={0.08} stroke="#243f2e" strokeWidth={1.5} strokeOpacity={0.3} />
+                    <ReferenceDot x={6} y={5.74} r={9} fill="#93c5fd" fillOpacity={0.1} stroke="#93c5fd" strokeWidth={1.5} strokeOpacity={0.3} />
+                  </>
+                )}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
 
           {/* Legend */}
           {step >= 1 && (
