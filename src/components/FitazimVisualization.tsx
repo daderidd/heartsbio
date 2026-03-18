@@ -47,7 +47,7 @@ const steps: Step[] = [
     data: emptyData, metric: 'p', showLines: false, highlight: false, showResults: false,
     annotations: [
       { text: '→ How much Fitazim was applied (none to highest dose)', textOffsetX: 0, textOffsetY: 300, maxW: 300 },
-      { text: '↑ How much phosphorus plants absorbed', targetDose: 1, targetValue: 17, textOffsetX: 60, textOffsetY: 0, maxW: 170 },
+      { text: '↑ How much phosphorus plants absorbed', textOffsetX: -200, textOffsetY: 50, maxW: 170 },
     ],
   },
   // 1 — Baseline dots
@@ -260,7 +260,7 @@ const FitazimVisualization = () => {
                 {positions.map((p, i) => p.hasTarget ? (
                   <g key={`arrow-${step}-${i}`} className="anim-note">
                     <line
-                      x1={p.textX + (p.maxW || 220) / 2} y1={p.textY + 35}
+                      x1={p.targetX > p.textX ? p.textX + (p.maxW || 220) / 2 : p.textX - (p.maxW || 220) / 2} y1={p.textY + 35}
                       x2={p.targetX} y2={p.targetY}
                       stroke="#1d261d" strokeWidth={1.5} strokeDasharray="4 3" opacity={0.4}
                     />
