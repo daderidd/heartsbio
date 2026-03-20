@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import FitazimVisualization from '../components/FitazimVisualization';
+import FieldTrialEvidence from '../components/sections/FieldTrialEvidence.astro';
 import leavesBg from '../assets/images/products/leaves-bg.webp';
 import enhancedFertilizer from '../assets/images/R&D portfolio/enhanced-fertilizer.webp';
 import climateStress from '../assets/images/R&D portfolio/climate-stress-alleviator.webp';
@@ -27,16 +27,16 @@ const otherProducts = [
   {
     id: 'purisol',
     name: 'Purisol',
-    title: 'Full Microbiota Transfer',
-    category: 'Microbiota Transfer',
-    description: 'An Ecocert-certified, 100% natural prebiotic that restores full soil microbiota — rebuilding nutrient cycling, soil structure, and long-term fertility from the ground up.',
+    title: 'Living Soil Microbiome',
+    category: 'Biological Soil Amendment',
+    description: 'A patented, Ecocert-certified vermicompost-based formulation delivering 10 characterized bacterial species — including a psychrotolerant strain for frost protection. Stabilized with natural bioprotectants for 12–18 months shelf life.',
     image: climateStress,
     certification: 'Ecocert Certified',
     benefits: [
+      'Frost protection — active bacterial strain at subzero temperatures',
       'Enhances drought, salinity, and disease tolerance',
-      'Promotes stronger root systems and vigorous growth',
-      'Increases fruit size, weight, and shelf life',
-      '100% natural — safe for organic farming',
+      '10 species characterized by metagenomic sequencing',
+      'CE-marked and Ecocert-certified for organic farming',
     ],
   },
   {
@@ -170,10 +170,10 @@ const otherProducts = [
                 { title: 'Plant Vigor', desc: 'Stronger stems and more robust overall structure' },
                 { title: 'Growth Rate', desc: 'Faster development and increased biomass production' },
               ].map((obs) => (
-                <div class="bg-cream/50 dark:bg-[#1a1a1a] rounded-xl p-5 border border-dark-green/5 dark:border-white/10">
+                <div class="bg-cream/50 dark:bg-[#252525] rounded-xl p-5 border border-dark-green/5 dark:border-white/15">
                   <div class="flex items-center gap-2.5 mb-2">
-                    <div class="w-8 h-8 rounded-lg bg-dark-green/10 dark:bg-white/10 flex items-center justify-center">
-                      <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-8 h-8 rounded-lg bg-dark-green/10 dark:bg-white/15 flex items-center justify-center">
+                      <svg class="w-4 h-4 text-dark-green dark:text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                       </svg>
                     </div>
@@ -200,9 +200,9 @@ const otherProducts = [
           </div>
         </div>
 
-        <!-- Visualization -->
+        <!-- Field Trial Evidence -->
         <div class="reveal-scale">
-          <FitazimVisualization client:visible />
+          <FieldTrialEvidence />
         </div>
       </div>
     </section>
@@ -266,7 +266,7 @@ const otherProducts = [
                   <ul class="grid grid-cols-2 gap-x-4 gap-y-1.5">
                     {product.benefits.map((b) => (
                       <li class="flex items-start gap-2">
-                        <svg class="w-3.5 h-3.5 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 text-dark-green dark:text-cream flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span class="text-xs text-black/55 dark:text-white/50 leading-relaxed">{b}</span>
