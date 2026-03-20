@@ -16,6 +16,7 @@ const footerLinks = {
   legal: [
     { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Settings', href: '#', id: 'cookie-settings-link' },
   ],
 };
 
@@ -102,6 +103,7 @@ const socialLinks = [
             <a
               href={link.href}
               class="text-sm text-white/50 hover:text-white transition-colors"
+              {...(link.id ? { id: link.id } : {})}
             >
               {link.label}
             </a>
@@ -111,3 +113,11 @@ const socialLinks = [
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById('cookie-settings-link')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem('cookieConsent');
+    window.location.reload();
+  });
+</script>
