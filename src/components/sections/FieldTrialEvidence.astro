@@ -1,0 +1,91 @@
+---
+// Field Trial Evidence — Prof. Ismail Çakmak, Sabancı University (2025)
+// Independent Turkish field trials showing Fitazim yield increases
+
+const trials = [
+  {
+    badge: 'Grain Crop',
+    headline: '+20%',
+    crop: 'Maize',
+    location: 'Karaman, Turkey',
+    detail: 'Yield increase without P fertilizer — Fitazim alone matched DAP performance.',
+    sub: 'Statistically significant (LSD 0.05). Confirmed across two trial sites.',
+  },
+  {
+    badge: 'Oil Crop',
+    headline: '+24.6%',
+    crop: 'Sunflower',
+    location: 'Burunoba, Turkey',
+    detail: 'Yield increase with Fitazim-coated DAP. Soil-applied Fitazim alone delivered +22%.',
+    sub: 'Consistent effect across unfertilized and fertilized conditions.',
+  },
+  {
+    badge: 'Greenhouse',
+    headline: '+23.1%',
+    crop: 'Lettuce',
+    location: 'Antalya, Turkey',
+    detail: 'At 8 L/ha application rate. Clear dose-response: 5 L/ha gave +21.3%.',
+    sub: 'Replicated across two independent experiments (May–June 2025).',
+  },
+];
+---
+
+<div class="bg-white dark:bg-[#111] rounded-3xl overflow-hidden shadow-lg">
+  <div class="p-8 md:p-12">
+
+    <!-- Header -->
+    <div class="text-center mb-10 reveal">
+      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">INDEPENDENT FIELD TRIALS</span>
+      </div>
+      <h3 class="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-3">
+        Independently Verified Results
+      </h3>
+      <p class="text-black/40 dark:text-white/40 max-w-xl mx-auto text-sm">
+        Independent university field trials · Turkey, 2025
+      </p>
+    </div>
+
+    <!-- Trial Cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-10">
+      {trials.map((trial, i) => (
+        <div class={`reveal stagger-${i + 1} bg-cream/50 dark:bg-[#1a1a1a] rounded-xl p-6 border border-dark-green/5 dark:border-white/10 hover:shadow-md transition-all duration-300`}>
+          <span class="text-[10px] uppercase tracking-wider text-dark-green/40 dark:text-white/30 font-semibold">
+            {trial.badge}
+          </span>
+          <div class="mt-3 mb-1">
+            <span class="text-4xl md:text-5xl font-display font-bold text-dark-green dark:text-cream">
+              {trial.headline}
+            </span>
+          </div>
+          <h4 class="text-lg font-display font-bold text-black dark:text-white">
+            {trial.crop}
+          </h4>
+          <p class="text-xs text-black/30 dark:text-white/25 mb-3">
+            {trial.location}
+          </p>
+          <p class="text-sm text-black/60 dark:text-white/50 leading-relaxed mb-2">
+            {trial.detail}
+          </p>
+          <p class="text-xs text-black/35 dark:text-white/25 leading-relaxed">
+            {trial.sub}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Mechanism Insight Callout -->
+    <div class="reveal bg-dark-green/[0.03] dark:bg-white/[0.03] rounded-xl p-6 border-l-4 border-dark-green/20 dark:border-cream/20 mb-6">
+      <p class="text-sm text-black/60 dark:text-white/50 leading-relaxed">
+        <span class="font-semibold text-black/80 dark:text-white/70">Why the mechanism matters:</span>
+        When soils receive full phosphorus fertilization, Fitazim adds only +2.2% — because there is no locked phosphorus left to release. This confirms Fitazim's mode of action: it unlocks the phosphorus already in your soil, making it most valuable where P input is reduced or absent.
+      </p>
+    </div>
+
+    <!-- Source Footnote -->
+    <p class="text-center text-[10px] text-black/25 dark:text-white/20">
+      Data from independent field trials conducted in farmer fields and commercial greenhouses, 2025. Yields measured at harvest. Statistical significance at LSD (α = 0.05).
+    </p>
+
+  </div>
+</div>
