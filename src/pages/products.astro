@@ -9,53 +9,19 @@ import seedCoating from '../assets/images/R&D portfolio/seed-coating.webp';
 import fitazimTrial1 from '../assets/images/products/Fitazim Trial 1.webp';
 import fitazimTrial2 from '../assets/images/products/Fitazim Trial 1-2.webp';
 
-const products = [
-  {
-    id: 'fitazim',
-    name: 'Fitazim',
-    title: 'Proven Phosphorus Booster',
-    category: 'Phosphate Uptake Solutions',
-    description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
-    fullDescription: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years—often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
-    image: leavesBg,
-    imageWidth: 1600,
-    imageHeight: 906,
-    benefits: [
-      'More plant-available phosphorus through synergistic enzyme action',
-      'Stronger, faster crop development and consistently higher yields',
-      'Recovering residual "legacy phosphorus" from soil',
-      'Less phosphorus runoff, protecting water ecosystems',
-    ],
-    tagline: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
-    features: [
-      'Proprietary enzyme blend optimized for soil conditions',
-      'Compatible with existing fertilizer programs',
-      'Reduces reliance on new phosphate inputs',
-      'Environmentally sustainable and cost-effective',
-    ],
-  },
+const otherProducts = [
   {
     id: 'bio-dop',
     name: 'Bio-Dop',
     title: 'Enzymatic Fertilizer Coating',
     category: 'Phosphate Uptake Solutions',
     description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers, and many others, by improving phosphorus uptake from the production stage onward.',
-    fullDescription: 'Bio-Dop is the fertilizer industry\'s answer to phosphorus efficiency. Applied directly during fertilizer production, this enzymatic coating ensures that every granule of fertilizer delivers maximum phosphorus availability. The result is higher ROI for manufacturers, distributors, and farmers alike.',
     image: enhancedFertilizer,
-    imageWidth: 1600,
-    imageHeight: 1067,
     benefits: [
       'Upstream solution — easy to integrate into existing production lines',
       'High ROI across the entire value chain — from manufacturer to farmer',
       'Compatible with all major fertilizer types',
       'Supports nature by reducing dependence on finite phosphorus reserves',
-    ],
-    tagline: 'Enhancing fertilizer performance from production to field',
-    features: [
-      'Seamless integration with manufacturing processes',
-      'Stable coating that activates in soil',
-      'Compatible with all major fertilizer types',
-      'Proven results in diverse soil conditions',
     ],
   },
   {
@@ -63,24 +29,14 @@ const products = [
     name: 'Purisol',
     title: 'Full Microbiota Transfer',
     category: 'Microbiota Transfer',
-    description: '100% natural, unprocessed, plant-based prebiotic. Serves as an optimal carrier for Plant Growth-Promoting Bacteria (PGPB), enhancing microbial colonization and activity.',
-    fullDescription: 'Purisol is inspired by nature\'s own soil regeneration processes. This Ecocert-certified prebiotic creates the ideal environment for beneficial microorganisms to thrive, restoring soil health from the ground up. Unlike synthetic alternatives, Purisol works in harmony with natural soil ecosystems to deliver sustainable, long-term benefits.',
+    description: 'An Ecocert-certified, 100% natural prebiotic that restores full soil microbiota — rebuilding nutrient cycling, soil structure, and long-term fertility from the ground up.',
     image: climateStress,
-    imageWidth: 1376,
-    imageHeight: 768,
-    benefits: [
-      'Enhances tolerance to drought, salinity, and soil-borne diseases',
-      'Promotes vigorous growth and stronger root systems',
-      'Increases fruit, kernel, and calyx size and weight',
-      'Provides earliness, longer picking periods, and shelf life',
-    ],
-    tagline: 'Ecocert-certified, natural prebiotic for sustainable farming',
     certification: 'Ecocert Certified',
-    features: [
-      '100% natural and unprocessed',
-      'Optimized carrier for beneficial bacteria',
-      'Improves soil structure and water retention',
-      'Safe for organic farming systems',
+    benefits: [
+      'Enhances drought, salinity, and disease tolerance',
+      'Promotes stronger root systems and vigorous growth',
+      'Increases fruit size, weight, and shelf life',
+      '100% natural — safe for organic farming',
     ],
   },
   {
@@ -88,22 +44,12 @@ const products = [
     name: 'SG-2',
     title: 'Enzymatic Seed Coating',
     category: 'Seed Coating',
-    description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
-    fullDescription: 'SG-2 is engineered to give seeds the best possible start. By enhancing germination rates, accelerating root development, and improving early nutrient uptake, SG-2 sets the foundation for healthier, more resilient crops. Every seed coated with SG-2 has a competitive advantage from day one.',
+    description: 'Engineered to give seeds the best possible start. Enhances germination, accelerates root development, and improves early nutrient uptake from day one.',
     image: seedCoating,
-    imageWidth: 1408,
-    imageHeight: 768,
     benefits: [
       'Faster, more uniform germination',
-      'Early root development',
-      'Enhanced nutrient absorption',
-      'Improved stress tolerance',
-    ],
-    tagline: 'Superior seed performance for optimal crop establishment',
-    features: [
-      'Applied directly to seeds pre-planting',
+      'Enhanced early nutrient absorption',
       'Works across multiple crop types',
-      'Increases seedling vigor and uniformity',
       'Reduces replanting and crop loss',
     ],
   },
@@ -111,248 +57,238 @@ const products = [
 ---
 
 <BaseLayout title="Products — Fitazim, Bio-Dop, Purisol, SG-2 | HeartsBio" description="Explore HeartsBio's enzyme-based agricultural products: Fitazim for phosphorus recovery, Bio-Dop fertilizer coating, Purisol microbiota transfer, and SG-2 seed coating.">
-  <div class="min-h-screen bg-cream">
-    <!-- Hero Section -->
+  <div class="min-h-screen bg-cream dark:bg-[#1a1a1a]">
+
+    <!-- ═══════════════════════════════════════
+         FITAZIM — Flagship Product (dominant)
+         ═══════════════════════════════════════ -->
+
+    <!-- Fitazim Hero -->
     <section class="bg-dark-green text-white py-20 md:py-28">
       <div class="container-custom">
         <div class="max-w-4xl mx-auto text-center">
-          <div class="inline-block mb-6 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-            <span class="text-white font-semibold text-sm tracking-wide">OUR PRODUCTS</span>
+          <div class="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
+            <span class="text-white/80 font-semibold text-sm tracking-wide">FLAGSHIP PRODUCT</span>
           </div>
-          <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">
-            Smart Biological Solutions for Modern Farming
+          <h1 class="text-4xl md:text-6xl font-display font-bold mb-4">
+            Fitazim
           </h1>
-          <p class="text-xl md:text-2xl text-white/90">
-            Proven products that unlock soil potential, enhance nutrient efficiency, and build sustainable agricultural systems.
-          </p>
+          <p class="text-xl md:text-2xl text-white/70 mb-2">Proven Phosphorus Booster</p>
+          <p class="text-base text-white/50 italic">Maximum phosphorus efficiency, powered by pure enzyme synergy</p>
         </div>
       </div>
     </section>
 
-    <!-- Products Section -->
-    <section class="py-16 md:py-20">
+    <!-- Fitazim Detail -->
+    <section id="fitazim" class="py-16 md:py-20">
       <div class="container-custom max-w-6xl">
-        <div class="space-y-20">
-          {products.map((product, index) => (
-            <>
-            <article id={product.id} class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-500">
-              <div class={`grid lg:grid-cols-2 gap-0 items-stretch ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                <!-- Image Side -->
-                <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div class="relative h-full min-h-[350px] lg:min-h-[550px] overflow-hidden group">
+        <!-- Overview -->
+        <div class="grid lg:grid-cols-2 gap-10 items-center mb-16">
+          <div class="reveal-left">
+            <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 dark:bg-white/10 rounded-full">
+              <span class="text-dark-green dark:text-cream font-semibold text-xs tracking-wide uppercase">Phosphate Uptake Solutions</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-4">
+              Unlock the Phosphorus Already in Your Soil
+            </h2>
+            <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
+              Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years — often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.
+            </p>
+            <ul class="space-y-2.5">
+              {[
+                'More plant-available phosphorus through synergistic enzyme action',
+                'Stronger, faster crop development and consistently higher yields',
+                'Recovering residual "legacy phosphorus" from soil',
+                'Less phosphorus runoff, protecting water ecosystems',
+              ].map((b) => (
+                <li class="flex items-start gap-2.5">
+                  <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span class="text-sm text-black/65 dark:text-white/60 leading-relaxed">{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="reveal-right">
+            <div class="relative rounded-2xl overflow-hidden shadow-xl group">
+              <Image
+                src={leavesBg}
+                alt="Fitazim product"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                width={1600}
+                height={906}
+                quality={85}
+              />
+              <div class="absolute inset-0 bg-gradient-to-br from-dark-green/20 via-transparent to-black/10"></div>
+              <div class="absolute top-6 left-6">
+                <span class="inline-block px-5 py-2.5 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold shadow-lg">
+                  Fitazim
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trial Comparison -->
+        <div class="bg-white dark:bg-[#111] rounded-3xl overflow-hidden shadow-lg mb-12">
+          <div class="p-8 md:p-12">
+            <div class="text-center mb-10 reveal">
+              <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+                <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-3">
+                Control vs Fitazim-Treated
+              </h3>
+              <p class="text-black/50 dark:text-white/50 max-w-xl mx-auto">
+                Side-by-side comparison under identical soil conditions
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-10">
+              <div class="reveal-left group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="aspect-[4/3] overflow-hidden">
+                  <Image src={fitazimTrial1} alt="Control plants without Fitazim" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1072} height={628} quality={90} />
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                  <span class="text-white text-sm font-semibold">Control (untreated)</span>
+                </div>
+              </div>
+              <div class="reveal-right group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="aspect-[4/3] overflow-hidden">
+                  <Image src={fitazimTrial2} alt="Fitazim-treated plants" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1224} height={898} quality={90} />
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-green/70 to-transparent p-4">
+                  <span class="text-white text-sm font-semibold">Fitazim-treated</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 reveal">
+              {[
+                { title: 'Leaf Color', desc: 'Greener leaves indicating improved nutrient uptake' },
+                { title: 'Plant Vigor', desc: 'Stronger stems and more robust overall structure' },
+                { title: 'Growth Rate', desc: 'Faster development and increased biomass production' },
+              ].map((obs) => (
+                <div class="bg-cream/50 dark:bg-[#1a1a1a] rounded-xl p-5 border border-dark-green/5 dark:border-white/10">
+                  <div class="flex items-center gap-2.5 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-dark-green/10 dark:bg-white/10 flex items-center justify-center">
+                      <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </div>
+                    <h4 class="text-sm font-bold text-black dark:text-white">{obs.title}</h4>
+                  </div>
+                  <p class="text-xs text-black/55 dark:text-white/50 leading-relaxed">{obs.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="reveal-scale mb-12">
+          <div class="aspect-video rounded-2xl overflow-hidden shadow-lg">
+            <iframe
+              src="https://www.youtube.com/embed/VwBWE6A5JGE?rel=0"
+              title="Fitazim — Enzyme technology for phosphorus recovery in agriculture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+              class="w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- Visualization -->
+        <div class="reveal-scale">
+          <FitazimVisualization client:visible />
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         OTHER PRODUCTS — Compact treatment
+         ═══════════════════════════════════════ -->
+
+    <section class="py-16 md:py-20 bg-white dark:bg-[#111]">
+      <div class="container-custom max-w-6xl">
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">MORE PRODUCTS</span>
+          </div>
+          <h2 class="text-black dark:text-white mb-4">
+            Completing the Agricultural Cycle
+          </h2>
+          <p class="text-lg text-black/50 dark:text-white/50">
+            Beyond phosphorus recovery — solutions for fertilizer enhancement, soil health, and seed performance.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          {otherProducts.map((product, index) => (
+            <article id={product.id} class={`reveal stagger-${index + 1} bg-cream/50 dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-black/5 dark:border-white/10 hover:shadow-lg transition-all duration-300`}>
+              <div class={`grid md:grid-cols-3 gap-0 items-stretch ${index % 2 === 1 ? '' : ''}`}>
+                <!-- Image (1/3) -->
+                <div class={`relative overflow-hidden group ${index % 2 === 1 ? 'md:order-2 md:col-span-1' : 'md:col-span-1'}`}>
+                  <div class="h-full min-h-[250px] md:min-h-0">
                     <Image
                       src={product.image}
                       alt={product.name}
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
-                      width={product.imageWidth}
-                      height={product.imageHeight}
+                      width={800}
+                      height={600}
                       quality={85}
                     />
-                    <div class="absolute inset-0 bg-gradient-to-br from-dark-green/25 via-transparent to-black/15"></div>
-
-                    <!-- Product Badge -->
-                    <div class="absolute top-6 left-6">
-                      <span class="inline-block px-5 py-2.5 bg-white/95 backdrop-blur-sm rounded-full text-dark-green font-bold text-base shadow-lg">
-                        {product.name}
+                  </div>
+                  <div class="absolute inset-0 bg-gradient-to-r from-dark-green/20 to-transparent"></div>
+                  {product.certification && (
+                    <div class="absolute top-4 left-4">
+                      <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-dark-green text-xs font-semibold rounded-full">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        {product.certification}
                       </span>
                     </div>
-
-                    {product.certification && (
-                      <div class="absolute bottom-6 left-6">
-                        <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-dark-green/90 backdrop-blur-sm text-white text-sm font-semibold rounded-full shadow-lg">
-                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          {product.certification}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
 
-                <!-- Content Side -->
-                <div class={`p-8 md:p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <!-- Category -->
-                  <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 rounded-full self-start">
-                    <span class="text-dark-green font-semibold text-xs tracking-wide uppercase">
-                      {product.category}
-                    </span>
+                <!-- Content (2/3) -->
+                <div class={`md:col-span-2 p-6 md:p-8 flex flex-col justify-center ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+                  <div class="flex items-center gap-3 mb-3">
+                    <span class="text-[10px] uppercase tracking-wider text-black/30 dark:text-white/30 font-semibold">{product.category}</span>
                   </div>
-
-                  <!-- Title -->
-                  <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-3">
-                    {product.title}
-                  </h2>
-
-                  <!-- Tagline -->
-                  <p class="text-base text-dark-green/70 font-medium italic mb-5">
-                    {product.tagline}
-                  </p>
-
-                  <!-- Description -->
-                  <p class="text-black/65 leading-relaxed mb-6">
-                    {product.fullDescription}
-                  </p>
-
-                  <!-- Benefits -->
-                  <div class="mb-6">
-                    <h3 class="text-sm font-bold text-black/40 uppercase tracking-wider mb-3">Key Benefits</h3>
-                    <ul class="space-y-2.5">
-                      {product.benefits.map((benefit) => (
-                        <li class="flex items-start gap-2.5">
-                          <svg class="w-4 h-4 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          <span class="text-sm text-black/70 leading-relaxed">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <!-- Features -->
-                  <div class="bg-cream/60 rounded-xl p-5">
-                    <h3 class="text-sm font-bold text-black/40 uppercase tracking-wider mb-3">Product Features</h3>
-                    <ul class="space-y-2">
-                      {product.features.map((feature) => (
-                        <li class="flex items-start gap-2.5">
-                          <span class="w-1.5 h-1.5 rounded-full bg-dark-green/40 flex-shrink-0 mt-[7px]"></span>
-                          <span class="text-sm text-black/60 leading-relaxed">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <h3 class="text-2xl font-display font-bold text-black dark:text-white mb-1">{product.name}</h3>
+                  <p class="text-base text-dark-green/60 dark:text-cream/60 font-medium mb-3">{product.title}</p>
+                  <p class="text-sm text-black/55 dark:text-white/50 leading-relaxed mb-4">{product.description}</p>
+                  <ul class="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                    {product.benefits.map((b) => (
+                      <li class="flex items-start gap-2">
+                        <svg class="w-3.5 h-3.5 text-dark-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-xs text-black/55 dark:text-white/50 leading-relaxed">{b}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </article>
-
-            {/* Fitazim Enhanced Section - Trial Data */}
-            {product.id === 'fitazim' && (
-              <div class="space-y-12">
-                <!-- Trial Comparison Images -->
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
-                  <div class="p-8 md:p-12">
-                    <div class="text-center mb-10">
-                      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 rounded-full">
-                        <span class="text-dark-green font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
-                      </div>
-                      <h3 class="text-2xl md:text-3xl font-display font-bold text-black mb-3">
-                        Control vs Fitazim-Treated
-                      </h3>
-                      <p class="text-black/50 max-w-xl mx-auto">
-                        Side-by-side comparison under identical soil conditions
-                      </p>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-6 mb-10">
-                      <!-- Control -->
-                      <div class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
-                        <div class="aspect-[4/3] overflow-hidden">
-                          <Image
-                            src={fitazimTrial1}
-                            alt="Control plants without Fitazim treatment"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            loading="lazy"
-                            width={1072}
-                            height={628}
-                            quality={90}
-                          />
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                          <span class="text-white text-sm font-semibold">Control (untreated)</span>
-                        </div>
-                      </div>
-
-                      <!-- Fitazim -->
-                      <div class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
-                        <div class="aspect-[4/3] overflow-hidden">
-                          <Image
-                            src={fitazimTrial2}
-                            alt="Fitazim-treated plants showing improved growth"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            loading="lazy"
-                            width={1224}
-                            height={898}
-                            quality={90}
-                          />
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-green/70 to-transparent p-4">
-                          <span class="text-white text-sm font-semibold">Fitazim-treated</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Key Observations -->
-                    <div class="grid md:grid-cols-3 gap-4">
-                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
-                        <div class="flex items-center gap-2.5 mb-2">
-                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                          </div>
-                          <h4 class="text-sm font-bold text-black">Leaf Color</h4>
-                        </div>
-                        <p class="text-xs text-black/55 leading-relaxed">Greener leaves indicating improved nutrient uptake</p>
-                      </div>
-                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
-                        <div class="flex items-center gap-2.5 mb-2">
-                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                          </div>
-                          <h4 class="text-sm font-bold text-black">Plant Vigor</h4>
-                        </div>
-                        <p class="text-xs text-black/55 leading-relaxed">Stronger stems and more robust overall structure</p>
-                      </div>
-                      <div class="bg-cream/50 rounded-xl p-5 border border-dark-green/5">
-                        <div class="flex items-center gap-2.5 mb-2">
-                          <div class="w-8 h-8 rounded-lg bg-dark-green/10 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                          </div>
-                          <h4 class="text-sm font-bold text-black">Growth Rate</h4>
-                        </div>
-                        <p class="text-xs text-black/55 leading-relaxed">Faster development and increased biomass production</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Video -->
-                <div class="aspect-video rounded-2xl overflow-hidden shadow-lg">
-                  <iframe
-                    src="https://www.youtube.com/embed/VwBWE6A5JGE?rel=0"
-                    title="Fitazim — Enzyme technology for phosphorus recovery in agriculture"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                    class="w-full h-full"
-                  ></iframe>
-                </div>
-
-                <!-- Interactive Data Visualization -->
-                <div class="mt-12">
-                  <FitazimVisualization client:load />
-                </div>
-              </div>
-            )}
-            </>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-16 md:py-20 bg-white">
+    <!-- CTA -->
+    <section class="py-16 md:py-20 bg-cream dark:bg-[#1a1a1a]">
       <div class="container-custom max-w-4xl text-center">
-        <h2 class="text-3xl md:text-4xl font-display font-bold text-black mb-6">
-          Ready to Transform Your Agricultural Practices?
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-6">
+          Ready to Learn More?
         </h2>
-        <p class="text-lg text-black/60 mb-8">
-          Contact us to learn more about how our products can benefit your operations.
+        <p class="text-lg text-black/50 dark:text-white/50 mb-8">
+          Contact us to discuss how our products can fit into your operations.
         </p>
         <a
           href="/#contact"
@@ -362,18 +298,6 @@ const products = [
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>
-        </a>
-      </div>
-    </section>
-
-    <!-- Back to Home -->
-    <section class="py-10 bg-cream">
-      <div class="container-custom text-center">
-        <a href="/" class="inline-flex items-center gap-2 text-dark-green/60 hover:text-dark-green transition-colors font-medium text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          Back to Home
         </a>
       </div>
     </section>

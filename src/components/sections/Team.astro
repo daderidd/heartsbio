@@ -1,0 +1,90 @@
+---
+// Team Section — Founders
+import { Image } from 'astro:assets';
+import rafael from '../../assets/images/founders/rafael-detoledo.jpg';
+import eralp from '../../assets/images/founders/eralp-polat.jpg';
+
+const founders = [
+  {
+    name: 'Rafael de Toledo',
+    role: 'Co-founder & CEO',
+    credential: '15+ years in agricultural biotechnology',
+    image: rafael,
+  },
+  {
+    name: 'Eralp Polat',
+    role: 'Managing Partner',
+    credential: 'Hearts Biotechnology BV',
+    image: eralp,
+  },
+];
+---
+
+<section id="team" class="section bg-white dark:bg-[#111]">
+  <div class="container-custom">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">LEADERSHIP</span>
+      </div>
+      <h2 class="text-black dark:text-white mb-4">
+        The Team Behind HeartsBio
+      </h2>
+      <p class="text-lg text-black/50 dark:text-white/50">
+        Combining decades of biotech R&D expertise with global agricultural business acumen
+      </p>
+    </div>
+
+    <!-- Founders -->
+    <div class="max-w-2xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+        {founders.map((founder, i) => (
+          <div class={`reveal stagger-${i + 1} group`}>
+            <div class="relative overflow-hidden rounded-2xl bg-cream dark:bg-[#1a1a1a]">
+              <!-- Photo -->
+              <div class="aspect-square overflow-hidden">
+                <Image
+                  src={founder.image}
+                  alt={founder.name}
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                  width={320}
+                  height={320}
+                  quality={90}
+                />
+              </div>
+              <!-- Gradient overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-green/80 via-dark-green/20 to-transparent"></div>
+              <!-- Info overlay -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                <h3 class="text-2xl md:text-3xl font-display font-bold text-white mb-1">
+                  {founder.name}
+                </h3>
+                <p class="text-cream/90 font-semibold text-base mb-1">
+                  {founder.role}
+                </p>
+                <p class="text-white/50 text-sm">
+                  {founder.credential}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Credibility anchor -->
+      <div class="mt-12 text-center reveal">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-cream dark:bg-[#1a1a1a] rounded-full">
+          <div class="w-10 h-10 rounded-full bg-dark-green/10 dark:bg-white/10 flex items-center justify-center">
+            <svg class="w-5 h-5 text-dark-green dark:text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="text-left">
+            <div class="text-2xl font-display font-bold text-dark-green dark:text-cream leading-none">220+ years</div>
+            <div class="text-xs text-black/40 dark:text-white/30 font-medium">of combined research experience across the team</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

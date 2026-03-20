@@ -18,7 +18,7 @@ const suffix = numMatch ? numMatch[2] : '';
   kpi-card group relative overflow-hidden rounded-3xl transition-all duration-500 h-full flex flex-col
   ${featured
     ? 'bg-green p-10 md:p-12 shadow-xl hover:shadow-2xl'
-    : 'bg-cream p-8 md:p-10 shadow-lg hover:shadow-xl border border-black/10'
+    : 'bg-cream dark:bg-[#1a1a1a] p-8 md:p-10 shadow-lg hover:shadow-xl border border-black/10 dark:border-white/10'
   }
 `}>
   <!-- Decorative background element -->
@@ -34,10 +34,10 @@ const suffix = numMatch ? numMatch[2] : '';
         inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 mb-6 rounded-2xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3
         ${featured
           ? 'bg-white/20 backdrop-blur-sm'
-          : 'bg-gradient-to-br from-dark-green/10 to-green/5'
+          : 'bg-gradient-to-br from-dark-green/10 to-green/5 dark:from-white/10 dark:to-white/5'
         }
       `}>
-        <svg class={`w-7 h-7 md:w-8 md:h-8 transition-colors duration-300 ${featured ? 'text-white' : 'text-dark-green'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class={`w-7 h-7 md:w-8 md:h-8 transition-colors duration-300 ${featured ? 'text-white' : 'text-dark-green dark:text-cream'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon} />
         </svg>
       </div>
@@ -45,7 +45,7 @@ const suffix = numMatch ? numMatch[2] : '';
 
     <div class={`
       text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-5 transition-transform duration-300 group-hover:scale-105
-      ${featured ? 'text-white' : 'text-dark-green'}
+      ${featured ? 'text-white' : 'text-dark-green dark:text-cream'}
     `}>
       {numericValue !== null ? (
         <span data-count={numericValue} data-suffix={suffix}>0{suffix}</span>
@@ -56,7 +56,7 @@ const suffix = numMatch ? numMatch[2] : '';
 
     <div class={`
       text-base md:text-lg font-medium leading-relaxed mt-auto
-      ${featured ? 'text-white/90' : 'text-black/70'}
+      ${featured ? 'text-white/90' : 'text-black/70 dark:text-white/60'}
     `}>
       {label}
     </div>

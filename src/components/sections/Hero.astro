@@ -26,26 +26,26 @@
     <div class="max-w-4xl mx-auto">
       <!-- Main Headline with Rotating Text -->
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-12 leading-tight hero-fade hero-fade-1">
-        <span id="rotating-word" class="inline-block transition-all duration-500 ease-in-out">Sustainable</span><br />
-        Biotechnology Solutions
+        Unlocking the Phosphorus<br />
+        <span id="rotating-word" class="inline-block transition-all duration-500 ease-in-out">Already</span> in Your Soil
       </h1>
 
       <!-- Subheadline -->
       <div class="mb-16 max-w-3xl mx-auto hero-fade hero-fade-2">
         <p class="text-xl md:text-2xl text-white/90 leading-relaxed">
-          <span class="font-bold">Stronger Crops. Healthier Soils. Cleaner Waters.</span>
+          <span class="font-bold">Enzyme technology that turns locked soil nutrients into crop performance.</span>
           <br />
-          We turn biological intelligence into agricultural performance — helping farmers get more from every hectare.
+          Backed by decades of R&D. Proven in the field. Ready to scale.
         </p>
       </div>
 
       <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-fade hero-fade-3">
-        <a href="#portfolio" class="btn text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg animate-pulse-glow" aria-label="Explore our R&D portfolio">
-          Explore Our Work
+        <a href="#problem" class="btn text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg animate-pulse-glow" aria-label="Learn about the opportunity">
+          See the Opportunity
         </a>
-        <a href="#technology" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green hover:shadow-xl hover:-translate-y-1 transition-all" aria-label="Learn about our technology">
-          Our Technology
+        <a href="#solution" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green hover:shadow-xl hover:-translate-y-1 transition-all" aria-label="Learn about our solution">
+          Our Solution
         </a>
       </div>
     </div>
@@ -62,56 +62,29 @@
 </section>
 
 <style>
-  /* Rotating text animation */
+  /* Rotating text animation — fixed width so surrounding text doesn't shift */
   #rotating-word {
-    position: relative;
-    min-width: 280px;
-    text-align: center;
     display: inline-block;
-    overflow: hidden;
-    height: 1.2em;
+    width: 3.8em;
+    text-align: center;
   }
 
-  @media (min-width: 768px) {
-    #rotating-word {
-      min-width: 350px;
-    }
+  .word-fade-out {
+    animation: fadeOut 0.4s ease-in-out forwards;
   }
 
-  @media (min-width: 1024px) {
-    #rotating-word {
-      min-width: 420px;
-    }
+  .word-fade-in {
+    animation: fadeIn 0.4s ease-in-out forwards;
   }
 
-  .word-slide-up-out {
-    animation: slideUpOut 0.6s ease-in-out forwards;
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
 
-  .word-slide-up-in {
-    animation: slideUpIn 0.6s ease-in-out forwards;
-  }
-
-  @keyframes slideUpOut {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-  }
-
-  @keyframes slideUpIn {
-    from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   /* Hero entrance animations */
@@ -147,30 +120,29 @@
 
 <script>
   // Rotating text functionality
-  const words = ['Sustainable', 'Innovative', 'Efficient', 'Clean'];
+  const words = ['Already', 'Locked', 'Waiting', 'Hidden'];
   let currentIndex = 0;
   const rotatingElement = document.getElementById('rotating-word');
 
   function rotateWord() {
     if (!rotatingElement) return;
 
-    // Slide up and out
-    rotatingElement.classList.add('word-slide-up-out');
+    // Fade out
+    rotatingElement.classList.add('word-fade-out');
 
     setTimeout(() => {
       // Change word
       currentIndex = (currentIndex + 1) % words.length;
       rotatingElement.textContent = words[currentIndex];
 
-      // Remove old animation and add slide up in
-      rotatingElement.classList.remove('word-slide-up-out');
-      rotatingElement.classList.add('word-slide-up-in');
+      // Fade in
+      rotatingElement.classList.remove('word-fade-out');
+      rotatingElement.classList.add('word-fade-in');
 
-      // Clean up animation class after it completes
       setTimeout(() => {
-        rotatingElement.classList.remove('word-slide-up-in');
-      }, 600);
-    }, 600); // Match animation duration
+        rotatingElement.classList.remove('word-fade-in');
+      }, 400);
+    }, 400);
   }
 
   // Start rotation
