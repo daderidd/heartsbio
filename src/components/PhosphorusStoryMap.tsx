@@ -88,8 +88,8 @@ const chapters: Chapter[] = [
     stat: { value: '12,000 Tg', label: 'of residual P accumulated in global cropland soils' },
     source: 'Sattari et al., PNAS (2012)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
-    layerHighlight: 'NLD,BEL,DEU,FRA,DNK,POL',
-    layerOpacity: 0.7,
+    layerHighlight: 'NLD,BEL,DEU,FRA,DNK,POL,GBR,IRL,LUX,AUT,CHE,CZE,SVK,HUN,ITA,ESP,PRT,ROU,BGR,HRV,SVN,SWE,FIN,NOR,EST,LVA,LTU,GRC',
+    layerOpacity: 0.5,
   },
   {
     id: 'depletion',
@@ -121,8 +121,8 @@ const chapters: Chapter[] = [
     stat: { value: '2025', label: 'EU Soil Monitoring Directive adopted' },
     source: 'European Council (September 2025); EU CRM Act (2024)',
     mapState: { longitude: 10, latitude: 50, zoom: 4.5, pitch: 0, bearing: 0 },
-    layerHighlight: 'NLD,BEL,DEU,FRA,DNK,AUT,IRL',
-    layerOpacity: 0.6,
+    layerHighlight: 'NLD,BEL,DEU,FRA,DNK,AUT,IRL,LUX,ITA,ESP,PRT,GRC,POL,CZE,SVK,HUN,ROU,BGR,HRV,SVN,SWE,FIN,EST,LVA,LTU,CYP,MLT',
+    layerOpacity: 0.4,
   },
   {
     id: 'opportunity',
