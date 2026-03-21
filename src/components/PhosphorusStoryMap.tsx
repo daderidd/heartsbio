@@ -66,6 +66,7 @@ interface Chapter {
     bearing?: number;
   };
   layerHighlight?: string; // country ISO codes to highlight, comma-separated
+  layerColor?: string; // highlight color (default: #7cc98a)
   layerOpacity?: number;
 }
 
@@ -122,6 +123,7 @@ const chapters: Chapter[] = [
     source: 'European Council (September 2025); EU CRM Act (2024)',
     mapState: { longitude: 10, latitude: 50, zoom: 4.5, pitch: 0, bearing: 0 },
     layerHighlight: 'NLD,BEL,DEU,FRA,DNK,AUT,IRL,LUX,ITA,ESP,PRT,GRC,POL,CZE,SVK,HUN,ROU,BGR,HRV,SVN,SWE,FIN,EST,LVA,LTU,CYP,MLT',
+    layerColor: '#003399',
     layerOpacity: 0.4,
   },
   {
@@ -255,7 +257,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 id="country-highlight"
                 type="fill"
                 paint={{
-                  'fill-color': '#7cc98a',
+                  'fill-color': current.layerColor ?? '#7cc98a',
                   'fill-opacity': current.layerOpacity ?? 0.5,
                 }}
                 filter={buildHighlightFilter(current.layerHighlight)}
@@ -265,7 +267,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 id="country-highlight-border"
                 type="line"
                 paint={{
-                  'line-color': '#7cc98a',
+                  'line-color': current.layerColor ?? '#7cc98a',
                   'line-width': 1.5,
                   'line-opacity': 0.8,
                 }}
