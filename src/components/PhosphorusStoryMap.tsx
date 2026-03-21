@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 /* ─── GeoJSON country boundaries (vendored locally) ─── */
 const COUNTRIES_GEOJSON_URL = '/data/ne-countries.geojson';
+const NL_HD_GEOJSON_URL = '/data/ne-netherlands-hd.geojson';
 
 /* ─── Styles (inline to avoid Astro scoping issues with client:only) ─── */
 const styles = {
@@ -134,7 +135,6 @@ const chapters: Chapter[] = [
     stat: { value: '$70B+', label: 'annual global phosphate fertilizer market' },
     source: 'Straits Research (2024); World Bank Commodity Markets',
     mapState: { longitude: 5.5, latitude: 52.1, zoom: 7, pitch: 40, bearing: -10 },
-    layerHighlight: 'NLD',
     layerOpacity: 0.4,
   },
 ];
@@ -168,6 +168,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
 
   const [activeChapter, setActiveChapter] = useState(0);
   const [countriesGeoJSON, setCountriesGeoJSON] = useState<any>(null);
+  const [nlHdGeoJSON, setNlHdGeoJSON] = useState<any>(null);
   const mapRef = useRef<MapRef>(null);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -181,6 +182,10 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
         setCountriesGeoJSON(data);
       })
       .catch((err) => console.error('[PhosphorusStoryMap] Failed to load countries:', err));
+    fetch(NL_HD_GEOJSON_URL)
+      .then((res) => res.json())
+      .then((data) => setNlHdGeoJSON(data))
+      .catch((err) => console.error('[PhosphorusStoryMap] Failed to load NL HD:', err));
   }, []);
 
   // Scroll observer — determine which chapter is in the center of the viewport
@@ -272,6 +277,28 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                   'line-opacity': 0.8,
                 }}
                 filter={buildHighlightFilter(current.layerHighlight)}
+              />
+            </Source>
+          )}
+          {/* High-detail Netherlands for the zoomed-in opportunity chapter */}
+          {nlHdGeoJSON && current.id === 'opportunity' && (
+            <Source id="nl-hd" type="geojson" data={nlHdGeoJSON}>
+              <Layer
+                id="nl-hd-fill"
+                type="fill"
+                paint={{
+                  'fill-color': current.layerColor ?? '#7cc98a',
+                  'fill-opacity': current.layerOpacity ?? 0.5,
+                }}
+              />
+              <Layer
+                id="nl-hd-border"
+                type="line"
+                paint={{
+                  'line-color': current.layerColor ?? '#7cc98a',
+                  'line-width': 1.5,
+                  'line-opacity': 0.8,
+                }}
               />
             </Source>
           )}
