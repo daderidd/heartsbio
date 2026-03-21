@@ -1,0 +1,141 @@
+---
+// Flagship Comparison — Side-by-side Fitazim vs Bio-Dop for investors
+
+const products = [
+  {
+    position: 'Downstream',
+    name: 'Fitazim',
+    tagline: 'Proven Phosphorus Booster',
+    where: 'In the field — applied by the farmer as a soil or in-furrow treatment',
+    whoBuys: 'Distributors, farmers, cooperatives',
+    opportunity: 'Unlocks legacy phosphorus trapped in soil — billions of tons of accumulated P that plants can\'t access',
+
+    stat: '+20% yield',
+    source: 'Independent university trials',
+    reveal: 'reveal-left',
+  },
+  {
+    position: 'Upstream',
+    name: 'Bio-Dop',
+    tagline: 'Enzymatic Fertilizer Coating',
+    where: 'At the fertilizer plant — enzymatic coating applied to DAP/MAP granules',
+    whoBuys: 'Fertilizer manufacturers',
+    opportunity: 'Enhances every ton of phosphate fertilizer produced — integrates into existing supply chains with no behavior change',
+
+    stat: 'Field-validated',
+    source: 'Independent trials on DAP/MAP',
+    reveal: 'reveal-right',
+  },
+];
+
+const reasons = [
+  { title: 'Same core problem', desc: 'Phosphorus inefficiency destroys value across the agricultural system' },
+  { title: 'Two paths to market', desc: 'Fitazim captures in-field performance, Bio-Dop captures upstream leverage' },
+  { title: 'Lower portfolio risk', desc: 'Different entry points reduce dependence on a single buying behavior' },
+];
+---
+
+<section class="section bg-cream dark:bg-[#1a1a1a]">
+  <div class="container-custom">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+      <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">FLAGSHIP PRODUCTS</span>
+      </div>
+      <h2 class="text-black dark:text-white mb-4">
+        Two Products, One Phosphorus Strategy
+      </h2>
+      <p class="text-lg text-black/50 dark:text-white/50">
+        HeartsBio attacks the phosphorus problem from both ends of the value chain.
+      </p>
+    </div>
+
+    <!-- Side-by-side Cards -->
+    <div class="flagship-grid max-w-5xl mx-auto mb-14">
+      {products.map((p) => (
+        <div class={`flagship-card bg-white dark:bg-[#111] rounded-2xl p-8 shadow-lg border border-black/5 dark:border-white/10 ${p.reveal}`}>
+          <!-- Position badge -->
+          <div>
+            <span class="inline-block px-3 py-1 bg-dark-green/8 dark:bg-white/10 rounded-full text-[10px] uppercase tracking-wider text-dark-green dark:text-cream font-semibold">
+              {p.position}
+            </span>
+          </div>
+
+          <!-- Product name & tagline -->
+          <div>
+            <h3 class="text-2xl font-display font-bold text-black dark:text-white mb-1">{p.name}</h3>
+            <p class="text-black/50 dark:text-white/50 text-sm">{p.tagline}</p>
+          </div>
+
+          <!-- Where -->
+          <div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Where</div>
+            <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.where}</p>
+          </div>
+
+          <!-- Who buys -->
+          <div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Who buys</div>
+            <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.whoBuys}</p>
+          </div>
+
+          <!-- Opportunity -->
+          <div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Opportunity</div>
+            <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.opportunity}</p>
+          </div>
+
+          <!-- Evidence mini-card -->
+          <div class="bg-cream/50 dark:bg-[#1a1a1a] rounded-xl p-4 border border-black/5 dark:border-white/10">
+            <div class="text-xl font-display font-bold text-dark-green dark:text-cream">{p.stat}</div>
+            <div class="text-xs text-black/40 dark:text-white/35">{p.source}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Why They Fit Together -->
+    <div class="max-w-5xl mx-auto reveal">
+      <h3 class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-5">Why they fit together</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {reasons.map((r) => (
+          <div class="bg-white dark:bg-[#111] rounded-xl p-5 border border-black/5 dark:border-white/10">
+            <div class="text-sm font-semibold text-black dark:text-white mb-1">{r.title}</div>
+            <p class="text-xs text-black/40 dark:text-white/35 leading-relaxed">{r.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .flagship-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .flagship-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: subgrid;
+      /* 7 rows: badge, name, where, who, opportunity, best-for, evidence */
+      grid-row: span 6;
+    }
+  }
+
+  .flagship-card {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .flagship-card {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 6;
+      align-content: start;
+    }
+  }
+</style>
