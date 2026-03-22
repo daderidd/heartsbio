@@ -1,50 +1,31 @@
 ---
-// Partners/Social Proof Section
-// HIDDEN - Can be unhidden later by uncommenting the section below
+// Partners / Affiliations — logo strip for credibility
+const partners = [
+  { name: 'The Fertilizer Institute', url: 'https://www.tfi.org/' },
+  { name: 'EcoCert', url: 'https://www.ecocert.com/' },
+  { name: 'Yes We Trust', url: 'https://www.yeswetrustlabel.com/' },
+  { name: 'Top Tier Impact', url: 'https://www.toptierimpact.com/' },
+  { name: 'Sabancı University', url: 'https://www.sabanciuniv.edu/' },
+];
 ---
 
-<!-- SECTION TEMPORARILY HIDDEN
-<section class="section bg-cream">
+<section class="py-12 md:py-16 bg-white dark:bg-[#111] border-y border-black/5 dark:border-white/5">
   <div class="container-custom">
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <h2 class="text-black mb-6">
-        Trusted by Industry Leaders
-      </h2>
-      <p class="text-xl text-black/70">
-        We collaborate with leading organizations to drive innovation in biotechnology
-      </p>
-    </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-        <div class="bg-white p-8 rounded-xl flex items-center justify-center hover:shadow-md transition-shadow">
-          <div class="text-center text-gray-400">
-            <svg class="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-            </svg>
-            <p class="text-xs font-medium">Partner {i}</p>
-          </div>
-        </div>
+    <p class="text-center text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-8">
+      Member of &amp; affiliated with
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16">
+      {partners.map((p) => (
+        <a
+          href={p.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-black/40 dark:text-white/30 hover:text-black/70 dark:hover:text-white/60 transition-colors text-sm md:text-base font-semibold tracking-wide whitespace-nowrap"
+          title={p.name}
+        >
+          {p.name}
+        </a>
       ))}
-    </div>
-
-    <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-lg">
-      <div class="flex items-start gap-4 mb-6">
-        <svg class="w-12 h-12 text-dark-green flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-        </svg>
-      </div>
-      <blockquote class="text-xl md:text-2xl text-black/70 italic mb-6">
-        "HeartsBio's innovative approach and commitment to excellence have been instrumental in advancing our research goals. Their team's expertise and dedication make them an invaluable partner."
-      </blockquote>
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-dark-green rounded-full"></div>
-        <div>
-          <div class="font-semibold text-black">Dr. Jane Smith</div>
-          <div class="text-sm text-black/70">Research Director, Partner Organization</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
--->
