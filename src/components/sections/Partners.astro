@@ -1,11 +1,40 @@
 ---
 // Partners / Affiliations — logo strip for credibility
 const partners = [
-  { name: 'The Fertilizer Institute', url: 'https://www.tfi.org/' },
-  { name: 'EcoCert', url: 'https://www.ecocert.com/' },
-  { name: 'Yes We Trust', url: 'https://www.yeswetrustlabel.com/' },
-  { name: 'Top Tier Impact', url: 'https://www.toptierimpact.com/' },
-  { name: 'Sabancı University', url: 'https://www.sabanciuniv.edu/' },
+  {
+    name: 'The Fertilizer Institute',
+    url: 'https://www.tfi.org/',
+    logo: '/images/partners/tfi.svg',
+    classes: 'dark:invert dark:brightness-200',
+    height: 'h-8 md:h-10',
+  },
+  {
+    name: 'EcoCert',
+    url: 'https://www.ecocert.com/',
+    logo: '/images/partners/ecocert.png',
+    logoDark: '/images/partners/ecocert-white.png',
+    height: 'h-7 md:h-9',
+  },
+  {
+    name: 'Yes We Trust',
+    url: 'https://yeswetrust.com/',
+    logo: '/images/partners/yeswetrust.webp',
+    classes: 'brightness-50 saturate-150 dark:brightness-100 dark:saturate-100',
+    height: 'h-8 md:h-10',
+  },
+  {
+    name: 'Top Tier Impact',
+    url: 'https://www.toptierimpact.com/',
+    logo: '/images/partners/toptierimpact.webp',
+    classes: 'invert dark:invert-0',
+    height: 'h-7 md:h-9',
+  },
+  {
+    name: 'Sabancı University',
+    url: 'https://www.sabanciuniv.edu/',
+    logo: '/images/partners/sabanci.svg',
+    height: 'h-7 md:h-9',
+  },
 ];
 ---
 
@@ -14,16 +43,38 @@ const partners = [
     <p class="text-center text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-8">
       Member of &amp; affiliated with
     </p>
-    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16">
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14">
       {partners.map((p) => (
         <a
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-black/40 dark:text-white/30 hover:text-black/70 dark:hover:text-white/60 transition-colors text-sm md:text-base font-semibold tracking-wide whitespace-nowrap"
+          class="opacity-50 hover:opacity-80 transition-opacity"
           title={p.name}
         >
-          {p.name}
+          {p.logoDark ? (
+            <>
+              <img
+                src={p.logo}
+                alt={p.name}
+                class:list={[p.height, 'w-auto object-contain dark:hidden']}
+                loading="lazy"
+              />
+              <img
+                src={p.logoDark}
+                alt={p.name}
+                class:list={[p.height, 'w-auto object-contain hidden dark:block']}
+                loading="lazy"
+              />
+            </>
+          ) : (
+            <img
+              src={p.logo}
+              alt={p.name}
+              class:list={[p.height, p.classes, 'w-auto object-contain']}
+              loading="lazy"
+            />
+          )}
         </a>
       ))}
     </div>
