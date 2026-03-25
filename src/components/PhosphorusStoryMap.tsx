@@ -187,6 +187,18 @@ const chapters: Chapter[] = [
     nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
   },
   {
+    id: 'cadmium',
+    badge: 'HIDDEN COST',
+    title: 'Every ton of phosphate fertilizer carries a toxic passenger',
+    body: 'Phosphate rock — especially from certain source countries — contains cadmium, a carcinogenic heavy metal. Through fertilizer application, cadmium accumulates in agricultural soils, enters the food chain via cereals and vegetables, and ends up in our bodies. In France, phosphate fertilizers account for 55% of cadmium inputs to farmland.',
+    stat: { value: '~50%', label: 'of the French population shows concerning cadmium levels' },
+    source: 'ANSES, Rapport cadmium (March 2026); Le Monde, 25 March 2026',
+    mapState: { longitude: 2, latitude: 47, zoom: 5, pitch: 0, bearing: 0 },
+    layerHighlight: 'FRA',
+    layerColor: '#9b2226',
+    layerOpacity: 0.5,
+  },
+  {
     id: 'regulation',
     badge: 'REGULATION',
     title: 'Policy pressure is accelerating',
