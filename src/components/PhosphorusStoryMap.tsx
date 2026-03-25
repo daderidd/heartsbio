@@ -72,6 +72,7 @@ interface Chapter {
   nuts2Property?: string; // which property to color by (e.g. 'balance_ha', 'total_input_ha', 'locked_value_eur_ha')
   nuts2ColorScale?: [number, string][]; // [value, color] stops for interpolation
   nuts2Visible?: boolean; // whether to show NUTS2 layer for this chapter
+  nuts2Filter?: 'surplus' | 'deficit' | null; // filter to show only surplus or deficit regions
 }
 
 const chapters: Chapter[] = [
@@ -88,15 +89,39 @@ const chapters: Chapter[] = [
   {
     id: 'legacy',
     badge: 'LEGACY PHOSPHORUS',
-    title: 'Decades of surplus, buried in plain sight',
-    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove — but the picture varies dramatically by region. Whether a region has too much or too little, the core problem is the same: most soil phosphorus remains locked. In surplus areas, it\'s wasted capital. In deficit areas, every kilogram of fertilizer must work harder.',
+    title: 'The full picture: surplus and deficit side by side',
+    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove. The map reveals a stark divide — orange regions accumulate excess P, blue regions are running short. But in both cases, most soil phosphorus remains locked.',
     stat: { value: '+0.8 kg P/ha/yr', label: 'average EU surplus — accumulating every year' },
-    source: 'Sattari et al., PNAS (2012)',
+    source: 'Panagos et al., Sci. Total Environ. (2022)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
     layerOpacity: 0.5,
     nuts2Visible: true,
     nuts2Property: 'balance_ha',
     nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
+  },
+  {
+    id: 'legacy-surplus',
+    badge: 'SURPLUS REGIONS',
+    title: 'Where phosphorus is wasted capital',
+    body: 'In livestock-intensive regions like the Netherlands, Belgium, and Brittany, decades of manure and fertilizer have created massive P surpluses. This phosphorus is locked in the soil — unavailable to crops, yet representing billions in fertilizer-equivalent value.',
+    mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
+    layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Property: 'balance_ha',
+    nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
+    nuts2Filter: 'surplus' as const,
+  },
+  {
+    id: 'legacy-deficit',
+    badge: 'DEFICIT REGIONS',
+    title: 'Where every input must work harder',
+    body: 'In regions running a phosphorus deficit, crops are removing more P than is being applied. Here, improving access to locked soil phosphorus isn\'t about waste — it\'s about stretching scarce inputs and maintaining yields with less.',
+    mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
+    layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Property: 'balance_ha',
+    nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
+    nuts2Filter: 'deficit' as const,
   },
   {
     id: 'depletion',
@@ -322,6 +347,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               <Layer
                 id="nuts2-fill"
                 type="fill"
+                filter={
+                  current.nuts2Filter === 'surplus'
+                    ? ['>', ['coalesce', ['get', 'balance_ha'], 0], 0]
+                    : current.nuts2Filter === 'deficit'
+                      ? ['<', ['coalesce', ['get', 'balance_ha'], 0], 0]
+                      : ['has', 'id']
+                }
                 paint={{
                   'fill-color': current.nuts2ColorScale
                     ? [
@@ -337,6 +369,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               <Layer
                 id="nuts2-border"
                 type="line"
+                filter={
+                  current.nuts2Filter === 'surplus'
+                    ? ['>', ['coalesce', ['get', 'balance_ha'], 0], 0]
+                    : current.nuts2Filter === 'deficit'
+                      ? ['<', ['coalesce', ['get', 'balance_ha'], 0], 0]
+                      : ['has', 'id']
+                }
                 paint={{
                   'line-color': 'rgba(255,255,255,0.15)',
                   'line-width': 0.5,
