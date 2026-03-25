@@ -802,25 +802,34 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           fontSize: '0.6rem',
           color: 'rgba(255,255,255,0.5)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            {/* Y-axis label (rotated) */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '50px', fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', textAlign: 'right', lineHeight: 1.2 }}>
-              <span>More<br/>locked</span>
-              <span>Less<br/>locked</span>
+          {/* Grid layout: y-label | grid | nothing, nothing | x-labels */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto 56px', gridTemplateRows: 'auto auto', columnGap: '6px', rowGap: '3px', alignItems: 'center' }}>
+            {/* Y-axis label */}
+            <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', textAlign: 'right', lineHeight: 1.2 }}>
+              <div>More</div>
+              <div>locked</div>
             </div>
-            {/* 2×2 grid */}
-            <div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', width: '50px' }}>
-                <div style={{ background: BIVARIATE_COLORS['high-deficit'], height: '24px', borderRadius: '3px 0 0 0' }} />
-                <div style={{ background: BIVARIATE_COLORS['high-surplus'], height: '24px', borderRadius: '0 3px 0 0' }} />
-                <div style={{ background: BIVARIATE_COLORS['low-deficit'], height: '24px', borderRadius: '0 0 0 3px' }} />
-                <div style={{ background: BIVARIATE_COLORS['low-surplus'], height: '24px', borderRadius: '0 0 3px 0' }} />
-              </div>
-              {/* X-axis label */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', marginTop: '0.2rem' }}>
-                <span>Deficit</span>
-                <span>Surplus</span>
-              </div>
+            {/* Top row of 2×2 */}
+            <div style={{ display: 'flex', gap: '2px' }}>
+              <div style={{ background: BIVARIATE_COLORS['high-deficit'], width: '27px', height: '24px', borderRadius: '3px 0 0 0' }} />
+              <div style={{ background: BIVARIATE_COLORS['high-surplus'], width: '27px', height: '24px', borderRadius: '0 3px 0 0' }} />
+            </div>
+            {/* Y-axis label bottom */}
+            <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', textAlign: 'right', lineHeight: 1.2 }}>
+              <div>Less</div>
+              <div>locked</div>
+            </div>
+            {/* Bottom row of 2×2 */}
+            <div style={{ display: 'flex', gap: '2px' }}>
+              <div style={{ background: BIVARIATE_COLORS['low-deficit'], width: '27px', height: '24px', borderRadius: '0 0 0 3px' }} />
+              <div style={{ background: BIVARIATE_COLORS['low-surplus'], width: '27px', height: '24px', borderRadius: '0 0 3px 0' }} />
+            </div>
+            {/* Empty cell under y-axis */}
+            <div />
+            {/* X-axis labels */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)' }}>
+              <span>Deficit</span>
+              <span>Surplus</span>
             </div>
           </div>
           <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.4rem' }}>
