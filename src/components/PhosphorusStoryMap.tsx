@@ -283,10 +283,10 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
           scrollZoom={false}
-          dragPan={false}
+          dragPan={!!current.nuts2Visible}
           dragRotate={false}
-          doubleClickZoom={false}
-          touchZoomRotate={false}
+          doubleClickZoom={!!current.nuts2Visible}
+          touchZoomRotate={!!current.nuts2Visible}
           onMouseMove={onMapHover}
           onMouseLeave={() => setHoveredRegion(null)}
           interactiveLayerIds={current.nuts2Visible ? ['nuts2-fill'] : []}
