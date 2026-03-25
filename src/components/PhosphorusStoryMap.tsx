@@ -73,6 +73,7 @@ interface Chapter {
   nuts2ColorScale?: [number, string][]; // [value, color] stops for interpolation
   nuts2Visible?: boolean; // whether to show NUTS2 layer for this chapter
   nuts2Filter?: 'surplus' | 'deficit' | null; // filter to show only surplus or deficit regions
+  nuts2Bivariate?: boolean; // use bivariate stock×flux coloring
 }
 
 const chapters: Chapter[] = [
@@ -87,10 +88,23 @@ const chapters: Chapter[] = [
     layerOpacity: 0.6,
   },
   {
+    id: 'stock',
+    badge: 'THE STOCK',
+    title: 'A fortune locked underground',
+    body: 'European agricultural topsoils hold on average 1,412 kg of phosphorus per hectare — but how much of that is accessible? The ratio of total to available P varies dramatically: from 11× in the Netherlands to 32× in Slovenia. The higher the ratio, the more phosphorus is trapped.',
+    stat: { value: '1,412 kg P/ha', label: 'average topsoil stock — most of it chemically locked' },
+    source: 'Panagos et al., Sci. Total Environ. (2022)',
+    mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 10, bearing: 0 },
+    layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Property: 'lock_ratio',
+    nuts2ColorScale: [[10, '#2d6a4f'], [15, '#52b788'], [20, '#b7c68b'], [25, '#e9c46a'], [32, '#e76f51']],
+  },
+  {
     id: 'legacy',
-    badge: 'LEGACY PHOSPHORUS',
-    title: 'The full picture: surplus and deficit side by side',
-    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove. The map reveals a stark divide — orange regions accumulate excess P, blue regions are running short. But in both cases, most soil phosphorus remains locked.',
+    badge: 'THE FLUX',
+    title: 'The annual balance: surplus and deficit side by side',
+    body: 'Now look at the annual flows. Orange regions accumulate excess P year after year. Blue regions are drawing down their reserves. But in both cases, most soil phosphorus remains locked.',
     stat: { value: '+0.8 kg P/ha/yr', label: 'average EU surplus — accumulating every year' },
     source: 'Panagos et al., Sci. Total Environ. (2022)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
@@ -426,7 +440,16 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               </div>
 
               {/* Key insight — changes based on active chapter */}
-              {current.nuts2Property === 'total_input_ha' ? (
+              {current.nuts2Property === 'lock_ratio' ? (
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: (r.lock_ratio ?? 0) > 19 ? '#e76f51' : '#52b788' }}>
+                    {r.lock_ratio ? `${r.lock_ratio}×` : 'N/A'}
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+                    total-to-available P ratio — {(r.lock_ratio ?? 0) > 19 ? 'highly locked' : 'relatively accessible'}
+                  </div>
+                </div>
+              ) : current.nuts2Property === 'total_input_ha' ? (
                 <div style={{ marginBottom: '0.5rem' }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#52b788' }}>
                     {totalInput.toFixed(1)} kg P/ha
@@ -646,7 +669,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               borderRadius: '4px',
               background: `linear-gradient(to right, ${current.nuts2ColorScale.map(([, c]) => c).join(', ')})`,
             }} />
-            <span>{current.nuts2Property === 'balance_ha' ? 'P deficit → surplus' : current.nuts2Property === 'total_input_ha' ? 'Low → High input' : 'Low → High value'}</span>
+            <span>{current.nuts2Property === 'balance_ha' ? 'P deficit → surplus' : current.nuts2Property === 'total_input_ha' ? 'Low → High input' : current.nuts2Property === 'lock_ratio' ? 'More accessible → More locked' : 'Low → High value'}</span>
           </div>
           <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', marginTop: '0.25rem' }}>
             Data: Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
