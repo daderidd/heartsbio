@@ -5,6 +5,16 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 /* ─── GeoJSON data sources ─── */
 const COUNTRIES_GEOJSON_URL = '/data/ne-countries.geojson';
 const NUTS2_GEOJSON_URL = '/data/eu-phosphorus-nuts2.geojson';
+const STOCK_COUNTRY_URL = '/data/eu-p-stock-country.geojson';
+
+/* ─── Bivariate color scheme (stock locked level × flux direction) ─── */
+const BIVARIATE_COLORS: Record<string, string> = {
+  'high-surplus': '#e76f51',  // highly locked + surplus = wasted capital (red-orange)
+  'high-deficit': '#9b2226',  // highly locked + deficit = most critical (dark red)
+  'low-surplus':  '#e9c46a',  // less locked + surplus = moderate concern (yellow)
+  'low-deficit':  '#264653',  // less locked + deficit = manageable (dark teal)
+  'unknown':      '#1a1a2e',  // no data
+};
 
 /* ─── Styles (inline to avoid Astro scoping issues with client:only) ─── */
 const styles = {
@@ -74,6 +84,8 @@ interface Chapter {
   nuts2Visible?: boolean; // whether to show NUTS2 layer for this chapter
   nuts2Filter?: 'surplus' | 'deficit' | null; // filter to show only surplus or deficit regions
   nuts2Bivariate?: boolean; // use bivariate stock×flux coloring
+  useCountryStock?: boolean; // show country-level P stock layer instead of NUTS2
+  legendLabels?: [string, string]; // [left label, right label] for the legend bar
 }
 
 const chapters: Chapter[] = [
@@ -96,9 +108,9 @@ const chapters: Chapter[] = [
     source: 'Panagos et al., Sci. Total Environ. (2022)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 10, bearing: 0 },
     layerOpacity: 0.5,
-    nuts2Visible: true,
-    nuts2Property: 'lock_ratio',
+    useCountryStock: true,
     nuts2ColorScale: [[10, '#2d6a4f'], [15, '#52b788'], [20, '#b7c68b'], [25, '#e9c46a'], [32, '#e76f51']],
+    legendLabels: ['More accessible', 'More locked'],
   },
   {
     id: 'legacy',
@@ -112,6 +124,7 @@ const chapters: Chapter[] = [
     nuts2Visible: true,
     nuts2Property: 'balance_ha',
     nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
+    legendLabels: ['P deficit', 'P surplus'],
   },
   {
     id: 'legacy-surplus',
@@ -124,6 +137,7 @@ const chapters: Chapter[] = [
     nuts2Property: 'balance_ha',
     nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
     nuts2Filter: 'surplus' as const,
+    legendLabels: ['P deficit', 'P surplus'],
   },
   {
     id: 'legacy-deficit',
@@ -136,6 +150,17 @@ const chapters: Chapter[] = [
     nuts2Property: 'balance_ha',
     nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
     nuts2Filter: 'deficit' as const,
+    legendLabels: ['P deficit', 'P surplus'],
+  },
+  {
+    id: 'bivariate',
+    badge: 'THE FULL PICTURE',
+    title: 'Stock meets flux: four realities of phosphorus in Europe',
+    body: 'Combining the locked P stock with the annual balance reveals four distinct situations — each requiring a different strategy, but all pointing to the same need: better access to soil phosphorus.',
+    mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
+    layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Bivariate: true,
   },
   {
     id: 'depletion',
@@ -219,6 +244,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
   const [activeChapter, setActiveChapter] = useState(0);
   const [countriesGeoJSON, setCountriesGeoJSON] = useState<any>(null);
   const [nuts2GeoJSON, setNuts2GeoJSON] = useState<any>(null);
+  const [stockCountryGeoJSON, setStockCountryGeoJSON] = useState<any>(null);
   const [hoveredRegion, setHoveredRegion] = useState<any>(null);
   const [showMethodology, setShowMethodology] = useState(false);
   const mapRef = useRef<MapRef>(null);
@@ -240,6 +266,10 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
         console.log('[PhosphorusStoryMap] NUTS2 GeoJSON loaded:', data.features?.length, 'features');
         setNuts2GeoJSON(data);
       })
+      .catch((err) => console.error('[PhosphorusStoryMap] Failed to load NUTS2:', err));
+    fetch(STOCK_COUNTRY_URL)
+      .then((res) => res.json())
+      .then((data) => setStockCountryGeoJSON(data))
       .catch((err) => console.error('[PhosphorusStoryMap] Failed to load NUTS2:', err));
   }, []);
 
@@ -322,13 +352,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
           scrollZoom={false}
-          dragPan={!!current.nuts2Visible}
+          dragPan={!!(current.nuts2Visible || current.useCountryStock)}
           dragRotate={false}
           doubleClickZoom={!!current.nuts2Visible}
           touchZoomRotate={!!current.nuts2Visible}
           onMouseMove={onMapHover}
           onMouseLeave={() => setHoveredRegion(null)}
-          interactiveLayerIds={current.nuts2Visible ? ['nuts2-fill'] : []}
+          interactiveLayerIds={current.nuts2Visible ? ['nuts2-fill'] : current.useCountryStock ? ['stock-country-fill'] : []}
           attributionControl={true}
         >
           {countriesGeoJSON && (
@@ -356,6 +386,35 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               />
             </Source>
           )}
+          {/* Country-level P stock layer */}
+          {stockCountryGeoJSON && current.useCountryStock && (
+            <Source id="stock-country" type="geojson" data={stockCountryGeoJSON}>
+              <Layer
+                id="stock-country-fill"
+                type="fill"
+                paint={{
+                  'fill-color': current.nuts2ColorScale
+                    ? [
+                        'interpolate',
+                        ['linear'],
+                        ['coalesce', ['get', 'lock_ratio'], 0],
+                        ...current.nuts2ColorScale.flat(),
+                      ]
+                    : '#7cc98a',
+                  'fill-opacity': 0.7,
+                }}
+              />
+              <Layer
+                id="stock-country-border"
+                type="line"
+                paint={{
+                  'line-color': 'rgba(255,255,255,0.3)',
+                  'line-width': 1,
+                }}
+              />
+            </Source>
+          )}
+          {/* NUTS2-level layers */}
           {nuts2GeoJSON && current.nuts2Visible && (
             <Source id="nuts2" type="geojson" data={nuts2GeoJSON}>
               <Layer
@@ -369,14 +428,24 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                       : ['has', 'id']
                 }
                 paint={{
-                  'fill-color': current.nuts2ColorScale
+                  'fill-color': current.nuts2Bivariate
                     ? [
-                        'interpolate',
-                        ['linear'],
-                        ['coalesce', ['get', current.nuts2Property || 'balance_ha'], 0],
-                        ...current.nuts2ColorScale.flat(),
+                        'match',
+                        ['get', 'bivariate'],
+                        'high-surplus', BIVARIATE_COLORS['high-surplus'],
+                        'high-deficit', BIVARIATE_COLORS['high-deficit'],
+                        'low-surplus', BIVARIATE_COLORS['low-surplus'],
+                        'low-deficit', BIVARIATE_COLORS['low-deficit'],
+                        BIVARIATE_COLORS['unknown'],
                       ]
-                    : '#7cc98a',
+                    : current.nuts2ColorScale
+                      ? [
+                          'interpolate',
+                          ['linear'],
+                          ['coalesce', ['get', current.nuts2Property || 'balance_ha'], 0],
+                          ...current.nuts2ColorScale.flat(),
+                        ]
+                      : '#7cc98a',
                   'fill-opacity': 0.7,
                 }}
               />
@@ -399,7 +468,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           )}
         </Map>
         {/* Hover tooltip for NUTS2 regions */}
-        {hoveredRegion && current.nuts2Visible && (() => {
+        {hoveredRegion && (current.nuts2Visible || current.useCountryStock) && (() => {
           const r = hoveredRegion;
           const balance = r.balance_ha ?? 0;
           const isSurplus = balance > 0;
@@ -413,7 +482,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
             NL: 'Netherlands', PL: 'Poland', PT: 'Portugal', RO: 'Romania', SE: 'Sweden',
             SI: 'Slovenia', SK: 'Slovakia', UK: 'United Kingdom',
           };
-          const country = countryNames[countryCode] || countryCode;
+          const country = r.name || countryNames[countryCode] || countryCode;
 
           return (
             <div style={{
@@ -440,7 +509,33 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               </div>
 
               {/* Key insight — changes based on active chapter */}
-              {current.nuts2Property === 'lock_ratio' ? (
+              {current.nuts2Bivariate ? (
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <div style={{
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    color: BIVARIATE_COLORS[r.bivariate] || '#888',
+                    padding: '0.25rem 0.5rem',
+                    background: 'rgba(255,255,255,0.05)',
+                    borderRadius: '0.25rem',
+                    display: 'inline-block',
+                    marginBottom: '0.25rem',
+                  }}>
+                    {r.bivariate === 'high-surplus' ? 'Highly locked + surplus'
+                      : r.bivariate === 'high-deficit' ? 'Highly locked + deficit'
+                      : r.bivariate === 'low-surplus' ? 'Less locked + surplus'
+                      : r.bivariate === 'low-deficit' ? 'Less locked + deficit'
+                      : 'No data'}
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.4 }}>
+                    {r.bivariate === 'high-surplus' ? 'Wasted capital — massive P reserves being added to, barely accessible'
+                      : r.bivariate === 'high-deficit' ? 'Critical — highly locked reserves being depleted'
+                      : r.bivariate === 'low-surplus' ? 'Building up — relatively accessible P with continued surplus'
+                      : r.bivariate === 'low-deficit' ? 'Drawing down — but more P is accessible to crops'
+                      : ''}
+                  </div>
+                </div>
+              ) : (current.useCountryStock || current.nuts2Property === 'lock_ratio') ? (
                 <div style={{ marginBottom: '0.5rem' }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700, color: (r.lock_ratio ?? 0) > 19 ? '#e76f51' : '#52b788' }}>
                     {r.lock_ratio ? `${r.lock_ratio}×` : 'N/A'}
@@ -648,7 +743,8 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
       )}
 
       {/* NUTS2 color legend */}
-      {current.nuts2Visible && current.nuts2ColorScale && (
+      {/* Legend — gradient bar or bivariate grid */}
+      {(current.nuts2Visible || current.useCountryStock) && current.nuts2ColorScale && (
         <div style={{
           position: 'fixed',
           bottom: '2rem',
@@ -659,20 +755,57 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           borderRadius: '0.5rem',
           padding: '0.5rem 0.75rem',
           zIndex: 10,
-          fontSize: '0.7rem',
+          fontSize: '0.65rem',
           color: 'rgba(255,255,255,0.6)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{
-              width: '80px',
-              height: '8px',
-              borderRadius: '4px',
-              background: `linear-gradient(to right, ${current.nuts2ColorScale.map(([, c]) => c).join(', ')})`,
-            }} />
-            <span>{current.nuts2Property === 'balance_ha' ? 'P deficit → surplus' : current.nuts2Property === 'total_input_ha' ? 'Low → High input' : current.nuts2Property === 'lock_ratio' ? 'More accessible → More locked' : 'Low → High value'}</span>
+          <div style={{
+            width: '100px',
+            height: '8px',
+            borderRadius: '4px',
+            background: `linear-gradient(to right, ${current.nuts2ColorScale.map(([, c]) => c).join(', ')})`,
+          }} />
+          {current.legendLabels && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.2rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.45)' }}>
+              <span>{current.legendLabels[0]}</span>
+              <span>{current.legendLabels[1]}</span>
+            </div>
+          )}
+          <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.3rem' }}>
+            Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
           </div>
-          <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', marginTop: '0.25rem' }}>
-            Data: Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
+        </div>
+      )}
+      {/* Bivariate legend */}
+      {current.nuts2Bivariate && (
+        <div style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          background: 'rgba(0,0,0,0.7)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '0.5rem',
+          padding: '0.75rem',
+          zIndex: 10,
+          fontSize: '0.6rem',
+          color: 'rgba(255,255,255,0.5)',
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', width: '80px', marginBottom: '0.4rem' }}>
+            <div style={{ background: BIVARIATE_COLORS['high-deficit'], height: '20px', borderRadius: '2px 0 0 0' }} />
+            <div style={{ background: BIVARIATE_COLORS['high-surplus'], height: '20px', borderRadius: '0 2px 0 0' }} />
+            <div style={{ background: BIVARIATE_COLORS['low-deficit'], height: '20px', borderRadius: '0 0 0 2px' }} />
+            <div style={{ background: BIVARIATE_COLORS['low-surplus'], height: '20px', borderRadius: '0 0 2px 0' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.55rem' }}>
+            <span>Deficit</span>
+            <span>Surplus</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.55rem', marginTop: '0.15rem' }}>
+            <span>↓ Less locked</span>
+            <span>↑ More locked</span>
+          </div>
+          <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.3rem' }}>
+            Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
           </div>
         </div>
       )}
