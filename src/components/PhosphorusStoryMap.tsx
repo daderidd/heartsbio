@@ -605,12 +605,14 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 </div>
               )}
 
-              {/* Bottom context — country-specific if available */}
-              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>
-                {r.lock_ratio
-                  ? `~${100 - Math.round(100 / r.lock_ratio)}% of soil P is unavailable to crops in ${country}`
-                  : '~94% of soil P is unavailable to crops (EU average)'}
-              </div>
+              {/* Bottom context — only show when main content doesn't already cover availability */}
+              {!current.useCountryStock && !current.nuts2Bivariate && (
+                <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>
+                  {r.lock_ratio
+                    ? `~${100 - Math.round(100 / r.lock_ratio)}% of soil P is unavailable in ${country}`
+                    : '~94% of soil P is unavailable to crops (EU avg)'}
+                </div>
+              )}
             </div>
           );
         })()}
