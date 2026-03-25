@@ -521,42 +521,54 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               </div>
 
               {/* Key insight — changes based on active chapter */}
-              {current.nuts2Bivariate ? (
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <div style={{
-                    fontSize: '0.8rem',
-                    fontWeight: 700,
-                    color: BIVARIATE_COLORS[r.bivariate] || '#888',
-                    padding: '0.25rem 0.5rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    borderRadius: '0.25rem',
-                    display: 'inline-block',
-                    marginBottom: '0.25rem',
-                  }}>
-                    {r.bivariate === 'high-surplus' ? 'Highly locked + surplus'
-                      : r.bivariate === 'high-deficit' ? 'Highly locked + deficit'
-                      : r.bivariate === 'low-surplus' ? 'Less locked + surplus'
-                      : r.bivariate === 'low-deficit' ? 'Less locked + deficit'
-                      : 'No data'}
+              {current.nuts2Bivariate ? (() => {
+                const availPct = r.lock_ratio ? Math.round(100 / r.lock_ratio) : null;
+                const bal = r.balance_ha ?? 0;
+                const interpretation = r.bivariate === 'high-surplus'
+                  ? 'P is piling up and barely accessible — wasted capital'
+                  : r.bivariate === 'high-deficit'
+                    ? 'Reserves are depleting and hard to access — most critical'
+                    : r.bivariate === 'low-surplus'
+                      ? 'P is building up and relatively accessible — manageable'
+                      : r.bivariate === 'low-deficit'
+                        ? 'Reserves are depleting, but more P is accessible to crops'
+                        : '';
+                return (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700, color: availPct != null && availPct <= 5 ? '#e76f51' : '#52b788' }}>
+                          {availPct != null ? `${availPct}%` : 'N/A'}
+                        </div>
+                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>plant-available</div>
+                      </div>
+                      <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700, color: bal > 0 ? '#f4a261' : '#0077b6' }}>
+                          {bal > 0 ? '+' : ''}{bal.toFixed(1)}
+                        </div>
+                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>kg P/ha/yr balance</div>
+                      </div>
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.4, fontStyle: 'italic' }}>
+                      {interpretation}
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.4 }}>
-                    {r.bivariate === 'high-surplus' ? 'Wasted capital — massive P reserves being added to, barely accessible'
-                      : r.bivariate === 'high-deficit' ? 'Critical — highly locked reserves being depleted'
-                      : r.bivariate === 'low-surplus' ? 'Building up — relatively accessible P with continued surplus'
-                      : r.bivariate === 'low-deficit' ? 'Drawing down — but more P is accessible to crops'
-                      : ''}
+                );
+              })() : (current.useCountryStock || current.nuts2Property === 'lock_ratio') ? (() => {
+                const availPct = r.lock_ratio ? Math.round(100 / r.lock_ratio) : null;
+                const lockedPct = availPct != null ? 100 - availPct : null;
+                return (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: (availPct ?? 0) <= 5 ? '#e76f51' : '#52b788' }}>
+                      {availPct != null ? `${availPct}% available` : 'N/A'}
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+                      {lockedPct != null ? `${lockedPct}% locked — only 1 in ${r.lock_ratio} kg of soil P is usable by crops` : ''}
+                    </div>
                   </div>
-                </div>
-              ) : (current.useCountryStock || current.nuts2Property === 'lock_ratio') ? (
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: (r.lock_ratio ?? 0) > 19 ? '#e76f51' : '#52b788' }}>
-                    {r.lock_ratio ? `${r.lock_ratio}×` : 'N/A'}
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
-                    total-to-available P ratio — {(r.lock_ratio ?? 0) > 19 ? 'highly locked' : 'relatively accessible'}
-                  </div>
-                </div>
-              ) : current.nuts2Property === 'total_input_ha' ? (
+                );
+              })() : current.nuts2Property === 'total_input_ha' ? (
                 <div style={{ marginBottom: '0.5rem' }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#52b788' }}>
                     {totalInput.toFixed(1)} kg P/ha
@@ -593,9 +605,11 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 </div>
               )}
 
-              {/* Bottom context */}
+              {/* Bottom context — country-specific if available */}
               <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>
-                ~94% of soil P is unavailable to crops
+                {r.lock_ratio
+                  ? `~${100 - Math.round(100 / r.lock_ratio)}% of soil P is unavailable to crops in ${country}`
+                  : '~94% of soil P is unavailable to crops (EU average)'}
               </div>
             </div>
           );
