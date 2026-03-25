@@ -89,7 +89,7 @@ const chapters: Chapter[] = [
     id: 'legacy',
     badge: 'LEGACY PHOSPHORUS',
     title: 'Decades of surplus, buried in plain sight',
-    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove. The data reveals stark regional differences — from heavy surpluses in livestock-intensive regions to deficits elsewhere. Across the EU, an average surplus of 0.8 kg P/ha/yr continues to accumulate in soils.',
+    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove — but the picture varies dramatically by region. Whether a region has too much or too little, the core problem is the same: most soil phosphorus remains locked. In surplus areas, it\'s wasted capital. In deficit areas, every kilogram of fertilizer must work harder.',
     stat: { value: '+0.8 kg P/ha/yr', label: 'average EU surplus — accumulating every year' },
     source: 'Sattari et al., PNAS (2012)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
