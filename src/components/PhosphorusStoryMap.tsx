@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Map, { Source, Layer, type MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-/* ─── GeoJSON country boundaries (vendored locally) ─── */
+/* ─── GeoJSON data sources ─── */
 const COUNTRIES_GEOJSON_URL = '/data/ne-countries.geojson';
-const NL_HD_GEOJSON_URL = '/data/ne-netherlands-hd.geojson';
+const NUTS2_GEOJSON_URL = '/data/eu-phosphorus-nuts2.geojson';
 
 /* ─── Styles (inline to avoid Astro scoping issues with client:only) ─── */
 const styles = {
@@ -69,6 +69,9 @@ interface Chapter {
   layerHighlight?: string; // country ISO codes to highlight, comma-separated
   layerColor?: string; // highlight color (default: #7cc98a)
   layerOpacity?: number;
+  nuts2Property?: string; // which property to color by (e.g. 'balance_ha', 'total_input_ha', 'locked_value_eur_ha')
+  nuts2ColorScale?: [number, string][]; // [value, color] stops for interpolation
+  nuts2Visible?: boolean; // whether to show NUTS2 layer for this chapter
 }
 
 const chapters: Chapter[] = [
@@ -77,21 +80,26 @@ const chapters: Chapter[] = [
     badge: 'THE PARADOX',
     title: 'Europe is sitting on a phosphorus fortune it cannot spend',
     body: 'Decades of fertilizer application have loaded agricultural soils across Europe with phosphorus. Yet a large share of applied P quickly becomes poorly available — bound to iron, aluminium, and calcium through sorption and precipitation.',
-    stat: { value: 'Most applied P', label: 'becomes poorly available through soil fixation' },
+    stat: { value: '€3,650/ha', label: 'average locked P value in EU soils — inaccessible to crops' },
     source: 'Hinsinger, Plant and Soil (2001); Holford, Aust. J. Soil Res. (1997)',
     mapState: { longitude: 10, latitude: 52, zoom: 3.8, pitch: 0, bearing: 0 },
     layerOpacity: 0.6,
+    nuts2Visible: true,
+    nuts2Property: 'total_input_ha',
+    nuts2ColorScale: [[0, '#1a1a2e'], [10, '#2d6a4f'], [20, '#52b788'], [40, '#95d5b2'], [60, '#fca311']],
   },
   {
     id: 'legacy',
     badge: 'LEGACY PHOSPHORUS',
     title: 'Decades of surplus, buried in plain sight',
-    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove. The surplus accumulates as "legacy phosphorus" — residual P that is often poorly accessible to crops. Globally, an estimated 12,000 Tg has built up in cropland topsoils.',
-    stat: { value: '12,000 Tg', label: 'of residual P accumulated in global cropland soils' },
+    body: 'Since the 1960s, farmers have applied far more phosphorus than crops remove. The data reveals stark regional differences — from heavy surpluses in livestock-intensive regions to deficits elsewhere. Across the EU, an average surplus of 0.8 kg P/ha/yr continues to accumulate in soils.',
+    stat: { value: '+0.8 kg P/ha/yr', label: 'average EU surplus — accumulating every year' },
     source: 'Sattari et al., PNAS (2012)',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
-    layerHighlight: 'NLD,BEL,DEU,FRA,DNK,POL,GBR,IRL,LUX,AUT,CHE,CZE,SVK,HUN,ITA,ESP,PRT,ROU,BGR,HRV,SVN,SWE,FIN,NOR,EST,LVA,LTU,GRC',
     layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Property: 'balance_ha',
+    nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
   },
   {
     id: 'depletion',
@@ -112,8 +120,10 @@ const chapters: Chapter[] = [
     stat: { value: 'Primary driver', label: 'of freshwater eutrophication worldwide' },
     source: 'Carpenter et al., PNAS (2008); Schindler et al., PNAS (2008)',
     mapState: { longitude: 18, latitude: 58, zoom: 4.2, pitch: 30, bearing: 10 },
-    layerHighlight: 'SWE,FIN,EST,LVA,LTU,POL,DEU,DNK',
     layerOpacity: 0.5,
+    nuts2Visible: true,
+    nuts2Property: 'balance_ha',
+    nuts2ColorScale: [[-25, '#023e8a'], [-10, '#0077b6'], [0, '#1a1a2e'], [5, '#e76f51'], [15, '#f4a261'], [30, '#e9c46a']],
   },
   {
     id: 'regulation',
@@ -136,6 +146,9 @@ const chapters: Chapter[] = [
     source: 'Straits Research (2024); World Bank Commodity Markets',
     mapState: { longitude: 5.5, latitude: 52.1, zoom: 7, pitch: 40, bearing: -10 },
     layerOpacity: 0.4,
+    nuts2Visible: true,
+    nuts2Property: 'locked_value_eur_ha',
+    nuts2ColorScale: [[0, '#1a1a2e'], [2000, '#2d6a4f'], [3000, '#52b788'], [4000, '#95d5b2'], [5000, '#d4a373']],
   },
 ];
 
@@ -168,12 +181,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
 
   const [activeChapter, setActiveChapter] = useState(0);
   const [countriesGeoJSON, setCountriesGeoJSON] = useState<any>(null);
-  const [nlHdGeoJSON, setNlHdGeoJSON] = useState<any>(null);
+  const [nuts2GeoJSON, setNuts2GeoJSON] = useState<any>(null);
+  const [hoveredRegion, setHoveredRegion] = useState<any>(null);
   const mapRef = useRef<MapRef>(null);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Load country boundaries GeoJSON
+  // Load GeoJSON data
   useEffect(() => {
     fetch(COUNTRIES_GEOJSON_URL)
       .then((res) => res.json())
@@ -182,10 +196,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
         setCountriesGeoJSON(data);
       })
       .catch((err) => console.error('[PhosphorusStoryMap] Failed to load countries:', err));
-    fetch(NL_HD_GEOJSON_URL)
+    fetch(NUTS2_GEOJSON_URL)
       .then((res) => res.json())
-      .then((data) => setNlHdGeoJSON(data))
-      .catch((err) => console.error('[PhosphorusStoryMap] Failed to load NL HD:', err));
+      .then((data) => {
+        console.log('[PhosphorusStoryMap] NUTS2 GeoJSON loaded:', data.features?.length, 'features');
+        setNuts2GeoJSON(data);
+      })
+      .catch((err) => console.error('[PhosphorusStoryMap] Failed to load NUTS2:', err));
   }, []);
 
   // Scroll observer — determine which chapter is in the center of the viewport
@@ -233,6 +250,20 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
 
   const current = chapters[activeChapter];
 
+  // Hover handler for NUTS2 regions
+  const onMapHover = useCallback((event: any) => {
+    const feature = event.features?.[0];
+    if (feature?.properties) {
+      setHoveredRegion({
+        ...feature.properties,
+        x: event.point.x,
+        y: event.point.y,
+      });
+    } else {
+      setHoveredRegion(null);
+    }
+  }, []);
+
   // Responsive check
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -252,7 +283,14 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           initialViewState={chapters[0].mapState}
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
-          interactive={false}
+          scrollZoom={false}
+          dragPan={false}
+          dragRotate={false}
+          doubleClickZoom={false}
+          touchZoomRotate={false}
+          onMouseMove={onMapHover}
+          onMouseLeave={() => setHoveredRegion(null)}
+          interactiveLayerIds={current.nuts2Visible ? ['nuts2-fill'] : []}
           attributionControl={true}
         >
           {countriesGeoJSON && (
@@ -280,29 +318,75 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               />
             </Source>
           )}
-          {/* High-detail Netherlands for the zoomed-in opportunity chapter */}
-          {nlHdGeoJSON && current.id === 'opportunity' && (
-            <Source id="nl-hd" type="geojson" data={nlHdGeoJSON}>
+          {nuts2GeoJSON && current.nuts2Visible && (
+            <Source id="nuts2" type="geojson" data={nuts2GeoJSON}>
               <Layer
-                id="nl-hd-fill"
+                id="nuts2-fill"
                 type="fill"
                 paint={{
-                  'fill-color': current.layerColor ?? '#7cc98a',
-                  'fill-opacity': current.layerOpacity ?? 0.5,
+                  'fill-color': current.nuts2ColorScale
+                    ? [
+                        'interpolate',
+                        ['linear'],
+                        ['coalesce', ['get', current.nuts2Property || 'balance_ha'], 0],
+                        ...current.nuts2ColorScale.flat(),
+                      ]
+                    : '#7cc98a',
+                  'fill-opacity': 0.7,
                 }}
               />
               <Layer
-                id="nl-hd-border"
+                id="nuts2-border"
                 type="line"
                 paint={{
-                  'line-color': current.layerColor ?? '#7cc98a',
-                  'line-width': 1.5,
-                  'line-opacity': 0.8,
+                  'line-color': 'rgba(255,255,255,0.15)',
+                  'line-width': 0.5,
                 }}
               />
             </Source>
           )}
         </Map>
+        {/* Hover tooltip for NUTS2 regions */}
+        {hoveredRegion && current.nuts2Visible && (
+          <div style={{
+            position: 'absolute',
+            left: hoveredRegion.x + 15,
+            top: hoveredRegion.y - 10,
+            background: 'rgba(0,0,0,0.85)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '0.5rem',
+            padding: '0.75rem 1rem',
+            color: '#fff',
+            fontSize: '0.8rem',
+            pointerEvents: 'none',
+            zIndex: 20,
+            maxWidth: '220px',
+            lineHeight: 1.4,
+          }}>
+            <div style={{ fontWeight: 700, marginBottom: '0.25rem', fontSize: '0.85rem' }}>{hoveredRegion.id}</div>
+            {hoveredRegion.fert_ha != null && (
+              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
+                Fertilizer P: <span style={{ color: '#52b788', fontWeight: 600 }}>{hoveredRegion.fert_ha} kg/ha/yr</span>
+              </div>
+            )}
+            {hoveredRegion.manure_ha != null && (
+              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
+                Manure P: <span style={{ color: '#52b788', fontWeight: 600 }}>{hoveredRegion.manure_ha} kg/ha/yr</span>
+              </div>
+            )}
+            {hoveredRegion.balance_ha != null && (
+              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
+                P balance: <span style={{ color: hoveredRegion.balance_ha > 0 ? '#f4a261' : '#0077b6', fontWeight: 600 }}>
+                  {hoveredRegion.balance_ha > 0 ? '+' : ''}{hoveredRegion.balance_ha} kg/ha/yr
+                </span>
+              </div>
+            )}
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', marginTop: '0.25rem' }}>
+              Locked P value: €{hoveredRegion.locked_value_eur_ha?.toLocaleString()}/ha
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Chapters — scrolls over the fixed map */}
@@ -376,6 +460,36 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               aria-label={`Go to: ${ch.badge}`}
             />
           ))}
+        </div>
+      )}
+
+      {/* NUTS2 color legend */}
+      {current.nuts2Visible && current.nuts2ColorScale && (
+        <div style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          background: 'rgba(0,0,0,0.7)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '0.5rem',
+          padding: '0.5rem 0.75rem',
+          zIndex: 10,
+          fontSize: '0.7rem',
+          color: 'rgba(255,255,255,0.6)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{
+              width: '80px',
+              height: '8px',
+              borderRadius: '4px',
+              background: `linear-gradient(to right, ${current.nuts2ColorScale.map(([, c]) => c).join(', ')})`,
+            }} />
+            <span>{current.nuts2Property === 'balance_ha' ? 'P deficit → surplus' : current.nuts2Property === 'total_input_ha' ? 'Low → High input' : 'Low → High value'}</span>
+          </div>
+          <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', marginTop: '0.25rem' }}>
+            Panagos et al. 2022
+          </div>
         </div>
       )}
     </div>
