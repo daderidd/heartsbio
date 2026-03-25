@@ -348,46 +348,91 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           )}
         </Map>
         {/* Hover tooltip for NUTS2 regions */}
-        {hoveredRegion && current.nuts2Visible && (
-          <div style={{
-            position: 'absolute',
-            left: hoveredRegion.x + 15,
-            top: hoveredRegion.y - 10,
-            background: 'rgba(0,0,0,0.85)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: '0.5rem',
-            padding: '0.75rem 1rem',
-            color: '#fff',
-            fontSize: '0.8rem',
-            pointerEvents: 'none',
-            zIndex: 20,
-            maxWidth: '220px',
-            lineHeight: 1.4,
-          }}>
-            <div style={{ fontWeight: 700, marginBottom: '0.25rem', fontSize: '0.85rem' }}>{hoveredRegion.id}</div>
-            {hoveredRegion.fert_ha != null && (
-              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
-                Fertilizer P: <span style={{ color: '#52b788', fontWeight: 600 }}>{hoveredRegion.fert_ha} kg/ha/yr</span>
+        {hoveredRegion && current.nuts2Visible && (() => {
+          const r = hoveredRegion;
+          const balance = r.balance_ha ?? 0;
+          const isSurplus = balance > 0;
+          const totalInput = r.total_input_ha ?? 0;
+          const countryCode = (r.id || '').slice(0, 2);
+          const countryNames: Record<string, string> = {
+            AT: 'Austria', BE: 'Belgium', BG: 'Bulgaria', CY: 'Cyprus', CZ: 'Czechia',
+            DE: 'Germany', DK: 'Denmark', EE: 'Estonia', EL: 'Greece', ES: 'Spain',
+            FI: 'Finland', FR: 'France', HR: 'Croatia', HU: 'Hungary', IE: 'Ireland',
+            IT: 'Italy', LT: 'Lithuania', LU: 'Luxembourg', LV: 'Latvia', MT: 'Malta',
+            NL: 'Netherlands', PL: 'Poland', PT: 'Portugal', RO: 'Romania', SE: 'Sweden',
+            SI: 'Slovenia', SK: 'Slovakia', UK: 'United Kingdom',
+          };
+          const country = countryNames[countryCode] || countryCode;
+
+          return (
+            <div style={{
+              position: 'absolute',
+              left: Math.min(r.x + 15, (typeof window !== 'undefined' ? window.innerWidth - 260 : 500)),
+              top: r.y - 10,
+              background: 'rgba(0,0,0,0.88)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: '0.75rem',
+              padding: '1rem 1.25rem',
+              color: '#fff',
+              fontSize: '0.8rem',
+              pointerEvents: 'none',
+              zIndex: 20,
+              maxWidth: '250px',
+              lineHeight: 1.5,
+            }}>
+              {/* Region header */}
+              <div style={{ marginBottom: '0.5rem', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{country}</div>
+                <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>Region {r.id}</div>
               </div>
-            )}
-            {hoveredRegion.manure_ha != null && (
-              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
-                Manure P: <span style={{ color: '#52b788', fontWeight: 600 }}>{hoveredRegion.manure_ha} kg/ha/yr</span>
+
+              {/* Key insight — changes based on active chapter */}
+              {current.nuts2Property === 'total_input_ha' ? (
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#52b788' }}>
+                    {totalInput.toFixed(1)} kg P/ha
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+                    phosphorus applied per year
+                  </div>
+                  {r.fert_ha != null && r.manure_ha != null && (
+                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.35rem', fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)' }}>
+                      <span>{r.fert_ha} fertilizer</span>
+                      <span>{r.manure_ha} manure</span>
+                    </div>
+                  )}
+                </div>
+              ) : current.nuts2Property === 'balance_ha' ? (
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: isSurplus ? '#f4a261' : '#0077b6' }}>
+                    {isSurplus ? '+' : ''}{balance.toFixed(1)} kg P/ha/yr
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+                    {isSurplus
+                      ? 'surplus — more P added than crops remove'
+                      : 'deficit — crops removing more P than added'}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#d4a373' }}>
+                    €{(r.locked_value_eur_ha ?? 0).toLocaleString()}/ha
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+                    locked phosphorus value (fertilizer-equivalent)
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom context */}
+              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>
+                ~94% of soil P is unavailable to crops
               </div>
-            )}
-            {hoveredRegion.balance_ha != null && (
-              <div style={{ color: 'rgba(255,255,255,0.7)' }}>
-                P balance: <span style={{ color: hoveredRegion.balance_ha > 0 ? '#f4a261' : '#0077b6', fontWeight: 600 }}>
-                  {hoveredRegion.balance_ha > 0 ? '+' : ''}{hoveredRegion.balance_ha} kg/ha/yr
-                </span>
-              </div>
-            )}
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', marginTop: '0.25rem' }}>
-              Locked P value: €{hoveredRegion.locked_value_eur_ha?.toLocaleString()}/ha
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
 
       {/* Chapters — scrolls over the fixed map */}
