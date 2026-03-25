@@ -181,6 +181,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
   const [countriesGeoJSON, setCountriesGeoJSON] = useState<any>(null);
   const [nuts2GeoJSON, setNuts2GeoJSON] = useState<any>(null);
   const [hoveredRegion, setHoveredRegion] = useState<any>(null);
+  const [showMethodology, setShowMethodology] = useState(false);
   const mapRef = useRef<MapRef>(null);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -462,11 +463,89 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
               </p>
 
               {ch.stat && (
-                <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0.75rem', padding: '1rem', marginBottom: '0.75rem' }}>
-                  <div style={{ fontSize: isMobile ? '1.5rem' : '1.875rem', fontWeight: 700, color: '#7cc98a', fontFamily: 'Manrope, sans-serif' }}>
-                    {ch.stat.value}
+                <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0.75rem', padding: '1rem', marginBottom: '0.75rem', position: 'relative' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                    <div style={{ fontSize: isMobile ? '1.5rem' : '1.875rem', fontWeight: 700, color: '#7cc98a', fontFamily: 'Manrope, sans-serif' }}>
+                      {ch.stat.value}
+                    </div>
+                    {ch.id === 'paradox' && (
+                      <button
+                        onClick={() => setShowMethodology(!showMethodology)}
+                        style={{
+                          background: 'rgba(255,255,255,0.1)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          borderRadius: '50%',
+                          width: '20px',
+                          height: '20px',
+                          color: 'rgba(255,255,255,0.5)',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontStyle: 'italic',
+                          fontFamily: 'Georgia, serif',
+                          flexShrink: 0,
+                        }}
+                        aria-label="Show calculation methodology"
+                      >
+                        i
+                      </button>
+                    )}
                   </div>
                   <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>{ch.stat.label}</div>
+
+                  {/* Multi-scale equivalents for the paradox slide */}
+                  {ch.id === 'paradox' && (
+                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ flex: 1, textAlign: 'center' }}>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>€365K</div>
+                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>per 100 ha farm</div>
+                      </div>
+                      <div style={{ width: '1px', background: 'rgba(255,255,255,0.08)' }} />
+                      <div style={{ flex: 1, textAlign: 'center' }}>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>~€630B</div>
+                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>across EU farmland</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Methodology popup */}
+                  {ch.id === 'paradox' && showMethodology && (
+                    <div style={{
+                      marginTop: '0.75rem',
+                      padding: '1rem',
+                      background: 'rgba(0,0,0,0.6)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '0.5rem',
+                      fontSize: '0.75rem',
+                      lineHeight: 1.6,
+                      color: 'rgba(255,255,255,0.7)',
+                    }}>
+                      <div style={{ fontWeight: 700, color: '#fff', marginBottom: '0.5rem', fontSize: '0.8rem' }}>How we calculated this</div>
+                      <table style={{ width: '100%', fontSize: '0.7rem', borderCollapse: 'collapse' }}>
+                        <tbody>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Mean topsoil P stock (0–20 cm)</td><td style={{ textAlign: 'right', fontWeight: 600 }}>1,412 kg P/ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Plant-available fraction</td><td style={{ textAlign: 'right', fontWeight: 600 }}>~6% (ratio 1:17)</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Locked (unavailable) P</td><td style={{ textAlign: 'right', fontWeight: 600 }}>1,327 kg P/ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', borderTop: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}>DAP price benchmark</td><td style={{ textAlign: 'right', fontWeight: 600, borderTop: '1px solid rgba(255,255,255,0.1)' }}>~€2.75/kg P</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>Fertilizer-equivalent value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>€3,650/ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>EU agricultural land</td><td style={{ textAlign: 'right', fontWeight: 600 }}>~173M ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>EU-wide locked P value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>~€630B</td></tr>
+                        </tbody>
+                      </table>
+                      <div style={{ marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
+                        <strong>Note:</strong> This is a fertilizer-equivalent estimate. Not all locked P is economically recoverable. DAP prices fluctuate. Value represents what it would cost to replace this P with commercial fertilizer.
+                      </div>
+                      <div style={{ marginTop: '0.5rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)' }}>
+                        P stock data: Panagos, P., Köninger, J., Ballabio, C., Liakos, L., Muntwyler, A., Borrelli, P. and Lugato, E., 2022. Improving the phosphorus budget of European agricultural soils. <em>Sci. Total Environ.</em>, 853: 158706. <a href="https://doi.org/10.1016/j.scitotenv.2022.158706" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(124,201,138,0.7)' }}>DOI: 10.1016/j.scitotenv.2022.158706</a>
+                      </div>
+                      <div style={{ marginTop: '0.25rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)' }}>
+                        Price data: World Bank Commodity Price Data (Pink Sheet)
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -531,7 +610,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
             <span>{current.nuts2Property === 'balance_ha' ? 'P deficit → surplus' : current.nuts2Property === 'total_input_ha' ? 'Low → High input' : 'Low → High value'}</span>
           </div>
           <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', marginTop: '0.25rem' }}>
-            Panagos et al. 2022
+            Data: Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
           </div>
         </div>
       )}
