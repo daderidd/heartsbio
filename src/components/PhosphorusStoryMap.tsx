@@ -115,7 +115,7 @@ const chapters: Chapter[] = [
     id: 'legacy-deficit',
     badge: 'DEFICIT REGIONS',
     title: 'Where every input must work harder',
-    body: 'In regions running a phosphorus deficit, crops are removing more P than is being applied. Here, improving access to locked soil phosphorus isn\'t about waste — it\'s about stretching scarce inputs and maintaining yields with less.',
+    body: 'These regions apply less phosphorus than crops remove each year — drawing down the P reserves built up over past decades. Crops still grow, but the soil bank balance is shrinking. Here, improving access to locked soil phosphorus isn\'t about waste — it\'s about keeping yields strong as reserves deplete.',
     mapState: { longitude: 12, latitude: 50, zoom: 4.2, pitch: 20, bearing: -5 },
     layerOpacity: 0.5,
     nuts2Visible: true,
