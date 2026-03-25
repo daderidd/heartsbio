@@ -487,7 +487,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           const totalInput = r.total_input_ha ?? 0;
           const countryCode = (r.id || '').slice(0, 2);
           const countryNames: Record<string, string> = {
-            AT: 'Austria', BE: 'Belgium', BG: 'Bulgaria', CY: 'Cyprus', CZ: 'Czechia',
+            AT: 'Austria', BE: 'Belgium', BL: 'Belgium', BG: 'Bulgaria', CY: 'Cyprus', CZ: 'Czechia',
             DE: 'Germany', DK: 'Denmark', EE: 'Estonia', EL: 'Greece', ES: 'Spain',
             FI: 'Finland', FR: 'France', HR: 'Croatia', HU: 'Hungary', IE: 'Ireland',
             IT: 'Italy', LT: 'Lithuania', LU: 'Luxembourg', LV: 'Latvia', MT: 'Malta',
@@ -797,26 +797,33 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
           backdropFilter: 'blur(8px)',
           border: '1px solid rgba(255,255,255,0.1)',
           borderRadius: '0.5rem',
-          padding: '0.75rem',
+          padding: '0.75rem 1rem',
           zIndex: 10,
           fontSize: '0.6rem',
           color: 'rgba(255,255,255,0.5)',
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', width: '80px', marginBottom: '0.4rem' }}>
-            <div style={{ background: BIVARIATE_COLORS['high-deficit'], height: '20px', borderRadius: '2px 0 0 0' }} />
-            <div style={{ background: BIVARIATE_COLORS['high-surplus'], height: '20px', borderRadius: '0 2px 0 0' }} />
-            <div style={{ background: BIVARIATE_COLORS['low-deficit'], height: '20px', borderRadius: '0 0 0 2px' }} />
-            <div style={{ background: BIVARIATE_COLORS['low-surplus'], height: '20px', borderRadius: '0 0 2px 0' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            {/* Y-axis label (rotated) */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '50px', fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', textAlign: 'right', lineHeight: 1.2 }}>
+              <span>More<br/>locked</span>
+              <span>Less<br/>locked</span>
+            </div>
+            {/* 2×2 grid */}
+            <div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', width: '50px' }}>
+                <div style={{ background: BIVARIATE_COLORS['high-deficit'], height: '24px', borderRadius: '3px 0 0 0' }} />
+                <div style={{ background: BIVARIATE_COLORS['high-surplus'], height: '24px', borderRadius: '0 3px 0 0' }} />
+                <div style={{ background: BIVARIATE_COLORS['low-deficit'], height: '24px', borderRadius: '0 0 0 3px' }} />
+                <div style={{ background: BIVARIATE_COLORS['low-surplus'], height: '24px', borderRadius: '0 0 3px 0' }} />
+              </div>
+              {/* X-axis label */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)', marginTop: '0.2rem' }}>
+                <span>Deficit</span>
+                <span>Surplus</span>
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.55rem' }}>
-            <span>Deficit</span>
-            <span>Surplus</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.55rem', marginTop: '0.15rem' }}>
-            <span>↓ Less locked</span>
-            <span>↑ More locked</span>
-          </div>
-          <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.3rem' }}>
+          <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.4rem' }}>
             Panagos et al., <em>Sci. Total Environ.</em> 853: 158706 (2022)
           </div>
         </div>
