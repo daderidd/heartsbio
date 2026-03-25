@@ -12,7 +12,7 @@ const BIVARIATE_COLORS: Record<string, string> = {
   'high-surplus': '#e76f51',  // highly locked + surplus = wasted capital (red-orange)
   'high-deficit': '#9b2226',  // highly locked + deficit = most critical (dark red)
   'low-surplus':  '#e9c46a',  // less locked + surplus = moderate concern (yellow)
-  'low-deficit':  '#264653',  // less locked + deficit = manageable (dark teal)
+  'low-deficit':  '#264653',  // less locked + deficit = declining reserves (dark teal)
   'unknown':      '#1a1a2e',  // no data
 };
 
@@ -525,13 +525,13 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 const availPct = r.lock_ratio ? Math.round(100 / r.lock_ratio) : null;
                 const bal = r.balance_ha ?? 0;
                 const interpretation = r.bivariate === 'high-surplus'
-                  ? 'P is piling up and barely accessible — wasted capital'
+                  ? 'Surplus building up, barely accessible'
                   : r.bivariate === 'high-deficit'
-                    ? 'Reserves are depleting and hard to access — most critical'
+                    ? 'Depleting and hard to access'
                     : r.bivariate === 'low-surplus'
-                      ? 'P is building up and relatively accessible — manageable'
+                      ? 'Surplus building up, mostly from manure'
                       : r.bivariate === 'low-deficit'
-                        ? 'Reserves are depleting, but more P is accessible to crops'
+                        ? 'Depleting, but more P is accessible'
                         : '';
                 return (
                   <div style={{ marginBottom: '0.5rem' }}>
