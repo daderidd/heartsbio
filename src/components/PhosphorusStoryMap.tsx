@@ -218,7 +218,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
             }
           });
         },
-        { threshold: 0.5, rootMargin: '-30% 0px -30% 0px' }
+        { threshold: 0.15, rootMargin: '-10% 0px -40% 0px' }
       );
       observer.observe(el);
       observers.push(observer);
