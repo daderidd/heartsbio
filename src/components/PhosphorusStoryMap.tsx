@@ -93,8 +93,8 @@ const chapters: Chapter[] = [
     id: 'paradox',
     badge: 'THE PARADOX',
     title: 'Europe is sitting on a phosphorus fortune it cannot spend',
-    body: 'Decades of fertilizer application have loaded agricultural soils across Europe with phosphorus. Yet ~94% of soil phosphorus is locked, bound to iron, aluminium, and calcium. Inaccessible to crops. The fertilizer-equivalent value of this trapped resource averages €3,650 per hectare across the EU.',
-    stat: { value: '€3,650/ha', label: 'of phosphorus locked in EU soils, invisible and inaccessible' },
+    body: 'Decades of fertilizer application have loaded agricultural soils across Europe with phosphorus. Yet up to 80% of soil phosphorus is locked, bound to iron, aluminium, and calcium. Inaccessible to crops. The fertilizer-equivalent value of this trapped resource averages ~€3,100 per hectare across the EU.',
+    stat: { value: '~€3,100/ha', label: 'of phosphorus locked in EU soils, invisible and inaccessible' },
     source: 'Panagos et al., Sci. Total Environ. (2022); Hinsinger, Plant and Soil (2001)',
     mapState: { longitude: 10, latitude: 52, zoom: 3.8, pitch: 0, bearing: 0 },
     layerOpacity: 0.6,
@@ -610,7 +610,7 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                 <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>
                   {r.lock_ratio
                     ? `~${100 - Math.round(100 / r.lock_ratio)}% of soil P is unavailable in ${country}`
-                    : '~94% of soil P is unavailable to crops (EU avg)'}
+                    : 'up to 80% of soil P is unavailable to crops (EU avg)'}
                 </div>
               )}
             </div>
@@ -685,12 +685,12 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                   {ch.id === 'paradox' && (
                     <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                       <div style={{ flex: 1, textAlign: 'center' }}>
-                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>€365K</div>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>€310K</div>
                         <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>per 100 ha farm</div>
                       </div>
                       <div style={{ width: '1px', background: 'rgba(255,255,255,0.08)' }} />
                       <div style={{ flex: 1, textAlign: 'center' }}>
-                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>~€630B</div>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7cc98a' }}>~€535B</div>
                         <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)' }}>across EU farmland</div>
                       </div>
                     </div>
@@ -712,12 +712,12 @@ export default function PhosphorusStoryMap({ mapboxToken }: Props) {
                       <table style={{ width: '100%', fontSize: '0.7rem', borderCollapse: 'collapse' }}>
                         <tbody>
                           <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Mean topsoil P stock (0–20 cm)</td><td style={{ textAlign: 'right', fontWeight: 600 }}>1,412 kg P/ha</td></tr>
-                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Plant-available fraction</td><td style={{ textAlign: 'right', fontWeight: 600 }}>~6% (ratio 1:17)</td></tr>
-                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Locked (unavailable) P</td><td style={{ textAlign: 'right', fontWeight: 600 }}>1,327 kg P/ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Plant-available fraction</td><td style={{ textAlign: 'right', fontWeight: 600 }}>~20% (~280 kg/ha)</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>Locked (unavailable) P</td><td style={{ textAlign: 'right', fontWeight: 600 }}>up to 80% (~1,130 kg/ha)</td></tr>
                           <tr><td style={{ padding: '0.2rem 0', borderTop: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}>DAP price benchmark</td><td style={{ textAlign: 'right', fontWeight: 600, borderTop: '1px solid rgba(255,255,255,0.1)' }}>~€2.75/kg P</td></tr>
-                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>Fertilizer-equivalent value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>€3,650/ha</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>Fertilizer-equivalent value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>~€3,100/ha</td></tr>
                           <tr><td style={{ padding: '0.2rem 0', color: 'rgba(255,255,255,0.5)' }}>EU agricultural land</td><td style={{ textAlign: 'right', fontWeight: 600 }}>~173M ha</td></tr>
-                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>EU-wide locked P value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>~€630B</td></tr>
+                          <tr><td style={{ padding: '0.2rem 0', color: '#7cc98a', fontWeight: 600 }}>EU-wide locked P value</td><td style={{ textAlign: 'right', fontWeight: 700, color: '#7cc98a' }}>~€535B</td></tr>
                         </tbody>
                       </table>
                       <div style={{ marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
