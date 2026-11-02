@@ -1,5 +1,77 @@
 ---
 // Problem Section — The phosphorus crisis (investor urgency)
+import { getLang } from '../../i18n';
+
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'THE OPPORTUNITY',
+    titleA: 'The world has a',
+    titleB: 'phosphorus problem',
+    intro: 'A critical nutrient is being wasted on a massive scale — creating both an environmental crisis and a market opportunity.',
+    stats: [
+      {
+        value: '80%',
+        label: 'of soil phosphorus is locked away',
+        body: 'Most phosphorus in agricultural soils is bound in organic and mineral forms that plants cannot access — decades of fertilizer application sitting unused underground.',
+      },
+      {
+        value: '$70B',
+        label: 'global phosphate fertilizer market',
+        body: '41 to 48 million tonnes applied every year, yet efficiency remains stubbornly low. Most applied phosphorus never reaches the plant.',
+      },
+      {
+        value: '70%+',
+        label: 'of global P reserves held by one country',
+        body: 'Phosphate rock has been on the EU Critical Raw Materials list since 2014. Over 70% of known reserves are concentrated in Morocco, leaving Europe structurally exposed to a single supply chain.',
+      },
+      {
+        value: '#1',
+        label: 'cause of freshwater eutrophication',
+        body: 'Phosphorus runoff from agriculture is the primary driver of algal blooms, dead zones, and water quality degradation worldwide.',
+      },
+    ],
+    closingA: 'The phosphorus is already in the soil.',
+    closingB: 'The challenge is unlocking it.',
+    sourcesLabel: 'Sources',
+    crmAct: 'EU Critical Raw Materials Act (2024)',
+    marketSource: 'Data Bridge Market Research (2024)',
+  },
+  nl: {
+    badge: 'DE MARKTKANS',
+    titleA: 'De wereld heeft een',
+    titleB: 'fosforprobleem',
+    intro: 'Een onmisbare voedingsstof wordt op grote schaal verspild. Dat zorgt voor een milieucrisis, maar ook voor een marktkans.',
+    stats: [
+      {
+        value: '80%',
+        label: 'van de bodemfosfor zit vast',
+        body: 'De meeste fosfor in landbouwgrond is gebonden in organische en minerale vormen die planten niet kunnen opnemen. De fosfor uit tientallen jaren bemesting ligt ongebruikt in de grond.',
+      },
+      {
+        value: '$ 70 mld.',
+        label: 'wereldmarkt voor fosfaatkunstmest',
+        body: 'Jaarlijks wordt 41 tot 48 miljoen ton toegepast, maar de benutting blijft hardnekkig laag. Het grootste deel van de toegediende fosfor bereikt de plant nooit.',
+      },
+      {
+        value: '70%+',
+        label: 'van de wereldwijde fosfaatreserves ligt in één land',
+        body: 'Fosfaaterts staat sinds 2014 op de EU-lijst van kritieke grondstoffen. Ruim 70% van de bekende reserves ligt in Marokko, waardoor Europa structureel afhankelijk is van één toeleveringsketen.',
+      },
+      {
+        value: 'Nr. 1',
+        label: 'oorzaak van eutrofiëring van zoet water',
+        body: 'Afspoeling van fosfor uit de landbouw is wereldwijd de belangrijkste oorzaak van algenbloei, zuurstofloze zones en achteruitgang van de waterkwaliteit.',
+      },
+    ],
+    closingA: 'De fosfor zit al in de bodem.',
+    closingB: 'De uitdaging is om die te ontsluiten.',
+    sourcesLabel: 'Bronnen',
+    crmAct: 'EU-verordening kritieke grondstoffen (2024)',
+    marketSource: 'Data Bridge Market Research (2024)',
+  },
+};
+const t = copy[lang];
 ---
 
 <section id="problem" class="relative overflow-hidden bg-dark-green text-white">
@@ -11,68 +83,42 @@
     <div class="container-custom py-20 md:py-28">
       <div class="max-w-4xl mx-auto text-center mb-16 reveal">
         <div class="inline-block mb-5 px-4 py-2 bg-white/10 rounded-full">
-          <span class="text-white/80 font-semibold text-sm tracking-wide">THE OPPORTUNITY</span>
+          <span class="text-white/80 font-semibold text-sm tracking-wide">{t.badge}</span>
         </div>
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-          The world has a <br class="hidden md:block" />
-          <span class="text-cream">phosphorus problem</span>
+          {t.titleA} <br class="hidden md:block" />
+          <span class="text-cream">{t.titleB}</span>
         </h2>
         <p class="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
-          A critical nutrient is being wasted on a massive scale — creating both an environmental crisis and a market opportunity.
+          {t.intro}
         </p>
       </div>
 
       <!-- Stats grid -->
       <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
-        <!-- Stat 1 -->
-        <div class="reveal stagger-1 group bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.08] transition-all duration-500">
-          <div class="text-5xl md:text-6xl font-display font-bold text-cream mb-3">80%</div>
-          <div class="text-lg font-semibold text-white mb-2">of soil phosphorus is locked away</div>
-          <p class="text-white/50 text-sm leading-relaxed">
-            Most phosphorus in agricultural soils is bound in organic and mineral forms that plants cannot access — decades of fertilizer application sitting unused underground.
-          </p>
-        </div>
-
-        <!-- Stat 2 -->
-        <div class="reveal stagger-2 group bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.08] transition-all duration-500">
-          <div class="text-5xl md:text-6xl font-display font-bold text-cream mb-3">€30B</div>
-          <div class="text-lg font-semibold text-white mb-2">global phosphate fertilizer market</div>
-          <p class="text-white/50 text-sm leading-relaxed">
-            41 to 48 million tonnes applied every year, yet efficiency remains stubbornly low. Most applied phosphorus never reaches the plant.
-          </p>
-        </div>
-
-        <!-- Stat 3 -->
-        <div class="reveal stagger-3 group bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.08] transition-all duration-500">
-          <div class="text-5xl md:text-6xl font-display font-bold text-cream mb-3">70%+</div>
-          <div class="text-lg font-semibold text-white mb-2">of global P reserves held by one country</div>
-          <p class="text-white/50 text-sm leading-relaxed">
-            Phosphate rock has been on the EU Critical Raw Materials list since 2014. Over 70% of known reserves are concentrated in Morocco, leaving Europe structurally exposed to a single supply chain.
-          </p>
-        </div>
-
-        <!-- Stat 4 -->
-        <div class="reveal stagger-4 group bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.08] transition-all duration-500">
-          <div class="text-5xl md:text-6xl font-display font-bold text-cream mb-3">#1</div>
-          <div class="text-lg font-semibold text-white mb-2">cause of freshwater eutrophication</div>
-          <p class="text-white/50 text-sm leading-relaxed">
-            Phosphorus runoff from agriculture is the primary driver of algal blooms, dead zones, and water quality degradation worldwide.
-          </p>
-        </div>
+        {t.stats.map((stat, i) => (
+          <div class={`reveal stagger-${i + 1} group bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.08] transition-all duration-500`}>
+            <div class="text-5xl md:text-6xl font-display font-bold text-cream mb-3">{stat.value}</div>
+            <div class="text-lg font-semibold text-white mb-2">{stat.label}</div>
+            <p class="text-white/50 text-sm leading-relaxed">
+              {stat.body}
+            </p>
+          </div>
+        ))}
       </div>
 
       <!-- Transition statement -->
       <div class="max-w-3xl mx-auto text-center mt-16 reveal">
         <p class="text-xl md:text-2xl text-white/70 leading-relaxed">
-          The phosphorus is already in the soil. <br class="hidden md:block" />
-          <span class="text-white font-semibold">The challenge is unlocking it.</span>
+          {t.closingA} <br class="hidden md:block" />
+          <span class="text-white font-semibold">{t.closingB}</span>
         </p>
       </div>
 
       <!-- Sources -->
       <div class="max-w-3xl mx-auto mt-10 pt-6 border-t border-white/10">
         <p class="text-[10px] text-white/25 leading-relaxed text-center">
-          Sources: Panagos et al., <em>Sci. Total Environ.</em> 853 (2022) · USGS Mineral Commodity Summaries (2025) · EU Critical Raw Materials Act (2024) · Hinsinger, <em>Plant and Soil</em> (2001) · Carpenter, <em>PNAS</em> (2008) · Sattari et al., <em>PNAS</em> (2012) · FAO World Fertilizer Trends and Outlook
+          {t.sourcesLabel}: Panagos et al., <em>Sci. Total Environ.</em> 853 (2022) · USGS Mineral Commodity Summaries (2025) · {t.crmAct} · Hinsinger, <em>Plant and Soil</em> (2001) · Carpenter, <em>PNAS</em> (2008) · Sattari et al., <em>PNAS</em> (2012) · FAO World Fertilizer Trends and Outlook · {t.marketSource}
         </p>
       </div>
     </div>

@@ -1,97 +1,192 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLang, localizePath, locales } from '../i18n';
+
+// Also rendered at /nl/privacy/ (see src/pages/nl/privacy.astro).
+const lang = getLang(Astro.url);
+const meta = {
+  en: {
+    title: 'Privacy Policy - HeartsBio',
+    description: 'Privacy Policy and data protection information for HeartsBio',
+    badge: 'LEGAL',
+    heading: 'Privacy Policy',
+    updated: 'Last updated',
+    back: 'Back to Home',
+  },
+  nl: {
+    title: 'Privacyverklaring | HeartsBio',
+    description: 'Privacyverklaring en informatie over gegevensbescherming van HeartsBio',
+    badge: 'JURIDISCH',
+    heading: 'Privacyverklaring',
+    updated: 'Laatst bijgewerkt',
+    back: 'Terug naar de homepage',
+  },
+}[lang];
+
+const updatedDate = new Date().toLocaleDateString(locales[lang], { year: 'numeric', month: 'long', day: 'numeric' });
+
+const h2 = 'text-2xl font-display font-bold text-black dark:text-white mb-4';
+const h3 = 'text-xl font-display font-semibold text-black dark:text-white mb-3';
+const p = 'text-black/70 dark:text-white/60';
+const ul = 'list-disc pl-6 space-y-2 text-black/70 dark:text-white/60';
+const link = 'text-dark-green dark:text-cream hover:underline';
 ---
 
-<BaseLayout title="Privacy Policy - HeartsBio" description="Privacy Policy and data protection information for HeartsBio">
+<BaseLayout title={meta.title} description={meta.description}>
   <div class="min-h-screen bg-cream dark:bg-[#1a1a1a] py-20">
     <div class="container-custom max-w-4xl">
       <div class="bg-white dark:bg-[#111] rounded-3xl p-8 md:p-12 shadow-sm">
         <!-- Header -->
         <div class="mb-8">
           <div class="inline-block mb-4 px-4 py-2 bg-dark-green/10 dark:bg-white/10 rounded-full">
-            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">LEGAL</span>
+            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{meta.badge}</span>
           </div>
           <h1 class="text-4xl md:text-5xl font-display font-bold text-black dark:text-white mb-4">
-            Privacy Policy
+            {meta.heading}
           </h1>
           <p class="text-lg text-black/70 dark:text-white/60">
-            Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {meta.updated}: {updatedDate}
           </p>
         </div>
 
         <!-- Content -->
         <div class="prose prose-lg max-w-none">
-          <h2 class="text-2xl font-display font-bold text-black mb-4">Data Collection</h2>
-          <p class="text-black/70 mb-6">
-            Currently, HeartsBio collects minimal personal information through our contact form. Any data you provide is:
-          </p>
-          <ul class="list-disc pl-6 space-y-2 text-black/70 mb-8">
-            <li>Used solely for responding to your inquiries</li>
-            <li>Stored securely with appropriate technical measures</li>
-            <li>Never shared with third parties without your explicit consent</li>
-            <li>Subject to your rights under GDPR (access, deletion, portability)</li>
-          </ul>
+          {lang === 'nl' ? (
+            <Fragment>
+              <h2 class={h2}>Verzamelen van gegevens</h2>
+              <p class:list={[p, 'mb-6']}>
+                HeartsBio verzamelt op dit moment alleen een minimum aan persoonsgegevens, via ons contactformulier. Gegevens die u verstrekt, worden:
+              </p>
+              <ul class:list={[ul, 'mb-8']}>
+                <li>uitsluitend gebruikt om op uw vragen te reageren</li>
+                <li>veilig opgeslagen met passende technische maatregelen</li>
+                <li>nooit zonder uw uitdrukkelijke toestemming met derden gedeeld</li>
+                <li>beschermd door uw rechten op grond van de AVG (inzage, verwijdering, overdraagbaarheid)</li>
+              </ul>
 
-          <h2 class="text-2xl font-display font-bold text-black mb-4">Cookies and Analytics</h2>
-          <p class="text-black/70 mb-6">
-            We use cookies to improve your browsing experience and understand how visitors interact with our website. You can manage your cookie preferences at any time through our cookie consent banner.
-          </p>
+              <h2 class={h2}>Cookies en analyse</h2>
+              <p class:list={[p, 'mb-6']}>
+                Wij gebruiken cookies om uw bezoek aan onze website te verbeteren en om te begrijpen hoe bezoekers de website gebruiken. U kunt uw cookievoorkeuren altijd aanpassen via onze cookiebanner.
+              </p>
 
-          <h3 class="text-xl font-display font-semibold text-black mb-3">Essential Cookies</h3>
-          <p class="text-black/70 mb-6">
-            These cookies are necessary for the website to function and cannot be disabled. They store your cookie consent preferences.
-          </p>
+              <h3 class={h3}>Noodzakelijke cookies</h3>
+              <p class:list={[p, 'mb-6']}>
+                Deze cookies zijn nodig om de website te laten werken en kunnen niet worden uitgeschakeld. Ze slaan uw cookievoorkeuren op.
+              </p>
 
-          <h3 class="text-xl font-display font-semibold text-black mb-3">Analytics Cookies (Google Analytics)</h3>
-          <p class="text-black/70 mb-6">
-            With your consent, we use Google Analytics to understand how visitors use our website. This helps us improve the user experience. Google Analytics:
-          </p>
-          <ul class="list-disc pl-6 space-y-2 text-black/70 mb-6">
-            <li>Anonymizes your IP address to protect your privacy</li>
-            <li>Collects information about pages visited, time spent, and interactions</li>
-            <li>Uses cookies to track visitor behavior across sessions</li>
-            <li>Stores data in accordance with Google's privacy policy</li>
-          </ul>
-          <p class="text-black/70 mb-8">
-            You can opt out of analytics cookies at any time through our cookie settings. For more information about Google Analytics privacy practices, visit{' '}
-            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-dark-green dark:text-cream hover:underline">
-              Google's Privacy Policy
-            </a>.
-          </p>
+              <h3 class={h3}>Analytische cookies (Google Analytics)</h3>
+              <p class:list={[p, 'mb-6']}>
+                Met uw toestemming gebruiken wij Google Analytics om te begrijpen hoe bezoekers onze website gebruiken. Zo kunnen we de website verbeteren. Google Analytics:
+              </p>
+              <ul class:list={[ul, 'mb-6']}>
+                <li>anonimiseert uw IP-adres om uw privacy te beschermen</li>
+                <li>verzamelt informatie over bezochte pagina's, bezoekduur en interacties</li>
+                <li>gebruikt cookies om bezoekersgedrag over meerdere bezoeken te volgen</li>
+                <li>slaat gegevens op in overeenstemming met het privacybeleid van Google</li>
+              </ul>
+              <p class:list={[p, 'mb-8']}>
+                U kunt analytische cookies altijd weigeren via onze cookie-instellingen. Meer informatie over hoe Google Analytics met privacy omgaat, vindt u in het{' '}
+                <a href="https://policies.google.com/privacy?hl=nl" target="_blank" rel="noopener noreferrer" class={link}>privacybeleid van Google</a>.
+              </p>
 
-          <h2 class="text-2xl font-display font-bold text-black mb-4">Your Rights</h2>
-          <p class="text-black/70 mb-6">
-            Under GDPR, you have the right to:
-          </p>
-          <ul class="list-disc pl-6 space-y-2 text-black/70 mb-8">
-            <li>Access your personal data</li>
-            <li>Request correction of inaccurate data</li>
-            <li>Request deletion of your data</li>
-            <li>Object to processing of your data</li>
-            <li>Request data portability</li>
-          </ul>
+              <h2 class={h2}>Uw rechten</h2>
+              <p class:list={[p, 'mb-6']}>
+                Op grond van de AVG heeft u het recht om:
+              </p>
+              <ul class:list={[ul, 'mb-8']}>
+                <li>uw persoonsgegevens in te zien</li>
+                <li>onjuiste gegevens te laten corrigeren</li>
+                <li>uw gegevens te laten verwijderen</li>
+                <li>bezwaar te maken tegen de verwerking van uw gegevens</li>
+                <li>uw gegevens over te laten dragen (dataportabiliteit)</li>
+              </ul>
 
-          <h2 class="text-2xl font-display font-bold text-black mb-4">Contact Us</h2>
-          <p class="text-black/70 mb-4">
-            For any questions about your data or to exercise your rights, please contact us:
-          </p>
-          <div class="bg-cream rounded-xl p-6">
-            <p class="text-black/70 mb-2">
-              <strong>Email:</strong> <a href="mailto:info@heartsbio.nl" class="text-dark-green dark:text-cream hover:underline">info@heartsbio.nl</a>
-            </p>
-            <p class="text-black/70">
-              <strong>Location:</strong> The Netherlands
-            </p>
-          </div>
+              <h2 class={h2}>Contact</h2>
+              <p class:list={[p, 'mb-4']}>
+                Heeft u vragen over uw gegevens of wilt u gebruikmaken van uw rechten? Neem dan contact met ons op:
+              </p>
+              <div class="bg-cream dark:bg-[#1a1a1a] rounded-xl p-6">
+                <p class:list={[p, 'mb-2']}>
+                  <strong>E-mail:</strong> <a href="mailto:info@heartsbio.nl" class={link}>info@heartsbio.nl</a>
+                </p>
+                <p class={p}>
+                  <strong>Vestiging:</strong> Nederland
+                </p>
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <h2 class={h2}>Data Collection</h2>
+              <p class:list={[p, 'mb-6']}>
+                Currently, HeartsBio collects minimal personal information through our contact form. Any data you provide is:
+              </p>
+              <ul class:list={[ul, 'mb-8']}>
+                <li>Used solely for responding to your inquiries</li>
+                <li>Stored securely with appropriate technical measures</li>
+                <li>Never shared with third parties without your explicit consent</li>
+                <li>Subject to your rights under GDPR (access, deletion, portability)</li>
+              </ul>
+
+              <h2 class={h2}>Cookies and Analytics</h2>
+              <p class:list={[p, 'mb-6']}>
+                We use cookies to improve your browsing experience and understand how visitors interact with our website. You can manage your cookie preferences at any time through our cookie consent banner.
+              </p>
+
+              <h3 class={h3}>Essential Cookies</h3>
+              <p class:list={[p, 'mb-6']}>
+                These cookies are necessary for the website to function and cannot be disabled. They store your cookie consent preferences.
+              </p>
+
+              <h3 class={h3}>Analytics Cookies (Google Analytics)</h3>
+              <p class:list={[p, 'mb-6']}>
+                With your consent, we use Google Analytics to understand how visitors use our website. This helps us improve the user experience. Google Analytics:
+              </p>
+              <ul class:list={[ul, 'mb-6']}>
+                <li>Anonymizes your IP address to protect your privacy</li>
+                <li>Collects information about pages visited, time spent, and interactions</li>
+                <li>Uses cookies to track visitor behavior across sessions</li>
+                <li>Stores data in accordance with Google's privacy policy</li>
+              </ul>
+              <p class:list={[p, 'mb-8']}>
+                You can opt out of analytics cookies at any time through our cookie settings. For more information about Google Analytics privacy practices, visit{' '}
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class={link}>Google's Privacy Policy</a>.
+              </p>
+
+              <h2 class={h2}>Your Rights</h2>
+              <p class:list={[p, 'mb-6']}>
+                Under GDPR, you have the right to:
+              </p>
+              <ul class:list={[ul, 'mb-8']}>
+                <li>Access your personal data</li>
+                <li>Request correction of inaccurate data</li>
+                <li>Request deletion of your data</li>
+                <li>Object to processing of your data</li>
+                <li>Request data portability</li>
+              </ul>
+
+              <h2 class={h2}>Contact Us</h2>
+              <p class:list={[p, 'mb-4']}>
+                For any questions about your data or to exercise your rights, please contact us:
+              </p>
+              <div class="bg-cream dark:bg-[#1a1a1a] rounded-xl p-6">
+                <p class:list={[p, 'mb-2']}>
+                  <strong>Email:</strong> <a href="mailto:info@heartsbio.nl" class={link}>info@heartsbio.nl</a>
+                </p>
+                <p class={p}>
+                  <strong>Location:</strong> The Netherlands
+                </p>
+              </div>
+            </Fragment>
+          )}
         </div>
 
         <!-- Back Link -->
-        <div class="mt-12 pt-8 border-t border-black/10">
-          <a href="/" class="inline-flex items-center gap-2 text-dark-green hover:text-green transition-colors font-semibold">
+        <div class="mt-12 pt-8 border-t border-black/10 dark:border-white/10">
+          <a href={localizePath('/', lang)} class="inline-flex items-center gap-2 text-dark-green dark:text-cream hover:text-green transition-colors font-semibold">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Back to Home
+            {meta.back}
           </a>
         </div>
       </div>

@@ -12,6 +12,12 @@ export default defineConfig({
     tailwind(),
     react(),
     mdx(),
-    sitemap(),
+    sitemap({
+      // Emits hreflang alternates linking each English page to its /nl/ twin
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', nl: 'nl' },
+      },
+    }),
   ],
 });

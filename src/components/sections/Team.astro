@@ -3,20 +3,34 @@
 import { Image } from 'astro:assets';
 import rafael from '../../assets/images/founders/rafael-detoledo.jpg';
 import eralp from '../../assets/images/founders/eralp-polat.jpg';
+import { getLang } from '../../i18n';
+
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'LEADERSHIP',
+    title: 'The Team Behind HeartsBio',
+    intro: 'Combining decades of biotech R&D expertise with global agricultural business acumen',
+    roles: ['Co-founder & CEO', 'Managing Partner'],
+    credentials: ['15+ years in agricultural biotechnology', 'Hearts Biotechnology BV'],
+    years: '220+ years',
+    yearsSub: 'of combined research experience across the team',
+  },
+  nl: {
+    badge: 'DIRECTIE',
+    title: 'Het team achter HeartsBio',
+    intro: 'Tientallen jaren biotech-R&D-expertise, gecombineerd met internationale ervaring in de agribusiness',
+    roles: ['Medeoprichter en CEO', 'Managing partner'],
+    credentials: ['Ruim 15 jaar ervaring in agrarische biotechnologie', 'Hearts Biotechnology BV'],
+    years: '220+ jaar',
+    yearsSub: 'gezamenlijke onderzoekservaring binnen het team',
+  },
+};
+const t = copy[lang];
 
 const founders = [
-  {
-    name: 'Rafael de Toledo',
-    role: 'Co-founder & CEO',
-    credential: '15+ years in agricultural biotechnology',
-    image: rafael,
-  },
-  {
-    name: 'Eralp Polat',
-    role: 'Managing Partner',
-    credential: 'Hearts Biotechnology BV',
-    image: eralp,
-  },
+  { name: 'Rafael de Toledo', role: t.roles[0], credential: t.credentials[0], image: rafael },
+  { name: 'Eralp Polat', role: t.roles[1], credential: t.credentials[1], image: eralp },
 ];
 ---
 
@@ -25,13 +39,13 @@ const founders = [
     <!-- Header -->
     <div class="text-center max-w-3xl mx-auto mb-16 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
-        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">LEADERSHIP</span>
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h2 class="text-black dark:text-white mb-4">
-        The Team Behind HeartsBio
+        {t.title}
       </h2>
       <p class="text-lg text-black/50 dark:text-white/50">
-        Combining decades of biotech R&D expertise with global agricultural business acumen
+        {t.intro}
       </p>
     </div>
 
@@ -80,8 +94,8 @@ const founders = [
             </svg>
           </div>
           <div class="text-left">
-            <div class="text-2xl font-display font-bold text-dark-green dark:text-cream leading-none">220+ years</div>
-            <div class="text-xs text-black/40 dark:text-white/30 font-medium">of combined research experience across the team</div>
+            <div class="text-2xl font-display font-bold text-dark-green dark:text-cream leading-none">{t.years}</div>
+            <div class="text-xs text-black/40 dark:text-white/30 font-medium">{t.yearsSub}</div>
           </div>
         </div>
       </div>

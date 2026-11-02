@@ -3,6 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ReferenceDot,
 } from 'recharts';
+import { locales, type Lang } from '../i18n';
 
 /* ─── Data ─── */
 const fullData = [
@@ -126,8 +127,78 @@ function useChartArea(containerRef: React.RefObject<HTMLDivElement | null>, deps
   return area;
 }
 
+/* ─── Copy per language ─── */
+// Annotation text per step, in the same order as steps[].annotations.
+const annotationText: Record<Lang, string[][]> = {
+  en: [
+    ['→ How much Fitazim was applied (none to highest dose)', '↑ How much phosphorus plants absorbed'],
+    ['Three soils tested — without Fitazim, plants access only a fraction'],
+    ['As Fitazim dose increases, phosphorus absorption rises across all soil types'],
+    ['The richest soils show the strongest response — up to +79%'],
+    ['A clear dose–performance relationship across all soil conditions'],
+    ['More available phosphorus means bigger, healthier crops'],
+  ],
+  nl: [
+    ['→ Hoeveel Fitazim er is toegediend (van niets tot de hoogste dosis)', '↑ Hoeveel fosfor de planten opnamen'],
+    ['Drie bodems getest: zonder Fitazim benutten planten maar een fractie'],
+    ['Hoe hoger de dosis Fitazim, hoe meer fosfor de planten opnemen, op elk bodemtype'],
+    ['De rijkste bodems reageren het sterkst: tot +79%'],
+    ['Een duidelijk verband tussen dosis en effect, op alle bodems'],
+    ['Meer beschikbare fosfor betekent grotere, gezondere planten'],
+  ],
+};
+
+const copy = {
+  en: {
+    badge: 'Field Trial Results',
+    title: 'How Fitazim Unlocks Soil Phosphorus',
+    subtitle: 'Independent corn growth trial · 35 days · alkaline soil',
+    measuringP: 'Measuring: Phosphorus Uptake (mg/plant)',
+    measuringDm: 'Measuring: Plant Biomass — Dry Matter (g/plant)',
+    yLabelP: 'P Uptake (mg/plant)',
+    yLabelDm: 'Dry Matter (g/plant)',
+    xLabel: 'Fitazim Dose (L/Ha)',
+    soilLabels: { '60': 'Low locked-P soil (60 ppm)', '120': 'Medium locked-P soil (120 ppm)', '240': 'High locked-P soil (240 ppm)' } as Record<string, string>,
+    doseLabel: 'Fitazim dose',
+    doses: ['None', 'Low', 'Medium', 'High'],
+    resultsTitle: 'At highest Fitazim dose vs. no treatment',
+    highSoil: 'High locked-P soil',
+    mediumSoil: 'Medium locked-P soil',
+    morePhosphorus: 'more phosphorus absorbed by plants',
+    moreBiomass: 'more crop biomass produced',
+    previous: 'Previous',
+    next: 'Next',
+    step: 'Step',
+    footnote: 'Corn growth trial · pH 7.8 alkaline soil · DAP fertilizer · 60/120/240 ppm P supply rates · Doses: 0–6 L/Ha · Mean values ± SE',
+  },
+  nl: {
+    badge: 'Resultaten groeiproef',
+    title: 'Zo ontsluit Fitazim fosfor in de bodem',
+    subtitle: 'Onafhankelijke groeiproef met maïs · 35 dagen · basische bodem',
+    measuringP: 'Gemeten: fosforopname (mg/plant)',
+    measuringDm: 'Gemeten: biomassa, droge stof (g/plant)',
+    yLabelP: 'P-opname (mg/plant)',
+    yLabelDm: 'Droge stof (g/plant)',
+    xLabel: 'Dosis Fitazim (L/ha)',
+    soilLabels: { '60': 'Weinig vastgelegde P (60 ppm)', '120': 'Gemiddeld veel vastgelegde P (120 ppm)', '240': 'Veel vastgelegde P (240 ppm)' } as Record<string, string>,
+    doseLabel: 'Dosis Fitazim',
+    doses: ['Geen', 'Laag', 'Gemiddeld', 'Hoog'],
+    resultsTitle: 'Hoogste dosis Fitazim vs. onbehandeld',
+    highSoil: 'Veel vastgelegde P',
+    mediumSoil: 'Gemiddeld veel vastgelegde P',
+    morePhosphorus: 'meer fosforopname door de plant',
+    moreBiomass: 'meer biomassa',
+    previous: 'Vorige',
+    next: 'Volgende',
+    step: 'Stap',
+    footnote: 'Groeiproef met maïs · basische bodem, pH 7,8 · bemesting met DAP · P-gift 60/120/240 ppm · Doseringen: 0–6 L/ha · Gemiddelden ± SE',
+  },
+};
+
 /* ─── Main ─── */
-const FitazimVisualization = () => {
+const FitazimVisualization = ({ lang = 'en' }: { lang?: Lang }) => {
+  const t = copy[lang];
+  const locale = locales[lang];
   const [step, setStep] = useState(0);
   const [prevStep, setPrevStep] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -206,10 +277,10 @@ const FitazimVisualization = () => {
   }, [goTo, step]);
 
   const k = (level: string) => (cur.metric === 'p' ? `p${level}` : `dm${level}`) as keyof typeof fullData[0];
-  const yLabel = cur.metric === 'p' ? 'P Uptake (mg/plant)' : 'Dry Matter (g/plant)';
+  const yLabel = cur.metric === 'p' ? t.yLabelP : t.yLabelDm;
   const unit = cur.metric === 'p' ? 'mg/plant' : 'g/plant';
 
-  const soilLabels: Record<string, string> = { '60': 'Low locked-P soil (60 ppm)', '120': 'Medium locked-P soil (120 ppm)', '240': 'High locked-P soil (240 ppm)' };
+  const soilLabels = t.soilLabels;
   const soilColors = { '60': '#93c5fd', '120': isDark ? '#6fba8a' : '#243f2e', '240': '#f59e0b' };
   const handFont = "'Virgil', 'Segoe Print', 'Comic Sans MS', cursive";
 
@@ -226,7 +297,7 @@ const FitazimVisualization = () => {
     if (!chartArea) return [];
     const centerX = chartArea.x + chartArea.width / 2;
 
-    return cur.annotations.map((ann) => {
+    return cur.annotations.map((ann, i) => {
       const hasTarget = ann.targetDose !== undefined && ann.targetValue !== undefined;
       let textX: number, textY: number, targetX = 0, targetY = 0;
 
@@ -241,7 +312,7 @@ const FitazimVisualization = () => {
         textY = chartArea.y + ann.textOffsetY;
       }
 
-      return { ...ann, textX, textY, targetX, targetY, hasTarget };
+      return { ...ann, text: annotationText[lang][step]?.[i] ?? ann.text, textX, textY, targetX, targetY, hasTarget };
     });
   };
 
@@ -252,13 +323,13 @@ const FitazimVisualization = () => {
       {/* Header */}
       <div className="max-w-5xl mx-auto mb-4 text-center">
         <div className="inline-block bg-dark-green text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
-          Field Trial Results
+          {t.badge}
         </div>
         <h2 className="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-1">
-          How Fitazim Unlocks Soil Phosphorus
+          {t.title}
         </h2>
         <p className="text-sm text-black/50 dark:text-white/50">
-          Independent corn growth trial &middot; 35 days &middot; alkaline soil
+          {t.subtitle}
         </p>
       </div>
 
@@ -270,7 +341,7 @@ const FitazimVisualization = () => {
               ? 'bg-dark-green/10 text-dark-green dark:bg-white/10 dark:text-cream'
               : 'bg-amber-50 text-amber-700'
           }`}>
-            {cur.metric === 'p' ? 'Measuring: Phosphorus Uptake (mg/plant)' : 'Measuring: Plant Biomass — Dry Matter (g/plant)'}
+            {cur.metric === 'p' ? t.measuringP : t.measuringDm}
           </div>
         </div>
 
@@ -323,7 +394,7 @@ const FitazimVisualization = () => {
                 <XAxis
                   dataKey="dose" type="number" domain={[0, 6]} ticks={[0, 2, 4, 6]}
                   stroke={axisColor} tick={{ fontSize: isMobile ? 10 : 12, fill: tickColor }}
-                  label={isMobile ? undefined : { value: 'Fitazim Dose (L/Ha)', position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: tickColor } }}
+                  label={isMobile ? undefined : { value: t.xLabel, position: 'insideBottom', offset: -18, style: { fontSize: 12, fill: tickColor } }}
                 />
                 <YAxis
                   domain={[0, yMax]} stroke={axisColor} tick={{ fontSize: isMobile ? 10 : 12, fill: tickColor }}
@@ -338,12 +409,12 @@ const FitazimVisualization = () => {
                         return (
                           <div className="bg-white/95 dark:bg-[#222]/95 backdrop-blur p-3 rounded-lg shadow-lg border border-gray-100 dark:border-white/10 text-sm">
                             <p className="font-semibold text-gray-600 mb-1">
-                              Fitazim dose: {label === 0 ? 'None' : label === 2 ? 'Low' : label === 4 ? 'Medium' : 'High'}
+                              {t.doseLabel}: {t.doses[label === 0 ? 0 : label === 2 ? 1 : label === 4 ? 2 : 3]}
                             </p>
                             {payload.map((e: any, idx: number) => (
                               <p key={idx} style={{ color: e.color }} className="flex justify-between gap-4">
                                 <span>{e.name}</span>
-                                <span className="font-semibold">{e.value.toFixed(1)} {unit}</span>
+                                <span className="font-semibold">{e.value.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} {unit}</span>
                               </p>
                             ))}
                           </div>
@@ -398,7 +469,7 @@ const FitazimVisualization = () => {
         {isMobile && (
           <div key={`mobile-text-${step}`} className="anim-note px-2 py-3 text-center">
             <p style={{ fontFamily: handFont, fontWeight: 400, fontSize: '15px', lineHeight: '1.4', color: annotationColor }}>
-              {cur.annotations[0]?.text}
+              {annotationText[lang][step]?.[0] ?? cur.annotations[0]?.text}
             </p>
           </div>
         )}
@@ -406,31 +477,31 @@ const FitazimVisualization = () => {
         {/* Results cards */}
         <div className={`overflow-hidden transition-all duration-700 ease-out ${cur.showResults ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}`}>
           <div className="pt-5 border-t border-gray-100 dark:border-white/10">
-            <p className="text-center text-xs text-black/30 dark:text-white/30 mb-4 uppercase tracking-wider font-semibold">At highest Fitazim dose vs. no treatment</p>
+            <p className="text-center text-xs text-black/30 dark:text-white/30 mb-4 uppercase tracking-wider font-semibold">{t.resultsTitle}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High locked-P soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">{t.highSoil}</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+79%</div>
-                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">{t.morePhosphorus}</p>
               </div>
               <div className="p-5 rounded-xl border border-dark-green/10 dark:border-white/20 bg-dark-green/[0.03] dark:bg-white/[0.05]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#243f2e]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">Medium locked-P soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">{t.mediumSoil}</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+71%</div>
-                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more phosphorus absorbed by plants</p>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">{t.morePhosphorus}</p>
               </div>
               <div className="p-5 rounded-xl border border-amber-200/50 bg-amber-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">High locked-P soil</span>
+                  <span className="text-xs font-semibold text-black/40 dark:text-white/40">{t.highSoil}</span>
                 </div>
                 <div className="text-3xl font-bold text-dark-green dark:text-cream mb-1">+46%</div>
-                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">more crop biomass produced</p>
+                <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">{t.moreBiomass}</p>
               </div>
             </div>
           </div>
@@ -439,18 +510,18 @@ const FitazimVisualization = () => {
         {/* Nav */}
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-white/10">
           <button onClick={() => goTo(step - 1)} disabled={step === 0}
-            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Previous">
+            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label={t.previous}>
             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
           <div className="flex items-center gap-2">
             {steps.map((_, i) => (
               <button key={i} onClick={() => goTo(i)}
                 className={`rounded-full transition-all duration-500 ${i === step ? 'w-6 h-2 bg-dark-green dark:bg-cream' : i < step ? 'w-2 h-2 bg-dark-green/30 dark:bg-cream/30' : 'w-2 h-2 bg-gray-200 dark:bg-white/20'}`}
-                aria-label={`Step ${i + 1}`} />
+                aria-label={`${t.step} ${i + 1}`} />
             ))}
           </div>
           <button onClick={() => goTo(step + 1)} disabled={step === total - 1}
-            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label="Next">
+            className="w-9 h-9 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-20 disabled:cursor-not-allowed" aria-label={t.next}>
             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -458,7 +529,7 @@ const FitazimVisualization = () => {
 
       {/* Footnote */}
       <div className="max-w-5xl mx-auto mt-3 text-center text-[10px] text-black/25 dark:text-white/20">
-        Corn growth trial &middot; pH 7.8 alkaline soil &middot; DAP fertilizer &middot; 60/120/240 ppm P supply rates &middot; Doses: 0–6 L/Ha &middot; Mean values &plusmn; SE
+        {t.footnote}
       </div>
 
       <style>{`

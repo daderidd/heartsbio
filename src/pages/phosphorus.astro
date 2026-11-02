@@ -1,40 +1,75 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhosphorusStoryMap from '../components/PhosphorusStoryMap';
+import { getLang, localizePath } from '../i18n';
+
+// Also rendered at /nl/phosphorus/ (see src/pages/nl/phosphorus.astro).
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    metaTitle: 'The Phosphorus Paradox — HeartsBio',
+    metaDescription: "Agricultural soils contain large residual phosphorus stocks, much of it poorly available. HeartsBio's enzyme technology aims to improve access to these trapped phosphorus fractions.",
+    keywords: 'phosphorus crisis, legacy phosphorus, soil phosphorus Europe, phosphate depletion, eutrophication, HeartsBio, Fitazim, Bio-Dop, sustainable agriculture, phosphorus recovery',
+    badge: 'THE PHOSPHORUS PARADOX',
+    title: 'A critical nutrient, strategically constrained — and widely wasted',
+    intro: 'Scroll to explore how phosphorus inefficiency threatens global food security — and where the opportunity lies.',
+    scrollHint: 'Scroll to explore',
+    ctaTitleA: 'The phosphorus is already in the ground.',
+    ctaTitleB: 'The question is who unlocks it.',
+    ctaBody: "HeartsBio's enzyme technology aims to improve phosphorus-use efficiency — with the potential to reduce waste, improve input efficiency, and support environmental goals.",
+    ctaProducts: 'Explore Our Products',
+    ctaContact: 'Get in Touch',
+  },
+  nl: {
+    metaTitle: 'De fosforparadox | HeartsBio',
+    metaDescription: 'Landbouwgronden bevatten grote voorraden achtergebleven fosfor, waarvan een groot deel slecht beschikbaar is. De enzymtechnologie van HeartsBio is erop gericht deze vastgelegde fosfor beter toegankelijk te maken.',
+    keywords: 'fosfor, fosfaat, fosforcrisis, fosfaatvoorraad bodem, bodemfosfor Europa, fosfaaterts, eutrofiëring, HeartsBio, Fitazim, Bio-Dop, duurzame landbouw',
+    badge: 'DE FOSFORPARADOX',
+    title: 'Een onmisbare voedingsstof: strategisch kwetsbaar en op grote schaal verspild',
+    intro: 'Scroll verder en ontdek hoe inefficiënt fosforgebruik de wereldwijde voedselzekerheid bedreigt, en waar de kansen liggen.',
+    scrollHint: 'Scroll naar beneden',
+    ctaTitleA: 'De fosfor zit al in de grond.',
+    ctaTitleB: 'De vraag is wie die ontsluit.',
+    ctaBody: 'De enzymtechnologie van HeartsBio is gericht op een betere fosforbenutting. Dat kan verspilling verminderen, meststoffen efficiënter laten werken en bijdragen aan milieudoelen.',
+    ctaProducts: 'Bekijk onze producten',
+    ctaContact: 'Neem contact op',
+  },
+};
+const t = copy[lang];
 
 const MAPBOX_TOKEN = import.meta.env.PUBLIC_MAPBOX_TOKEN;
 const hasMapboxToken = Boolean(MAPBOX_TOKEN);
 ---
 
 <BaseLayout
-  title="The Phosphorus Paradox — HeartsBio"
-  description="Agricultural soils contain large residual phosphorus stocks, much of it poorly available. HeartsBio's enzyme technology aims to improve access to these trapped phosphorus fractions."
-  keywords="phosphorus crisis, legacy phosphorus, soil phosphorus Europe, phosphate depletion, eutrophication, HeartsBio, Fitazim, Bio-Dop, sustainable agriculture, phosphorus recovery"
+  title={t.metaTitle}
+  description={t.metaDescription}
+  keywords={t.keywords}
 >
   <!-- Hero -->
   <section class="relative bg-[#111] overflow-hidden">
     <div class="container-custom pt-32 pb-12 md:pt-40 md:pb-16 text-center relative z-10">
       <div class="inline-block mb-4 px-4 py-2 bg-white/5 rounded-full">
-        <span class="text-white/60 font-semibold text-sm tracking-wide">THE PHOSPHORUS PARADOX</span>
+        <span class="text-white/60 font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h1 class="text-white mb-6 max-w-4xl mx-auto">
-        A critical nutrient, strategically constrained — and widely wasted
+        {t.title}
       </h1>
       <p class="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-8">
-        Scroll to explore how phosphorus inefficiency threatens global food security — and where the opportunity lies.
+        {t.intro}
       </p>
       <div class="flex items-center justify-center gap-2 text-white/30 text-sm">
         <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
-        <span>Scroll to explore</span>
+        <span>{t.scrollHint}</span>
       </div>
     </div>
   </section>
 
   <!-- Story Map -->
   {hasMapboxToken ? (
-    <PhosphorusStoryMap client:only="react" mapboxToken={MAPBOX_TOKEN!} />
+    <PhosphorusStoryMap client:only="react" mapboxToken={MAPBOX_TOKEN!} lang={lang} />
   ) : (
     <section class="bg-[#111] py-20">
       <div class="container-custom max-w-3xl">
@@ -54,16 +89,16 @@ const hasMapboxToken = Boolean(MAPBOX_TOKEN);
   <!-- Bottom CTA -->
   <section class="bg-[#111] py-20">
     <div class="container-custom text-center">
-      <h2 class="text-white mb-4 text-2xl md:text-3xl">The phosphorus is already in the ground.<br/>The question is who unlocks it.</h2>
+      <h2 class="text-white mb-4 text-2xl md:text-3xl">{t.ctaTitleA}<br/>{t.ctaTitleB}</h2>
       <p class="text-white/50 mb-8 max-w-xl mx-auto">
-        HeartsBio's enzyme technology aims to improve phosphorus-use efficiency — with the potential to reduce waste, improve input efficiency, and support environmental goals.
+        {t.ctaBody}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/products" class="btn btn-primary">
-          Explore Our Products
+        <a href={localizePath('/products', lang)} class="btn btn-primary">
+          {t.ctaProducts}
         </a>
-        <a href="/#contact" class="btn border-2 border-white/20 text-white hover:bg-white/10 transition-all">
-          Get in Touch
+        <a href={localizePath('/#contact', lang)} class="btn border-2 border-white/20 text-white hover:bg-white/10 transition-all">
+          {t.ctaContact}
         </a>
       </div>
     </div>

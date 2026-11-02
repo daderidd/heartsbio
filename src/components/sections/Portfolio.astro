@@ -1,74 +1,54 @@
 ---
 // Products Section - Showcase our biological solutions
 import { Image } from 'astro:assets';
+import { getLang, localizePath } from '../../i18n';
 import leavesBg from '../../assets/images/products/leaves-bg.webp';
 import enhancedFertilizer from '../../assets/images/R&D portfolio/enhanced-fertilizer.webp';
 import climateStress from '../../assets/images/R&D portfolio/climate-stress-alleviator.webp';
 import seedCoating from '../../assets/images/R&D portfolio/seed-coating.webp';
 
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'PRODUCT PORTFOLIO',
+    title: 'Four Products, One Mission',
+    intro: 'Each product targets a different stage of the agricultural cycle — from soil preparation to seed to harvest.',
+    learnMore: 'Learn more',
+    learnMoreAbout: (name: string) => `Learn more about ${name}`,
+    viewAll: 'Explore all products in detail',
+    products: {
+      fitazim: { title: 'Proven Phosphorus Booster', category: 'Phosphate Uptake Solutions' },
+      'bio-dop': { title: 'Enzymatic Fertilizer Coating', category: 'Phosphate Uptake Solutions' },
+      purisol: { title: 'Living Soil Microbiome', category: 'Biological Soil Amendment', certification: 'Ecocert Certified' },
+      'sg-2': { title: 'Enzymatic Seed Coating', category: 'Seed Coating' },
+    },
+  },
+  nl: {
+    badge: 'PRODUCTPORTFOLIO',
+    title: 'Vier producten, één missie',
+    intro: 'Elk product richt zich op een andere fase van de teelt: van bodemvoorbereiding en zaad tot oogst.',
+    learnMore: 'Meer informatie',
+    learnMoreAbout: (name: string) => `Meer over ${name}`,
+    viewAll: 'Bekijk alle producten in detail',
+    products: {
+      fitazim: { title: 'Bewezen fosforbooster', category: 'Fosfaatopname' },
+      'bio-dop': { title: 'Enzymatische kunstmestcoating', category: 'Fosfaatopname' },
+      purisol: { title: 'Levend bodemmicrobioom', category: 'Biologische bodemverbeteraar', certification: 'Ecocert-gecertificeerd' },
+      'sg-2': { title: 'Enzymatische zaadcoating', category: 'Zaadcoating' },
+    },
+  },
+};
+const t = copy[lang];
+
+// Only the fields shown on the card; full product copy lives on /products.
 const products = [
-  {
-    id: 'fitazim',
-    name: 'Fitazim',
-    title: 'Proven Phosphorus Booster',
-    category: 'Phosphate Uptake Solutions',
-    description: 'Fitazim uses powerful synergistic enzyme combinations to release residual soil phosphorus reserves, especially phytate form-P.',
-    image: leavesBg,
-    benefits: [
-      'More plant-available phosphorus through synergistic enzyme action',
-      'Stronger, faster crop development and consistently higher yields',
-      'Recovering residual "legacy phosphorus" from soil',
-      'Less phosphorus runoff, protecting water ecosystems',
-    ],
-    tagline: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
-  },
-  {
-    id: 'bio-dop',
-    name: 'Bio-Dop',
-    title: 'Enzymatic Fertilizer Coating',
-    category: 'Phosphate Uptake Solutions',
-    description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers, and many others, by improving phosphorus uptake from the production stage onward.',
-    image: enhancedFertilizer,
-    benefits: [
-      'Upstream solution for maximizing phosphorus efficiency',
-      'Easy to integrate into existing production lines',
-      'High ROI across the entire value chain',
-      'Reduces dependence on finite phosphorus reserves',
-    ],
-    tagline: 'Enhancing fertilizer performance from production to field',
-  },
-  {
-    id: 'purisol',
-    name: 'Purisol',
-    title: 'Living Soil Microbiome',
-    category: 'Biological Soil Amendment',
-    description: 'Patented vermicompost-based formulation with 10 characterized bacterial species, including frost-protective psychrotolerant strains.',
-    image: climateStress,
-    benefits: [
-      'Frost protection via subzero-active bacteria',
-      'Enhances drought, salinity, and disease tolerance',
-      '10 species identified by metagenomic sequencing',
-      'CE-marked and Ecocert-certified for organic farming',
-    ],
-    tagline: 'Patented microbial consortium for resilient soils',
-    certification: 'Ecocert Certified',
-  },
-  {
-    id: 'sg-2',
-    name: 'SG-2',
-    title: 'Enzymatic Seed Coating',
-    category: 'Seed Coating',
-    description: 'A strong crop starts with a strong seed. SG-2 delivers performance from the very beginning.',
-    image: seedCoating,
-    benefits: [
-      'Faster, more uniform germination',
-      'Early root development',
-      'Enhanced nutrient absorption',
-      'Improved stress tolerance',
-    ],
-    tagline: 'Superior seed performance for optimal crop establishment',
-  },
-];
+  { id: 'fitazim', name: 'Fitazim', image: leavesBg },
+  { id: 'bio-dop', name: 'Bio-Dop', image: enhancedFertilizer },
+  { id: 'purisol', name: 'Purisol', image: climateStress },
+  { id: 'sg-2', name: 'SG-2', image: seedCoating },
+].map((p) => ({ ...p, ...t.products[p.id as keyof typeof t.products] })) as {
+  id: string; name: string; image: ImageMetadata; title: string; category: string; certification?: string;
+}[];
 ---
 
 <section id="portfolio" class="section bg-white dark:bg-[#111]">
@@ -76,13 +56,13 @@ const products = [
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-12 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-green/10 dark:bg-white/10 rounded-full">
-        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">PRODUCT PORTFOLIO</span>
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h2 class="text-black dark:text-white mb-4">
-        Four Products, One Mission
+        {t.title}
       </h2>
       <p class="text-lg text-black/50 dark:text-white/50">
-        Each product targets a different stage of the agricultural cycle — from soil preparation to seed to harvest.
+        {t.intro}
       </p>
     </div>
 
@@ -90,9 +70,9 @@ const products = [
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {products.map((product, index) => (
         <a
-          href={`/products#${product.id}`}
+          href={localizePath(`/products#${product.id}`, lang)}
           class={`group relative rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-2 cursor-pointer block reveal stagger-${index + 1}`}
-          aria-label={`Learn more about ${product.name}`}
+          aria-label={t.learnMoreAbout(product.name)}
         >
           <div class="aspect-[3/4] overflow-hidden">
             <Image
@@ -123,7 +103,7 @@ const products = [
             <h3 class="text-xl font-display font-bold text-white mb-1">{product.name}</h3>
             <p class="text-sm text-white/70 leading-snug mb-3">{product.title}</p>
             <div class="flex items-center gap-1.5 text-cream text-sm font-semibold group-hover:gap-2.5 transition-all">
-              <span>Learn more</span>
+              <span>{t.learnMore}</span>
               <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
@@ -136,10 +116,10 @@ const products = [
     <!-- View All CTA -->
     <div class="text-center mt-12">
       <a
-        href="/products"
+        href={localizePath('/products', lang)}
         class="inline-flex items-center gap-2 text-dark-green dark:text-cream font-semibold hover:gap-3 transition-all group"
       >
-        <span>Explore all products in detail</span>
+        <span>{t.viewAll}</span>
         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>

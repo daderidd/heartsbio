@@ -1,38 +1,85 @@
 ---
 // Flagship Comparison — Side-by-side Fitazim vs Bio-Dop for investors
+import { getLang } from '../../i18n';
 
-const products = [
-  {
-    position: 'Downstream',
-    name: 'Fitazim',
-    tagline: 'Proven Phosphorus Booster',
-    where: 'In the field — applied by the farmer as a soil or in-furrow treatment',
-    whoBuys: 'Distributors, farmers, cooperatives',
-    opportunity: 'Unlocks legacy phosphorus trapped in soil — billions of tons of accumulated P that plants can\'t access',
-
-    stat: '+7.5–23% yield',
-    source: 'Independent university trials — maize, sunflower, lettuce',
-    reveal: 'reveal-left',
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'FLAGSHIP PRODUCTS',
+    title: 'Two Products, One Phosphorus Strategy',
+    intro: 'HeartsBio attacks the phosphorus problem from both ends of the value chain.',
+    labels: { where: 'Where', whoBuys: 'Who buys', opportunity: 'Opportunity' },
+    fitTitle: 'Why they fit together',
+    products: [
+      {
+        position: 'Downstream',
+        name: 'Fitazim',
+        tagline: 'Proven Phosphorus Booster',
+        where: 'In the field — applied by the farmer as a soil or in-furrow treatment',
+        whoBuys: 'Distributors, farmers, cooperatives',
+        opportunity: 'Unlocks legacy phosphorus trapped in soil — billions of tons of accumulated P that plants can\'t access',
+        stat: '+7.5–23% yield',
+        source: 'Independent university trials — maize, sunflower, lettuce',
+        reveal: 'reveal-left',
+      },
+      {
+        position: 'Upstream',
+        name: 'Bio-Dop',
+        tagline: 'Enzymatic Fertilizer Coating',
+        where: 'At the fertilizer plant — enzymatic coating applied to DAP/MAP granules',
+        whoBuys: 'Fertilizer manufacturers',
+        opportunity: 'Enhances every ton of phosphate fertilizer produced — integrates into existing supply chains with no behavior change',
+        stat: 'Field-validated',
+        source: 'Independent trials on DAP/MAP granule coating',
+        reveal: 'reveal-right',
+      },
+    ],
+    reasons: [
+      { title: 'Same core problem', desc: 'Phosphorus inefficiency destroys value across the agricultural system' },
+      { title: 'Two paths to market', desc: 'Fitazim captures in-field performance, Bio-Dop captures upstream leverage' },
+      { title: 'Lower portfolio risk', desc: 'Different entry points reduce dependence on a single buying behavior' },
+    ],
   },
-  {
-    position: 'Upstream',
-    name: 'Bio-Dop',
-    tagline: 'Enzymatic Fertilizer Coating',
-    where: 'At the fertilizer plant — enzymatic coating applied to DAP/MAP granules',
-    whoBuys: 'Fertilizer manufacturers',
-    opportunity: 'Enhances every ton of phosphate fertilizer produced — integrates into existing supply chains with no behavior change',
-
-    stat: 'Field-validated',
-    source: 'Independent trials on DAP/MAP granule coating',
-    reveal: 'reveal-right',
+  nl: {
+    badge: 'ONZE VLAGGENSCHEPEN',
+    title: 'Twee producten, één fosforstrategie',
+    intro: 'HeartsBio pakt het fosforprobleem aan vanaf beide kanten van de waardeketen.',
+    labels: { where: 'Waar', whoBuys: 'Afnemers', opportunity: 'Kans' },
+    fitTitle: 'Waarom ze elkaar versterken',
+    products: [
+      {
+        position: 'Eind van de keten',
+        name: 'Fitazim',
+        tagline: 'Bewezen fosforbooster',
+        where: 'In het veld: de teler past het toe als bodembehandeling of in de zaaivoor',
+        whoBuys: 'Distributeurs, telers, coöperaties',
+        opportunity: 'Ontsluit de fosfor die zich in de loop der jaren in de bodem heeft opgehoopt: miljarden tonnen P waar planten niet bij kunnen',
+        stat: '+7,5–23% opbrengst',
+        source: 'Onafhankelijke universitaire proeven: maïs, zonnebloem, sla',
+        reveal: 'reveal-left',
+      },
+      {
+        position: 'Begin van de keten',
+        name: 'Bio-Dop',
+        tagline: 'Enzymatische kunstmestcoating',
+        where: 'In de kunstmestfabriek: een enzymatische coating op DAP- en MAP-korrels',
+        whoBuys: 'Kunstmestproducenten',
+        opportunity: 'Verbetert elke geproduceerde ton fosfaatkunstmest en sluit aan op bestaande ketens: niemand hoeft zijn werkwijze te veranderen',
+        stat: 'Gevalideerd in het veld',
+        source: 'Onafhankelijke proeven met gecoate DAP- en MAP-korrels',
+        reveal: 'reveal-right',
+      },
+    ],
+    reasons: [
+      { title: 'Hetzelfde kernprobleem', desc: 'Inefficiënt fosforgebruik leidt tot waardeverlies in de hele landbouwketen' },
+      { title: 'Twee routes naar de markt', desc: 'Fitazim levert rendement in het veld, Bio-Dop benut de hefboom aan het begin van de keten' },
+      { title: 'Lager portfoliorisico', desc: 'Verschillende ingangen maken ons minder afhankelijk van één type koper' },
+    ],
   },
-];
-
-const reasons = [
-  { title: 'Same core problem', desc: 'Phosphorus inefficiency destroys value across the agricultural system' },
-  { title: 'Two paths to market', desc: 'Fitazim captures in-field performance, Bio-Dop captures upstream leverage' },
-  { title: 'Lower portfolio risk', desc: 'Different entry points reduce dependence on a single buying behavior' },
-];
+};
+const t = copy[lang];
+const products = t.products;
+const reasons = t.reasons;
 ---
 
 <section class="section bg-cream dark:bg-[#1a1a1a]">
@@ -40,13 +87,13 @@ const reasons = [
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-12 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
-        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">FLAGSHIP PRODUCTS</span>
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h2 class="text-black dark:text-white mb-4">
-        Two Products, One Phosphorus Strategy
+        {t.title}
       </h2>
       <p class="text-lg text-black/50 dark:text-white/50">
-        HeartsBio attacks the phosphorus problem from both ends of the value chain.
+        {t.intro}
       </p>
     </div>
 
@@ -69,19 +116,19 @@ const reasons = [
 
           <!-- Where -->
           <div>
-            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Where</div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">{t.labels.where}</div>
             <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.where}</p>
           </div>
 
           <!-- Who buys -->
           <div>
-            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Who buys</div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">{t.labels.whoBuys}</div>
             <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.whoBuys}</p>
           </div>
 
           <!-- Opportunity -->
           <div>
-            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">Opportunity</div>
+            <div class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-1">{t.labels.opportunity}</div>
             <p class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{p.opportunity}</p>
           </div>
 
@@ -96,7 +143,7 @@ const reasons = [
 
     <!-- Why They Fit Together -->
     <div class="max-w-5xl mx-auto reveal">
-      <h3 class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-5">Why they fit together</h3>
+      <h3 class="text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-5">{t.fitTitle}</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {reasons.map((r) => (
           <div class="bg-white dark:bg-[#111] rounded-xl p-5 border border-black/5 dark:border-white/10">
