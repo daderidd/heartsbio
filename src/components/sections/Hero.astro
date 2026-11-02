@@ -10,8 +10,6 @@ const copy = {
     titleB: '',
     words: ['Already', 'Locked', 'Waiting', 'Hidden'],
     titleC: 'in Your Soil',
-    wordWidth: '3.8em',
-    wordAlign: 'center',
     titleSize: 'text-5xl md:text-6xl lg:text-7xl',
     lead: 'Enzyme technology that turns locked soil nutrients into crop performance.',
     sub: 'Backed by decades of R&D. Proven in the field. Ready to scale.',
@@ -25,14 +23,10 @@ const copy = {
   nl: {
     titleA: 'Ontsluit de fosfor die',
     titleB: '',
-    // Right-aligned slot (below) keeps the shorter "al jaren" next to "in uw bodem zit"
     words: ['al jaren', 'opgesloten', 'verborgen', 'ongebruikt'],
     titleC: 'in uw bodem zit',
-    wordWidth: '5.7em', // fits "opgesloten", the longest word
-    // The slot starts the second line, so hug the following words instead of centering
-    wordAlign: 'right',
-    titleSize: 'text-4xl md:text-5xl lg:text-6xl',
     // On phones the line break after "die" is dropped so the sentence wraps naturally
+    titleSize: 'text-4xl md:text-5xl lg:text-6xl',
     lead: 'Enzymtechnologie die vastgelegde voedingsstoffen in de bodem omzet in gewasgroei.',
     sub: 'Gestoeld op tientallen jaren R&D. Bewezen in het veld. Klaar om op te schalen.',
     cta1: 'Bekijk de marktkans',
@@ -73,8 +67,7 @@ const t = copy[lang];
         {t.titleA}<br class={lang === 'nl' ? 'hidden md:inline' : undefined} />
         {t.titleB ? `${t.titleB} ` : ''}<span
           id="rotating-word"
-          class="inline-block transition-all duration-500 ease-in-out"
-          style={`width: ${t.wordWidth}; text-align: ${t.wordAlign}`}
+          class="inline-block whitespace-nowrap transition-[width] duration-500 ease-in-out motion-reduce:transition-none"
           data-words={JSON.stringify(t.words)}
         >{t.words[0]}</span> {t.titleC}
       </h1>
@@ -100,9 +93,9 @@ const t = copy[lang];
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-    <a href="#problem" class="text-white/80 hover:text-white transition-colors" aria-label={t.scrollLabel}>
+  <!-- Scroll indicator (centered by flex: animate-bounce sets transform, which would cancel a translate-x centering) -->
+  <div class="absolute bottom-8 inset-x-0 z-10 flex justify-center pointer-events-none">
+    <a href="#problem" class="animate-bounce pointer-events-auto text-white/80 hover:text-white transition-colors" aria-label={t.scrollLabel}>
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
       </svg>
@@ -111,10 +104,9 @@ const t = copy[lang];
 </section>
 
 <style>
-  /* Rotating text animation — fixed width so surrounding text doesn't shift */
+  /* Rotating word: width is set by the script to fit the current word */
   #rotating-word {
     display: inline-block;
-    /* width and alignment are set inline per language */
   }
 
   .word-fade-out {
@@ -167,32 +159,71 @@ const t = copy[lang];
 </style>
 
 <script>
-  // Rotating text functionality
-  const rotatingElement = document.getElementById('rotating-word');
-  const words: string[] = JSON.parse(rotatingElement?.dataset.words || '[]');
+  // Rotating headline word. The slot is sized to the current word so the
+  // whole line stays centered; a width transition lets the rest of the line
+  // glide instead of jumping when the word changes.
+  const slot = document.getElementById('rotating-word');
+  const heading = slot?.closest('h1');
+  const words: string[] = JSON.parse(slot?.dataset.words || '[]');
   let currentIndex = 0;
 
-  function rotateWord() {
-    if (!rotatingElement || words.length < 2) return;
+  function widthOf(word: string): number {
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;';
+    probe.textContent = word;
+    heading!.appendChild(probe);
+    const width = Math.ceil(probe.getBoundingClientRect().width);
+    probe.remove();
+    return width;
+  }
 
-    // Fade out
-    rotatingElement.classList.add('word-fade-out');
+  // Size the slot without animating, and reserve the height of the tallest
+  // wrap among all words so content below never jumps on narrow screens.
+  function layout() {
+    if (!slot || !heading) return;
+    slot.style.transition = 'none';
+    heading.style.minHeight = '';
+    let tallest = 0;
+    for (const word of words) {
+      slot.textContent = word;
+      slot.style.width = `${widthOf(word)}px`;
+      tallest = Math.max(tallest, heading.getBoundingClientRect().height);
+    }
+    slot.textContent = words[currentIndex];
+    slot.style.width = `${widthOf(words[currentIndex])}px`;
+    heading.style.minHeight = `${tallest}px`;
+    void slot.offsetWidth; // commit the width before re-enabling the transition
+    slot.style.transition = '';
+  }
+
+  function rotateWord() {
+    if (!slot) return;
+    const next = (currentIndex + 1) % words.length;
+    const nextWidth = widthOf(words[next]);
+
+    // Grow first if needed (while fading out), shrink after the swap, so the
+    // slot is never narrower than the visible word.
+    slot.style.width = `${Math.max(slot.getBoundingClientRect().width, nextWidth)}px`;
+    slot.classList.add('word-fade-out');
 
     setTimeout(() => {
-      // Change word
-      currentIndex = (currentIndex + 1) % words.length;
-      rotatingElement.textContent = words[currentIndex];
-
-      // Fade in
-      rotatingElement.classList.remove('word-fade-out');
-      rotatingElement.classList.add('word-fade-in');
-
-      setTimeout(() => {
-        rotatingElement.classList.remove('word-fade-in');
-      }, 400);
+      currentIndex = next;
+      slot.textContent = words[next];
+      slot.style.width = `${nextWidth}px`;
+      slot.classList.remove('word-fade-out');
+      slot.classList.add('word-fade-in');
+      setTimeout(() => slot.classList.remove('word-fade-in'), 400);
     }, 400);
   }
 
-  // Start rotation
-  setInterval(rotateWord, 3000); // Change word every 3 seconds
+  if (slot && heading && words.length > 1) {
+    layout();
+    document.fonts?.ready.then(layout);
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(layout, 150);
+    });
+    setInterval(rotateWord, 3000);
+  }
 </script>
