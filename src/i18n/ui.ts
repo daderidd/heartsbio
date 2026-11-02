@@ -40,6 +40,7 @@ export const ui = {
     'footer.products': 'Products',
     'footer.contact': 'Contact',
     'footer.country': 'The Netherlands',
+    'footer.emailLabel': 'Email info@heartsbio.nl',
     'footer.rights': 'All rights reserved.',
     'footer.privacy': 'Privacy Policy',
     'footer.terms': 'Terms of Service',
@@ -75,11 +76,11 @@ export const ui = {
   },
   nl: {
     'meta.description':
-      'HeartsBio is een Nederlands biotech-R&D-bedrijf dat enzymgebaseerde oplossingen ontwikkelt voor duurzame landbouw: betere beschikbaarheid van fosfaat, biologische gewasbescherming, een gezond bodemleven en geavanceerde zaadcoatings. Producten van Supersol in Turkije.',
+      'HeartsBio is een Nederlands R&D-bedrijf in de biotechnologie dat op enzymen gebaseerde oplossingen ontwikkelt voor duurzame landbouw: betere beschikbaarheid van fosfaat, biologische gewasbescherming, een gezond bodemleven en geavanceerde zaadcoatings. Producten van Supersol in Turkije.',
     'meta.keywords':
       'HeartsBio, heartsbio.nl, Supersol, biotechnologie, agrarische biotechnologie, enzymtechnologie, fosfor, fosfaat, beschikbaarheid van fosfaat, biostimulant, biologische gewasbescherming, bodemleven, bodemgezondheid, zaadcoating, duurzame landbouw, Fitazim, Purisol, Bio-Dop, SG-2, Nederland, Europa, Turkije',
     'meta.orgDescription':
-      'Nederlands biotech-R&D-bedrijf dat enzymgebaseerde biologische oplossingen ontwikkelt voor duurzame landbouw.',
+      'Nederlands R&D-bedrijf in de biotechnologie dat biologische oplossingen op basis van enzymen ontwikkelt voor duurzame landbouw.',
 
     'nav.label': 'Hoofdnavigatie',
     'nav.home': 'Home',
@@ -92,13 +93,14 @@ export const ui = {
     'nav.toggleMenu': 'Menu openen of sluiten',
     'nav.switchLabel': 'Taal',
 
-    'footer.tagline': 'Biotechnologie vooruit door innovatief onderzoek en ontwikkeling.',
+    'footer.tagline': 'Wij brengen biotechnologie verder met innovatief onderzoek en ontwikkeling.',
     'footer.quickLinks': 'Snel naar',
     'footer.team': 'Ons team',
     'footer.technology': 'Technologie',
     'footer.products': 'Producten',
     'footer.contact': 'Contact',
     'footer.country': 'Nederland',
+    'footer.emailLabel': 'Mail naar info@heartsbio.nl',
     'footer.rights': 'Alle rechten voorbehouden.',
     'footer.privacy': 'Privacyverklaring',
     'footer.terms': 'Gebruiksvoorwaarden',

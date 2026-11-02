@@ -282,7 +282,7 @@ const chapterText: Record<Lang, Record<string, ChapterText>> = {
     legacy: {
       badge: 'DE STROMEN',
       title: 'De jaarlijkse balans: overschot en tekort naast elkaar',
-      body: "Kijk nu naar de jaarlijkse stromen. Oranje regio's stapelen jaar na jaar extra P op. Blauwe regio's teren in op hun voorraad. Maar in beide gevallen blijft het grootste deel van de bodemfosfor vastgelegd.",
+      body: "Kijk nu naar de jaarlijkse stromen. In oranje regio's hoopt zich jaar na jaar extra P op. Blauwe regio's teren in op hun voorraad. Maar in beide gevallen blijft het grootste deel van de bodemfosfor vastgelegd.",
       stat: { value: '+0,8 kg P/ha/jaar', label: 'gemiddeld overschot in de EU, dat zich elk jaar opstapelt' },
       source: 'Panagos et al., Sci. Total Environ. (2022)',
       legendLabels: ['P-tekort', 'P-overschot'],
@@ -296,7 +296,7 @@ const chapterText: Record<Lang, Record<string, ChapterText>> = {
     'legacy-deficit': {
       badge: "TEKORTREGIO'S",
       title: 'Waar elke kilo meststof harder moet werken',
-      body: "Deze regio's geven minder fosfor dan de gewassen elk jaar afvoeren. Zo teren ze in op voorraden die in de afgelopen decennia zijn opgebouwd. Gewassen groeien nog wel, maar het saldo op de bodembank slinkt. Hier draait betere toegang tot vastgelegde bodemfosfor om het op peil houden van de opbrengst terwijl de voorraad afneemt.",
+      body: "Deze regio's geven minder fosfor dan de gewassen elk jaar afvoeren. Zo teren ze in op voorraden die in de afgelopen decennia zijn opgebouwd. Gewassen groeien nog wel, maar het saldo op de bodembank slinkt. Hier gaat het bij betere toegang tot vastgelegde bodemfosfor om de opbrengst op peil te houden terwijl de voorraad afneemt.",
       legendLabels: ['P-tekort', 'P-overschot'],
     },
     bivariate: {
@@ -306,7 +306,7 @@ const chapterText: Record<Lang, Record<string, ChapterText>> = {
     },
     depletion: {
       badge: 'GECONCENTREERD RISICO',
-      title: 'Een eindige grondstof in weinig handen',
+      title: 'Een eindige grondstof in handen van enkelen',
       body: 'Fosfaaterts is de enige primaire bron van fosfaatkunstmest, en het is niet hernieuwbaar. Ruim 70% van de wereldwijde reserves ligt in Marokko. Europa heeft vrijwel geen eigen reserves en is sterk afhankelijk van import.',
       stat: { value: '70%+', label: 'van de wereldwijde fosfaatreserves ligt in Marokko' },
       source: 'USGS Mineral Commodity Summaries (2024)',
@@ -400,7 +400,7 @@ const uiText = {
       'high-surplus': 'Overschot loopt op, nauwelijks bereikbaar',
       'high-deficit': 'Voorraad slinkt en is slecht bereikbaar',
       'low-surplus': 'Overschot loopt op, vooral door mest',
-      'low-deficit': 'Voorraad slinkt, maar meer P is bereikbaar',
+      'low-deficit': 'Voorraad slinkt, maar er is meer P bereikbaar',
     } as Record<string, string>,
     available: (pct: number) => `${pct}% beschikbaar`,
     lockedDetail: (pct: number, ratio: string) => `${pct}% vastgelegd: slechts 1 op de ${ratio} kg bodem-P is bruikbaar voor het gewas`,
