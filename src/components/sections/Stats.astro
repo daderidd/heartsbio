@@ -9,28 +9,33 @@ const copy = {
     title: 'Why HeartsBio',
     intro: 'A proprietary biobank, proven field results, and a growing global footprint',
     labels: [
-      'Proprietary Microbial Strains (IP Moat)',
-      'Versatile Super Strains in Production',
-      'Farmers Using Our Products',
-      'Protected Enzyme Technology (11,560,341)',
+      'Proprietary Microbial Collection',
+      'Selected Strains in Commercial Production',
+      'Farmers Reached Through Our Products',
+      'Enzyme-containing Fertilizer Technology (PCT Application WO 2026/052214)',
     ],
-    patent: 'US Patent',
+    patent: 'Patent pending',
   },
   nl: {
     badge: 'Onze impact',
     title: 'Waarom HeartsBio',
     intro: 'Een eigen biobank, bewezen resultaten in het veld en een groeiende internationale aanwezigheid',
     labels: [
-      'Eigen microbiële stammen (onze IP-voorsprong)',
-      'Veelzijdige superstammen in productie',
-      'Telers die onze producten gebruiken',
-      'Beschermde enzymtechnologie (nr. 11.560.341)',
+      'Eigen microbiële collectie',
+      'Geselecteerde stammen in commerciële productie',
+      'Telers bereikt met onze producten',
+      'Kunstmesttechnologie met enzymen (PCT-aanvraag WO 2026/052214)',
     ],
-    patent: 'US-octrooi',
+    patent: 'Octrooi aangevraagd',
   },
 };
 const t = copy[lang];
 
+// Patent card: Supersol's PCT application WO2026052214A1 ("Enzyme-containing coating
+// for fertilizer products", filed 2024-09-05, published 2026-03-12, status pending).
+// Say "pending", never "patented"/"protected", until it is granted. The granted
+// US 11,560,341 covers Purisol's vermicompost microbe delivery, not enzymes.
+//
 // HeartsBio metrics. Numeric values are written in English notation and
 // re-formatted per locale by the counting animation (10.000 in Dutch).
 const kpis = [
