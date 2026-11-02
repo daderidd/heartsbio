@@ -1,5 +1,49 @@
 ---
 // Hero Section - Modern, clean hero with background image
+import { getLang } from '../../i18n';
+
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    titleA: 'Unlocking the Phosphorus',
+    // Rotating word sits between titleB and titleC: "[Already] in Your Soil"
+    titleB: '',
+    words: ['Already', 'Locked', 'Waiting', 'Hidden'],
+    titleC: 'in Your Soil',
+    wordWidth: '3.8em',
+    wordAlign: 'center',
+    titleSize: 'text-5xl md:text-6xl lg:text-7xl',
+    lead: 'Enzyme technology that turns locked soil nutrients into crop performance.',
+    sub: 'Backed by decades of R&D. Proven in the field. Ready to scale.',
+    cta1: 'See the Opportunity',
+    cta1Label: 'Learn about the opportunity',
+    cta2: 'Our Solution',
+    cta2Label: 'Learn about our solution',
+    scrollLabel: 'Scroll to next section',
+    noVideo: 'Your browser does not support the video tag.',
+  },
+  nl: {
+    titleA: 'Ontsluit de fosfor die',
+    titleB: '',
+    // Words of similar length so the fixed-width slot has no awkward gaps
+    words: ['jarenlang', 'opgesloten', 'verborgen', 'ongebruikt'],
+    titleC: 'in uw bodem zit',
+    wordWidth: '5.7em', // fits "opgesloten", the longest word
+    // The slot starts the second line, so hug the following words instead of centering
+    wordAlign: 'right',
+    titleSize: 'text-4xl md:text-5xl lg:text-6xl',
+    // On phones the line break after "die" is dropped so the sentence wraps naturally
+    lead: 'Enzymtechnologie die vastgelegde voedingsstoffen in de bodem omzet in gewasgroei.',
+    sub: 'Gebouwd op tientallen jaren R&D. Bewezen in het veld. Klaar om op te schalen.',
+    cta1: 'Bekijk de marktkans',
+    cta1Label: 'Meer over de marktkans',
+    cta2: 'Onze oplossing',
+    cta2Label: 'Meer over onze oplossing',
+    scrollLabel: 'Naar de volgende sectie',
+    noVideo: 'Uw browser kan deze video niet afspelen.',
+  },
+};
+const t = copy[lang];
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden -mt-24 pt-24">
@@ -15,7 +59,7 @@
       class="w-full h-full object-cover"
     >
       <source src="/videos/hero-field.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
+      {t.noVideo}
     </video>
     <!-- Dark overlay for text readability -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-dark-green/40"></div>
@@ -25,27 +69,32 @@
   <div class="relative z-10 container-custom text-center text-white py-20 mt-16">
     <div class="max-w-4xl mx-auto">
       <!-- Main Headline with Rotating Text -->
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-12 leading-tight hero-fade hero-fade-1">
-        Unlocking the Phosphorus<br />
-        <span id="rotating-word" class="inline-block transition-all duration-500 ease-in-out">Already</span> in Your Soil
+      <h1 class:list={[t.titleSize, 'font-display font-bold mb-12 leading-tight hero-fade hero-fade-1']}>
+        {t.titleA}<br class={lang === 'nl' ? 'hidden md:inline' : undefined} />
+        {t.titleB ? `${t.titleB} ` : ''}<span
+          id="rotating-word"
+          class="inline-block transition-all duration-500 ease-in-out"
+          style={`width: ${t.wordWidth}; text-align: ${t.wordAlign}`}
+          data-words={JSON.stringify(t.words)}
+        >{t.words[0]}</span> {t.titleC}
       </h1>
 
       <!-- Subheadline -->
       <div class="mb-16 max-w-3xl mx-auto hero-fade hero-fade-2">
         <p class="text-xl md:text-2xl text-white/90 leading-relaxed">
-          <span class="font-bold">Enzyme technology that turns locked soil nutrients into crop performance.</span>
+          <span class="font-bold">{t.lead}</span>
           <br />
-          Backed by decades of R&D. Proven in the field. Ready to scale.
+          {t.sub}
         </p>
       </div>
 
       <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-fade hero-fade-3">
-        <a href="#problem" class="btn text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg animate-pulse-glow" aria-label="Learn about the opportunity">
-          See the Opportunity
+        <a href="#problem" class="btn text-lg px-10 py-4 bg-white text-dark-green hover:bg-cream hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg animate-pulse-glow" aria-label={t.cta1Label}>
+          {t.cta1}
         </a>
-        <a href="#solution" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green hover:shadow-xl hover:-translate-y-1 transition-all" aria-label="Learn about our solution">
-          Our Solution
+        <a href="#solution" class="btn text-lg px-10 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-green hover:shadow-xl hover:-translate-y-1 transition-all" aria-label={t.cta2Label}>
+          {t.cta2}
         </a>
       </div>
     </div>
@@ -53,7 +102,7 @@
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-    <a href="#problem" class="text-white/80 hover:text-white transition-colors" aria-label="Scroll to next section">
+    <a href="#problem" class="text-white/80 hover:text-white transition-colors" aria-label={t.scrollLabel}>
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
       </svg>
@@ -65,8 +114,7 @@
   /* Rotating text animation — fixed width so surrounding text doesn't shift */
   #rotating-word {
     display: inline-block;
-    width: 3.8em;
-    text-align: center;
+    /* width and alignment are set inline per language */
   }
 
   .word-fade-out {
@@ -120,12 +168,12 @@
 
 <script>
   // Rotating text functionality
-  const words = ['Already', 'Locked', 'Waiting', 'Hidden'];
-  let currentIndex = 0;
   const rotatingElement = document.getElementById('rotating-word');
+  const words: string[] = JSON.parse(rotatingElement?.dataset.words || '[]');
+  let currentIndex = 0;
 
   function rotateWord() {
-    if (!rotatingElement) return;
+    if (!rotatingElement || words.length < 2) return;
 
     // Fade out
     rotatingElement.classList.add('word-fade-out');

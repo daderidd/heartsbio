@@ -1,5 +1,10 @@
 ---
 // Partners / Affiliations — logo strip for credibility
+import { getLang } from '../../i18n';
+
+const lang = getLang(Astro.url);
+const heading = { en: 'Member of &amp; affiliated with', nl: 'Lid van en verbonden aan' }[lang];
+
 const partners = [
   {
     name: 'The Fertilizer Institute',
@@ -41,7 +46,7 @@ const partners = [
 <section class="py-12 md:py-16 bg-white dark:bg-[#111] border-y border-black/5 dark:border-white/5">
   <div class="container-custom">
     <p class="text-center text-xs uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-8">
-      Member of &amp; affiliated with
+      <Fragment set:html={heading} />
     </p>
     <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14">
       {partners.map((p) => (

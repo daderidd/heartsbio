@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FieldTrialEvidence from '../components/sections/FieldTrialEvidence.astro';
+import { getLang, localizePath } from '../i18n';
 import leavesBg from '../assets/images/products/leaves-bg.webp';
 import enhancedFertilizer from '../assets/images/R&D portfolio/enhanced-fertilizer.webp';
 import climateStress from '../assets/images/R&D portfolio/climate-stress-alleviator.webp';
@@ -9,54 +10,167 @@ import seedCoating from '../assets/images/R&D portfolio/seed-coating.webp';
 import fitazimTrial1 from '../assets/images/products/Fitazim Trial 1.webp';
 import fitazimTrial2 from '../assets/images/products/Fitazim Trial 1-2.webp';
 
-const otherProducts = [
-  {
-    id: 'bio-dop',
-    name: 'Bio-Dop',
-    title: 'Enzymatic Fertilizer Coating',
+// Also rendered at /nl/products/ (see src/pages/nl/products.astro).
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    metaTitle: 'Products — Fitazim, Bio-Dop, Purisol, SG-2 | HeartsBio',
+    metaDescription: "Explore HeartsBio's enzyme-based agricultural products: Fitazim for phosphorus recovery, Bio-Dop fertilizer coating, Purisol microbiota transfer, and SG-2 seed coating.",
+    flagship: 'FLAGSHIP PRODUCT',
+    fitazimTagline: 'Proven Phosphorus Booster',
+    fitazimMotto: 'Maximum phosphorus efficiency, powered by pure enzyme synergy',
     category: 'Phosphate Uptake Solutions',
-    description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers, and many others, by improving phosphorus uptake from the production stage onward.',
-    image: enhancedFertilizer,
-    benefits: [
-      'Upstream solution — easy to integrate into existing production lines',
-      'High ROI across the entire value chain — from manufacturer to farmer',
-      'Compatible with all major fertilizer types',
-      'Supports nature by reducing dependence on finite phosphorus reserves',
+    fitazimTitle: 'Unlock the Phosphorus Already in Your Soil',
+    fitazimBody: 'Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years — often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.',
+    fitazimBenefits: [
+      'More plant-available phosphorus through synergistic enzyme action',
+      'Stronger, faster crop development and consistently higher yields',
+      'Recovering residual "legacy phosphorus" from soil',
+      'Less phosphorus runoff, protecting water ecosystems',
     ],
-  },
-  {
-    id: 'purisol',
-    name: 'Purisol',
-    title: 'Living Soil Microbiome',
-    category: 'Biological Soil Amendment',
-    description: 'A patented, Ecocert-certified vermicompost-based formulation delivering 10 characterized bacterial species — including a psychrotolerant strain for frost protection. Stabilized with natural bioprotectants for 12–18 months shelf life.',
-    image: climateStress,
-    certification: 'Ecocert Certified',
-    benefits: [
-      'Frost protection — active bacterial strain at subzero temperatures',
-      'Enhances drought, salinity, and disease tolerance',
-      '10 species characterized by metagenomic sequencing',
-      'CE-marked and Ecocert-certified for organic farming',
+    productAlt: 'Fitazim product',
+    trialBadge: 'FIELD TRIAL RESULTS',
+    trialTitle: 'Control vs Fitazim-Treated',
+    trialSub: 'Side-by-side comparison under identical soil conditions',
+    controlAlt: 'Control plants without Fitazim',
+    controlLabel: 'Control (untreated)',
+    treatedAlt: 'Fitazim-treated plants',
+    treatedLabel: 'Fitazim-treated',
+    observations: [
+      { title: 'Leaf Color', desc: 'Greener leaves indicating improved nutrient uptake' },
+      { title: 'Plant Vigor', desc: 'Stronger stems and more robust overall structure' },
+      { title: 'Growth Rate', desc: 'Faster development and increased biomass production' },
     ],
+    videoTitle: 'Fitazim — Enzyme technology for phosphorus recovery in agriculture',
+    moreBadge: 'MORE PRODUCTS',
+    moreTitle: 'Completing the Agricultural Cycle',
+    moreIntro: 'Beyond phosphorus recovery — solutions for fertilizer enhancement, soil health, and seed performance.',
+    ctaTitle: 'Ready to Learn More?',
+    ctaBody: 'Contact us to discuss how our products can fit into your operations.',
+    ctaButton: 'Get in Touch',
+    otherProducts: {
+      'bio-dop': {
+        title: 'Enzymatic Fertilizer Coating',
+        category: 'Phosphate Uptake Solutions',
+        description: 'An upstream enzymatic solution designed to enhance the performance of phosphate-based chemical fertilizers, and many others, by improving phosphorus uptake from the production stage onward.',
+        benefits: [
+          'Upstream solution — easy to integrate into existing production lines',
+          'High ROI across the entire value chain — from manufacturer to farmer',
+          'Compatible with all major fertilizer types',
+          'Supports nature by reducing dependence on finite phosphorus reserves',
+        ],
+      },
+      purisol: {
+        title: 'Living Soil Microbiome',
+        category: 'Biological Soil Amendment',
+        description: 'A patented, Ecocert-certified vermicompost-based formulation delivering 10 characterized bacterial species — including a psychrotolerant strain for frost protection. Stabilized with natural bioprotectants for 12–18 months shelf life.',
+        certification: 'Ecocert Certified',
+        benefits: [
+          'Frost protection — active bacterial strain at subzero temperatures',
+          'Enhances drought, salinity, and disease tolerance',
+          '10 species characterized by metagenomic sequencing',
+          'CE-marked and Ecocert-certified for organic farming',
+        ],
+      },
+      'sg-2': {
+        title: 'Enzymatic Seed Coating',
+        category: 'Seed Coating',
+        description: 'Engineered to give seeds the best possible start. Enhances germination, accelerates root development, and improves early nutrient uptake from day one.',
+        benefits: [
+          'Faster, more uniform germination',
+          'Enhanced early nutrient absorption',
+          'Works across multiple crop types',
+          'Reduces replanting and crop loss',
+        ],
+      },
+    },
   },
-  {
-    id: 'sg-2',
-    name: 'SG-2',
-    title: 'Enzymatic Seed Coating',
-    category: 'Seed Coating',
-    description: 'Engineered to give seeds the best possible start. Enhances germination, accelerates root development, and improves early nutrient uptake from day one.',
-    image: seedCoating,
-    benefits: [
-      'Faster, more uniform germination',
-      'Enhanced early nutrient absorption',
-      'Works across multiple crop types',
-      'Reduces replanting and crop loss',
+  nl: {
+    metaTitle: 'Producten: Fitazim, Bio-Dop, Purisol, SG-2 | HeartsBio',
+    metaDescription: 'Ontdek de enzymgebaseerde landbouwproducten van HeartsBio: Fitazim voor een betere beschikbaarheid van fosfor, de kunstmestcoating Bio-Dop, Purisol voor een levend bodemmicrobioom en de zaadcoating SG-2.',
+    flagship: 'ONS VLAGGENSCHIP',
+    fitazimTagline: 'Bewezen fosforbooster',
+    fitazimMotto: 'Maximale fosforbenutting dankzij pure enzymsynergie',
+    category: 'Fosfaatopname',
+    fitazimTitle: 'Ontsluit de fosfor die al in uw bodem zit',
+    fitazimBody: 'Fitazim is een doorbraak in fosforbenutting. Onze eigen enzymformulering werkt synergetisch en ontsluit fosfor die al jaren chemisch gebonden in de bodem zit: de zogeheten historische fosforvoorraad. Doordat Fitazim zich richt op fytaat en andere organische vormen van fosfor, komen voedingsstoffen beschikbaar waar planten zelf nooit bij zouden kunnen.',
+    fitazimBenefits: [
+      'Meer plantbeschikbare fosfor door synergetische enzymwerking',
+      'Sterkere, snellere gewasontwikkeling en structureel hogere opbrengsten',
+      'Benutting van de historische fosforvoorraad in de bodem',
+      'Minder afspoeling van fosfor, wat waterecosystemen beschermt',
     ],
+    productAlt: 'Fitazim-product',
+    trialBadge: 'RESULTATEN VELDPROEF',
+    trialTitle: 'Controle versus behandeld met Fitazim',
+    trialSub: 'Directe vergelijking onder identieke bodemomstandigheden',
+    controlAlt: 'Controleplanten zonder Fitazim',
+    controlLabel: 'Controle (onbehandeld)',
+    treatedAlt: 'Met Fitazim behandelde planten',
+    treatedLabel: 'Behandeld met Fitazim',
+    observations: [
+      { title: 'Bladkleur', desc: 'Groenere bladeren wijzen op een betere opname van voedingsstoffen' },
+      { title: 'Groeikracht', desc: 'Stevigere stengels en een robuustere plant' },
+      { title: 'Groeisnelheid', desc: 'Snellere ontwikkeling en meer biomassa' },
+    ],
+    videoTitle: 'Fitazim: enzymtechnologie voor betere fosforbenutting in de landbouw',
+    moreBadge: 'MEER PRODUCTEN',
+    moreTitle: 'Voor de hele teeltcyclus',
+    moreIntro: 'Meer dan fosfor alleen: oplossingen voor effectievere kunstmest, een gezonde bodem en sterk zaaigoed.',
+    ctaTitle: 'Meer weten?',
+    ctaBody: 'Neem contact met ons op om te bespreken hoe onze producten in uw bedrijfsvoering passen.',
+    ctaButton: 'Neem contact op',
+    otherProducts: {
+      'bio-dop': {
+        title: 'Enzymatische kunstmestcoating',
+        category: 'Fosfaatopname',
+        description: 'Een enzymatische oplossing aan het begin van de keten. Bio-Dop verbetert de werking van fosfaathoudende kunstmest en vele andere meststoffen, doordat de fosforopname al vanaf de productie wordt verhoogd.',
+        benefits: [
+          'Werkt aan het begin van de keten en past eenvoudig in bestaande productielijnen',
+          'Hoog rendement in de hele waardeketen, van producent tot teler',
+          'Geschikt voor alle gangbare kunstmestsoorten',
+          'Goed voor de natuur, doordat de afhankelijkheid van eindige fosfaatreserves afneemt',
+        ],
+      },
+      purisol: {
+        title: 'Levend bodemmicrobioom',
+        category: 'Biologische bodemverbeteraar',
+        description: 'Een gepatenteerde, Ecocert-gecertificeerde formulering op basis van wormencompost met 10 gekarakteriseerde bacteriesoorten, waaronder een koudetolerante stam die beschermt tegen vorst. Gestabiliseerd met natuurlijke beschermende stoffen voor een houdbaarheid van 12 tot 18 maanden.',
+        certification: 'Ecocert-gecertificeerd',
+        benefits: [
+          'Bescherming tegen vorst: een bacteriestam die actief blijft onder het vriespunt',
+          'Verhoogt de tolerantie voor droogte, zout en ziekten',
+          '10 soorten in kaart gebracht met metagenomische sequencing',
+          'CE-markering en Ecocert-certificering voor de biologische landbouw',
+        ],
+      },
+      'sg-2': {
+        title: 'Enzymatische zaadcoating',
+        category: 'Zaadcoating',
+        description: 'Ontwikkeld om zaad de best mogelijke start te geven. Verbetert de kieming, versnelt de wortelontwikkeling en verhoogt vanaf dag één de vroege opname van voedingsstoffen.',
+        benefits: [
+          'Snellere, gelijkmatigere kieming',
+          'Betere vroege opname van voedingsstoffen',
+          'Geschikt voor meerdere gewassen',
+          'Minder herinzaai en gewasverlies',
+        ],
+      },
+    },
   },
-];
+};
+const t = copy[lang];
+
+const otherProducts = [
+  { id: 'bio-dop', name: 'Bio-Dop', image: enhancedFertilizer },
+  { id: 'purisol', name: 'Purisol', image: climateStress },
+  { id: 'sg-2', name: 'SG-2', image: seedCoating },
+].map((p) => ({ ...p, ...t.otherProducts[p.id as keyof typeof t.otherProducts] })) as {
+  id: string; name: string; image: ImageMetadata; title: string; category: string;
+  description: string; benefits: string[]; certification?: string;
+}[];
 ---
 
-<BaseLayout title="Products — Fitazim, Bio-Dop, Purisol, SG-2 | HeartsBio" description="Explore HeartsBio's enzyme-based agricultural products: Fitazim for phosphorus recovery, Bio-Dop fertilizer coating, Purisol microbiota transfer, and SG-2 seed coating.">
+<BaseLayout title={t.metaTitle} description={t.metaDescription}>
   <div class="min-h-screen bg-cream dark:bg-[#1a1a1a]">
 
     <!-- ═══════════════════════════════════════
@@ -68,13 +182,13 @@ const otherProducts = [
       <div class="container-custom">
         <div class="max-w-4xl mx-auto text-center">
           <div class="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-            <span class="text-white/80 font-semibold text-sm tracking-wide">FLAGSHIP PRODUCT</span>
+            <span class="text-white/80 font-semibold text-sm tracking-wide">{t.flagship}</span>
           </div>
           <h1 class="text-4xl md:text-6xl font-display font-bold mb-4">
             Fitazim
           </h1>
-          <p class="text-xl md:text-2xl text-white/70 mb-2">Proven Phosphorus Booster</p>
-          <p class="text-base text-white/50 italic">Maximum phosphorus efficiency, powered by pure enzyme synergy</p>
+          <p class="text-xl md:text-2xl text-white/70 mb-2">{t.fitazimTagline}</p>
+          <p class="text-base text-white/50 italic">{t.fitazimMotto}</p>
         </div>
       </div>
     </section>
@@ -86,21 +200,16 @@ const otherProducts = [
         <div class="grid lg:grid-cols-2 gap-10 items-center mb-16">
           <div class="reveal-left">
             <div class="inline-block mb-3 px-3 py-1 bg-dark-green/8 dark:bg-white/10 rounded-full">
-              <span class="text-dark-green dark:text-cream font-semibold text-xs tracking-wide uppercase">Phosphate Uptake Solutions</span>
+              <span class="text-dark-green dark:text-cream font-semibold text-xs tracking-wide uppercase">{t.category}</span>
             </div>
             <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-4">
-              Unlock the Phosphorus Already in Your Soil
+              {t.fitazimTitle}
             </h2>
             <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
-              Fitazim represents a breakthrough in phosphorus efficiency. Our proprietary enzyme formulation works synergistically to unlock phosphorus that has been chemically bound in the soil for years — often called "legacy phosphorus." By targeting phytate and other organic phosphorus forms, Fitazim makes nutrients available that plants could never access on their own.
+              {t.fitazimBody}
             </p>
             <ul class="space-y-2.5">
-              {[
-                'More plant-available phosphorus through synergistic enzyme action',
-                'Stronger, faster crop development and consistently higher yields',
-                'Recovering residual "legacy phosphorus" from soil',
-                'Less phosphorus runoff, protecting water ecosystems',
-              ].map((b) => (
+              {t.fitazimBenefits.map((b) => (
                 <li class="flex items-start gap-2.5">
                   <svg class="w-4 h-4 text-dark-green dark:text-cream flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -114,7 +223,7 @@ const otherProducts = [
             <div class="relative rounded-2xl overflow-hidden shadow-xl group">
               <Image
                 src={leavesBg}
-                alt="Fitazim product"
+                alt={t.productAlt}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 width={1600}
                 height={906}
@@ -135,41 +244,37 @@ const otherProducts = [
           <div class="p-8 md:p-12">
             <div class="text-center mb-10 reveal">
               <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
-                <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">FIELD TRIAL RESULTS</span>
+                <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.trialBadge}</span>
               </div>
               <h3 class="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-3">
-                Control vs Fitazim-Treated
+                {t.trialTitle}
               </h3>
               <p class="text-black/50 dark:text-white/50 max-w-xl mx-auto">
-                Side-by-side comparison under identical soil conditions
+                {t.trialSub}
               </p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6 mb-10">
               <div class="reveal-left group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
                 <div class="aspect-[4/3] overflow-hidden">
-                  <Image src={fitazimTrial1} alt="Control plants without Fitazim" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1072} height={628} quality={90} />
+                  <Image src={fitazimTrial1} alt={t.controlAlt} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1072} height={628} quality={90} />
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                  <span class="text-white text-sm font-semibold">Control (untreated)</span>
+                  <span class="text-white text-sm font-semibold">{t.controlLabel}</span>
                 </div>
               </div>
               <div class="reveal-right group relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
                 <div class="aspect-[4/3] overflow-hidden">
-                  <Image src={fitazimTrial2} alt="Fitazim-treated plants" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1224} height={898} quality={90} />
+                  <Image src={fitazimTrial2} alt={t.treatedAlt} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1224} height={898} quality={90} />
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-green/70 to-transparent p-4">
-                  <span class="text-white text-sm font-semibold">Fitazim-treated</span>
+                  <span class="text-white text-sm font-semibold">{t.treatedLabel}</span>
                 </div>
               </div>
             </div>
 
             <div class="grid md:grid-cols-3 gap-4 reveal">
-              {[
-                { title: 'Leaf Color', desc: 'Greener leaves indicating improved nutrient uptake' },
-                { title: 'Plant Vigor', desc: 'Stronger stems and more robust overall structure' },
-                { title: 'Growth Rate', desc: 'Faster development and increased biomass production' },
-              ].map((obs) => (
+              {t.observations.map((obs) => (
                 <div class="bg-cream/50 dark:bg-[#252525] rounded-xl p-5 border border-dark-green/5 dark:border-white/15">
                   <div class="flex items-center gap-2.5 mb-2">
                     <div class="w-8 h-8 rounded-lg bg-dark-green/10 dark:bg-white/15 flex items-center justify-center">
@@ -191,7 +296,7 @@ const otherProducts = [
           <div class="aspect-video rounded-2xl overflow-hidden shadow-lg">
             <iframe
               src="https://www.youtube.com/embed/VwBWE6A5JGE?rel=0"
-              title="Fitazim — Enzyme technology for phosphorus recovery in agriculture"
+              title={t.videoTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
               loading="lazy"
@@ -215,13 +320,13 @@ const otherProducts = [
       <div class="container-custom max-w-6xl">
         <div class="text-center max-w-3xl mx-auto mb-14 reveal">
           <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
-            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">MORE PRODUCTS</span>
+            <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.moreBadge}</span>
           </div>
           <h2 class="text-black dark:text-white mb-4">
-            Completing the Agricultural Cycle
+            {t.moreTitle}
           </h2>
           <p class="text-lg text-black/50 dark:text-white/50">
-            Beyond phosphorus recovery — solutions for fertilizer enhancement, soil health, and seed performance.
+            {t.moreIntro}
           </p>
         </div>
 
@@ -285,16 +390,16 @@ const otherProducts = [
     <section class="py-16 md:py-20 bg-cream dark:bg-[#1a1a1a]">
       <div class="container-custom max-w-4xl text-center">
         <h2 class="text-3xl md:text-4xl font-display font-bold text-black dark:text-white mb-6">
-          Ready to Learn More?
+          {t.ctaTitle}
         </h2>
         <p class="text-lg text-black/50 dark:text-white/50 mb-8">
-          Contact us to discuss how our products can fit into your operations.
+          {t.ctaBody}
         </p>
         <a
-          href="/#contact"
+          href={localizePath('/#contact', lang)}
           class="inline-flex items-center gap-2 px-8 py-4 bg-dark-green text-white font-semibold rounded-full hover:bg-green hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-lg"
         >
-          Get in Touch
+          {t.ctaButton}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>

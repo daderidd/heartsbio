@@ -10,9 +10,16 @@ import Portfolio from '../components/sections/Portfolio.astro';
 import Stats from '../components/sections/Stats.astro';
 import Team from '../components/sections/Team.astro';
 import Contact from '../components/sections/Contact.astro';
+import { getLang } from '../i18n';
+
+// Also rendered at /nl/ (see src/pages/nl/index.astro).
+const title = {
+  en: 'HeartsBio — Enzyme & Microbial Solutions for Sustainable Agriculture | heartsbio.nl',
+  nl: 'HeartsBio | Enzym- en microbiële oplossingen voor duurzame landbouw',
+}[getLang(Astro.url)];
 ---
 
-<BaseLayout title="HeartsBio — Enzyme & Microbial Solutions for Sustainable Agriculture | heartsbio.nl">
+<BaseLayout title={title}>
   <Hero />
   <Problem />
   <Partners />

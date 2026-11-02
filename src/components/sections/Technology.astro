@@ -1,10 +1,91 @@
 ---
 // Technology Section - Showcase approach and innovation
 import { Image } from 'astro:assets';
+import { getLang } from '../../i18n';
 import labPerson1 from '../../assets/images/research-lab-person-1.webp';
 import labPerson2 from '../../assets/images/research-lab-person-2.webp';
 import labPerson3 from '../../assets/images/research-lab-person-3.webp';
 import labPerson4 from '../../assets/images/research-lab-person-4.webp';
+
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'OUR SOLUTION',
+    title: 'Enzyme Technology That Unlocks Soil Potential',
+    intro: 'Three proprietary platforms — each a competitive moat built on decades of enzymology, soil microbiology, and seed science.',
+    platformsTitle: 'Three Proprietary Platforms',
+    platforms: [
+      {
+        title: 'Phosphorus Unlocking Technology',
+        body: 'Up to 80% of soil phosphorus is locked in forms that plants cannot use. Our synergistic enzyme combinations release this bound phosphorus, increasing plant nutrition and reducing dependence on chemical fertilizers.',
+      },
+      {
+        title: 'Living Soil Microbiome',
+        body: 'Healthy soils require a complete microbial ecosystem. Our patented Purisol technology delivers 10 characterized bacterial species — including psychrotolerant strains for frost protection — restoring nutrient cycling, soil structure, and long-term fertility.',
+      },
+      {
+        title: 'Advanced Enzymatic Seed Coatings',
+        body: 'Our SG-2 formula enhances germination, root growth, and early nutrient uptake, giving plants a stronger start from day one.',
+      },
+    ],
+    alts: [
+      'Research scientist in laboratory',
+      'Research scientist conducting experiments',
+      'Laboratory research and development',
+      'Scientific research team member',
+    ],
+    edgeTitle: 'Our Competitive Edge',
+    edges: [
+      'Higher nutrient efficiency',
+      'Lower fertilizer inputs',
+      'Healthier soils',
+      'Reduced runoff and pollution',
+      'Increased yield and crop quality',
+    ],
+  },
+  nl: {
+    badge: 'ONZE OPLOSSING',
+    title: 'Enzymtechnologie die het potentieel van de bodem ontsluit',
+    intro: 'Drie eigen technologieplatforms, elk een duurzaam concurrentievoordeel dat steunt op tientallen jaren kennis van enzymologie, bodemmicrobiologie en zaadtechnologie.',
+    platformsTitle: 'Drie eigen platforms',
+    platforms: [
+      {
+        title: 'Fosfor ontsluiten',
+        body: 'Tot 80% van de fosfor in de bodem zit vast in vormen die planten niet kunnen gebruiken. Onze synergetische enzymcombinaties maken deze gebonden fosfor vrij. Zo krijgt de plant meer voeding en neemt de afhankelijkheid van kunstmest af.',
+      },
+      {
+        title: 'Levend bodemmicrobioom',
+        body: 'Een gezonde bodem heeft een compleet microbieel ecosysteem nodig. Onze gepatenteerde Purisol-technologie levert 10 gekarakteriseerde bacteriesoorten, waaronder koudetolerante stammen die beschermen tegen vorst. Dat draagt bij aan het herstel van de nutriëntenkringloop, de bodemstructuur en de vruchtbaarheid op lange termijn.',
+      },
+      {
+        title: 'Geavanceerde enzymatische zaadcoatings',
+        body: 'Onze SG-2-formule verbetert de kieming, de wortelgroei en de vroege opname van voedingsstoffen, zodat planten vanaf dag één sterker starten.',
+      },
+    ],
+    alts: [
+      'Onderzoeker in het laboratorium',
+      'Onderzoeker voert experimenten uit',
+      'Onderzoek en ontwikkeling in het laboratorium',
+      'Lid van het onderzoeksteam',
+    ],
+    edgeTitle: 'Onze voorsprong',
+    edges: [
+      'Betere benutting van voedingsstoffen',
+      'Minder kunstmest nodig',
+      'Gezondere bodems',
+      'Minder afspoeling en vervuiling',
+      'Hogere opbrengst en betere gewaskwaliteit',
+    ],
+  },
+};
+const t = copy[lang];
+
+const labImages = [
+  { src: labPerson1, position: '' },
+  { src: labPerson2, position: '' },
+  { src: labPerson3, position: 'object-right' },
+  { src: labPerson4, position: 'object-right' },
+];
 ---
 
 <section id="solution" class="section bg-white dark:bg-[#111]">
@@ -12,13 +93,13 @@ import labPerson4 from '../../assets/images/research-lab-person-4.webp';
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-green/10 dark:bg-white/10 rounded-full">
-        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">OUR SOLUTION</span>
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h2 class="text-black dark:text-white mb-6">
-        Enzyme Technology That Unlocks Soil Potential
+        {t.title}
       </h2>
       <p class="text-xl text-black/50 dark:text-white/50">
-        Three proprietary platforms — each a competitive moat built on decades of enzymology, soil microbiology, and seed science.
+        {t.intro}
       </p>
     </div>
 
@@ -27,91 +108,38 @@ import labPerson4 from '../../assets/images/research-lab-person-4.webp';
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div class="reveal-left">
           <h3 class="text-3xl font-display font-bold text-black dark:text-white mb-8">
-            Three Proprietary Platforms
+            {t.platformsTitle}
           </h3>
 
-          <!-- Technology 1 -->
-          <div class="mb-8">
-            <h4 class="text-xl font-bold text-black dark:text-white mb-3 flex items-center gap-2">
-              <span class="text-dark-green dark:text-cream">●</span> Phosphorus Unlocking Technology
-            </h4>
-            <p class="text-black/70 dark:text-white/60 leading-relaxed">
-              Up to 80% of soil phosphorus is locked in forms that plants cannot use. Our synergistic enzyme combinations release this bound phosphorus, increasing plant nutrition and reducing dependence on chemical fertilizers.
-            </p>
-          </div>
-
-          <!-- Technology 2 -->
-          <div class="mb-8">
-            <h4 class="text-xl font-bold text-black dark:text-white mb-3 flex items-center gap-2">
-              <span class="text-dark-green dark:text-cream">●</span> Living Soil Microbiome
-            </h4>
-            <p class="text-black/70 dark:text-white/60 leading-relaxed">
-              Healthy soils require a complete microbial ecosystem. Our patented Purisol technology delivers 10 characterized bacterial species — including psychrotolerant strains for frost protection — restoring nutrient cycling, soil structure, and long-term fertility.
-            </p>
-          </div>
-
-          <!-- Technology 3 -->
-          <div>
-            <h4 class="text-xl font-bold text-black dark:text-white mb-3 flex items-center gap-2">
-              <span class="text-dark-green dark:text-cream">●</span> Advanced Enzymatic Seed Coatings
-            </h4>
-            <p class="text-black/70 dark:text-white/60 leading-relaxed">
-              Our SG-2 formula enhances germination, root growth, and early nutrient uptake, giving plants a stronger start from day one.
-            </p>
-          </div>
+          {t.platforms.map((platform, i) => (
+            <div class={i < t.platforms.length - 1 ? 'mb-8' : ''}>
+              <h4 class="text-xl font-bold text-black dark:text-white mb-3 flex items-center gap-2">
+                <span class="text-dark-green dark:text-cream">●</span> {platform.title}
+              </h4>
+              <p class="text-black/70 dark:text-white/60 leading-relaxed">
+                {platform.body}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div class="relative reveal-right">
           <!-- Technology visual - Research Team Grid -->
           <div class="grid grid-cols-2 gap-4 rounded-2xl overflow-hidden">
-            <div class="aspect-square rounded-xl overflow-hidden shadow-lg relative group">
-              <Image
-                src={labPerson1}
-                alt="Research scientist in laboratory"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-                width={640}
-                height={640}
-                quality={85}
-              />
-              <div class="absolute inset-0 bg-gradient-to-tr from-dark-green/60 via-dark-green/30 to-transparent"></div>
-            </div>
-            <div class="aspect-square rounded-xl overflow-hidden shadow-lg relative group">
-              <Image
-                src={labPerson2}
-                alt="Research scientist conducting experiments"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-                width={640}
-                height={640}
-                quality={85}
-              />
-              <div class="absolute inset-0 bg-gradient-to-tr from-dark-green/60 via-dark-green/30 to-transparent"></div>
-            </div>
-            <div class="aspect-square rounded-xl overflow-hidden shadow-lg relative group">
-              <Image
-                src={labPerson3}
-                alt="Laboratory research and development"
-                class="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-                width={640}
-                height={640}
-                quality={85}
-              />
-              <div class="absolute inset-0 bg-gradient-to-tr from-dark-green/60 via-dark-green/30 to-transparent"></div>
-            </div>
-            <div class="aspect-square rounded-xl overflow-hidden shadow-lg relative group">
-              <Image
-                src={labPerson4}
-                alt="Scientific research team member"
-                class="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-                width={640}
-                height={640}
-                quality={85}
-              />
-              <div class="absolute inset-0 bg-gradient-to-tr from-dark-green/60 via-dark-green/30 to-transparent"></div>
-            </div>
+            {labImages.map((img, i) => (
+              <div class="aspect-square rounded-xl overflow-hidden shadow-lg relative group">
+                <Image
+                  src={img.src}
+                  alt={t.alts[i]}
+                  class:list={['w-full h-full object-cover group-hover:scale-105 transition-transform duration-500', img.position]}
+                  loading="lazy"
+                  width={640}
+                  height={640}
+                  quality={85}
+                />
+                <div class="absolute inset-0 bg-gradient-to-tr from-dark-green/60 via-dark-green/30 to-transparent"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -120,39 +148,17 @@ import labPerson4 from '../../assets/images/research-lab-person-4.webp';
     <!-- Benefits Section -->
     <div class="bg-dark-green rounded-3xl p-8 md:p-12 text-white reveal-scale">
       <h3 class="text-3xl font-display font-bold text-center mb-8">
-        Our Competitive Edge
+        {t.edgeTitle}
       </h3>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-lg">Higher nutrient efficiency</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-lg">Lower fertilizer inputs</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-lg">Healthier soils</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-lg">Reduced runoff and pollution</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-lg">Increased yield and crop quality</span>
-        </div>
+        {t.edges.map((edge) => (
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-cream flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-lg">{edge}</span>
+          </div>
+        ))}
       </div>
     </div>
   </div>

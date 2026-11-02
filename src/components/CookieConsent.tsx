@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { localizePath, type Lang } from '../i18n';
+import { useTranslations } from '../i18n/ui';
 
 interface CookiePreferences {
   essential: boolean;
@@ -6,7 +8,8 @@ interface CookiePreferences {
   marketing: boolean;
 }
 
-export default function CookieConsent() {
+export default function CookieConsent({ lang = 'en' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const [showBanner, setShowBanner] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -101,18 +104,17 @@ export default function CookieConsent() {
                 </svg>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-black mb-2">
-                    We value your privacy
+                    {t('cookie.title')}
                   </h3>
                   <p className="text-black/70 leading-relaxed">
-                    We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.
-                    By clicking "Accept All", you consent to our use of cookies. You can manage your preferences or learn more in our{' '}
+                    {t('cookie.body')}{' '}
                     <a
-                      href="/privacy"
+                      href={localizePath('/privacy', lang)}
                       className="text-dark-green hover:underline font-medium"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Privacy Policy
+                      {t('cookie.policy')}
                     </a>.
                   </p>
                 </div>
@@ -122,23 +124,23 @@ export default function CookieConsent() {
                 <button
                   onClick={handleAcceptAll}
                   className="px-6 py-3 bg-dark-green text-white rounded-lg font-semibold hover:bg-dark-green/90 transition-colors"
-                  aria-label="Accept all cookies"
+                  aria-label={t('cookie.acceptAllLabel')}
                 >
-                  Accept All
+                  {t('cookie.acceptAll')}
                 </button>
                 <button
                   onClick={handleRejectAll}
                   className="px-6 py-3 bg-gray-100 text-black rounded-lg font-semibold hover:bg-gray-200 transition-colors"
-                  aria-label="Reject non-essential cookies"
+                  aria-label={t('cookie.rejectAllLabel')}
                 >
-                  Reject All
+                  {t('cookie.rejectAll')}
                 </button>
                 <button
                   onClick={() => setShowPreferences(true)}
                   className="px-6 py-3 border-2 border-dark-green text-dark-green rounded-lg font-semibold hover:bg-dark-green/5 transition-colors"
-                  aria-label="Customize cookie preferences"
+                  aria-label={t('cookie.customizeLabel')}
                 >
-                  Customize
+                  {t('cookie.customize')}
                 </button>
               </div>
             </div>
@@ -147,10 +149,10 @@ export default function CookieConsent() {
             <div className="p-6 md:p-8">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-black mb-2">
-                  Cookie Preferences
+                  {t('cookie.prefsTitle')}
                 </h3>
                 <p className="text-black/70">
-                  Choose which cookies you want to allow. You can change these settings at any time.
+                  {t('cookie.prefsBody')}
                 </p>
               </div>
 
@@ -159,14 +161,14 @@ export default function CookieConsent() {
                 <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex-1 pr-4">
                     <h4 className="font-semibold text-black mb-1">
-                      Essential Cookies
+                      {t('cookie.essentialTitle')}
                     </h4>
                     <p className="text-sm text-black/70">
-                      Required for the website to function properly. These cannot be disabled.
+                      {t('cookie.essentialBody')}
                     </p>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-sm font-medium text-dark-green mr-3">Always Active</span>
+                    <span className="text-sm font-medium text-dark-green mr-3">{t('cookie.alwaysActive')}</span>
                     <div className="w-12 h-6 bg-dark-green rounded-full flex items-center px-1">
                       <div className="w-4 h-4 bg-white rounded-full ml-auto" />
                     </div>
@@ -177,10 +179,10 @@ export default function CookieConsent() {
                 <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex-1 pr-4">
                     <h4 className="font-semibold text-black mb-1">
-                      Analytics Cookies
+                      {t('cookie.analyticsTitle')}
                     </h4>
                     <p className="text-sm text-black/70">
-                      Help us understand how visitors interact with our website to improve user experience.
+                      {t('cookie.analyticsBody')}
                     </p>
                   </div>
                   <button
@@ -188,7 +190,7 @@ export default function CookieConsent() {
                     className={`w-12 h-6 rounded-full transition-colors flex items-center px-1 ${
                       preferences.analytics ? 'bg-dark-green' : 'bg-gray-300'
                     }`}
-                    aria-label={`${preferences.analytics ? 'Disable' : 'Enable'} analytics cookies`}
+                    aria-label={t(preferences.analytics ? 'cookie.analyticsOff' : 'cookie.analyticsOn')}
                     role="switch"
                     aria-checked={preferences.analytics}
                   >
@@ -204,10 +206,10 @@ export default function CookieConsent() {
                 <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex-1 pr-4">
                     <h4 className="font-semibold text-black mb-1">
-                      Marketing Cookies
+                      {t('cookie.marketingTitle')}
                     </h4>
                     <p className="text-sm text-black/70">
-                      Used to deliver personalized content and track campaign effectiveness.
+                      {t('cookie.marketingBody')}
                     </p>
                   </div>
                   <button
@@ -215,7 +217,7 @@ export default function CookieConsent() {
                     className={`w-12 h-6 rounded-full transition-colors flex items-center px-1 ${
                       preferences.marketing ? 'bg-dark-green' : 'bg-gray-300'
                     }`}
-                    aria-label={`${preferences.marketing ? 'Disable' : 'Enable'} marketing cookies`}
+                    aria-label={t(preferences.marketing ? 'cookie.marketingOff' : 'cookie.marketingOn')}
                     role="switch"
                     aria-checked={preferences.marketing}
                   >
@@ -232,16 +234,16 @@ export default function CookieConsent() {
                 <button
                   onClick={handleAcceptSelected}
                   className="px-6 py-3 bg-dark-green text-white rounded-lg font-semibold hover:bg-dark-green/90 transition-colors"
-                  aria-label="Save cookie preferences"
+                  aria-label={t('cookie.saveLabel')}
                 >
-                  Save Preferences
+                  {t('cookie.save')}
                 </button>
                 <button
                   onClick={() => setShowPreferences(false)}
                   className="px-6 py-3 border-2 border-gray-300 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-                  aria-label="Cancel and go back"
+                  aria-label={t('cookie.cancelLabel')}
                 >
-                  Cancel
+                  {t('cookie.cancel')}
                 </button>
               </div>
             </div>

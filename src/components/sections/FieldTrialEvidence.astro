@@ -1,33 +1,81 @@
 ---
 // Field Trial Evidence — Prof. Ismail Çakmak, Sabancı University (2025)
 // Independent Turkish field trials showing Fitazim yield increases
+import { getLang } from '../../i18n';
 
-const trials = [
-  {
-    badge: 'Grain Crop',
-    headline: '+20%',
-    crop: 'Maize',
-    location: 'Karaman, Turkey',
-    detail: 'Yield increase without P fertilizer — Fitazim alone matched DAP performance.',
-    sub: 'Statistically significant (LSD 0.05). Confirmed across two trial sites.',
+const lang = getLang(Astro.url);
+const copy = {
+  en: {
+    badge: 'INDEPENDENT FIELD TRIALS',
+    title: 'Independently Verified Results',
+    sub: 'Independent university field trials · Turkey, 2025',
+    mechanismLabel: 'Why the mechanism matters:',
+    mechanism: "When soils receive full phosphorus fertilization, Fitazim adds only +2.2% — because there is no locked phosphorus left to release. This confirms Fitazim's mode of action: it unlocks the phosphorus already in your soil, making it most valuable where P input is reduced or absent.",
+    footnote: 'Data from independent field trials conducted in farmer fields and commercial greenhouses, 2025. Yields measured at harvest. Statistical significance at LSD (α = 0.05).',
+    trials: [
+      {
+        badge: 'Grain Crop',
+        headline: '+20%',
+        crop: 'Maize',
+        location: 'Karaman, Turkey',
+        detail: 'Yield increase without P fertilizer — Fitazim alone matched DAP performance.',
+        sub: 'Statistically significant (LSD 0.05). Confirmed across two trial sites.',
+      },
+      {
+        badge: 'Oil Crop',
+        headline: '+24.6%',
+        crop: 'Sunflower',
+        location: 'Burunoba, Turkey',
+        detail: 'Yield increase with Fitazim-coated DAP. Soil-applied Fitazim alone delivered +22%.',
+        sub: 'Consistent effect across unfertilized and fertilized conditions.',
+      },
+      {
+        badge: 'Greenhouse',
+        headline: '+23.1%',
+        crop: 'Lettuce',
+        location: 'Antalya, Turkey',
+        detail: 'At 8 L/ha application rate. Clear dose-response: 5 L/ha gave +21.3%.',
+        sub: 'Replicated across two independent experiments (May–June 2025).',
+      },
+    ],
   },
-  {
-    badge: 'Oil Crop',
-    headline: '+24.6%',
-    crop: 'Sunflower',
-    location: 'Burunoba, Turkey',
-    detail: 'Yield increase with Fitazim-coated DAP. Soil-applied Fitazim alone delivered +22%.',
-    sub: 'Consistent effect across unfertilized and fertilized conditions.',
+  nl: {
+    badge: 'ONAFHANKELIJKE VELDPROEVEN',
+    title: 'Onafhankelijk bevestigde resultaten',
+    sub: 'Onafhankelijke universitaire veldproeven · Turkije, 2025',
+    mechanismLabel: 'Waarom het werkingsmechanisme ertoe doet:',
+    mechanism: 'Bij een volledige fosfaatbemesting voegt Fitazim slechts +2,2% toe, omdat er dan geen vastgelegde fosfor meer vrij te maken is. Dat bevestigt hoe Fitazim werkt: het ontsluit de fosfor die al in uw bodem zit. Daardoor levert het de meeste waarde op waar weinig of geen fosfaat wordt gegeven.',
+    footnote: 'Gegevens uit onafhankelijke veldproeven op praktijkbedrijven en in commerciële kassen, 2025. Opbrengsten gemeten bij de oogst. Statistische significantie op basis van LSD (α = 0,05).',
+    trials: [
+      {
+        badge: 'Graangewas',
+        headline: '+20%',
+        crop: 'Maïs',
+        location: 'Karaman, Turkije',
+        detail: 'Meeropbrengst zonder fosfaatkunstmest. Fitazim alleen presteerde even goed als DAP.',
+        sub: 'Statistisch significant (LSD 0,05). Bevestigd op twee proeflocaties.',
+      },
+      {
+        badge: 'Oliegewas',
+        headline: '+24,6%',
+        crop: 'Zonnebloem',
+        location: 'Burunoba, Turkije',
+        detail: 'Meeropbrengst met DAP gecoat met Fitazim. Fitazim alleen, via de bodem toegepast, gaf +22%.',
+        sub: 'Consistent effect, zowel zonder als met bemesting.',
+      },
+      {
+        badge: 'Kas',
+        headline: '+23,1%',
+        crop: 'Sla',
+        location: 'Antalya, Turkije',
+        detail: 'Bij een dosering van 8 L/ha. Duidelijke dosis-respons: 5 L/ha gaf +21,3%.',
+        sub: 'Herhaald in twee onafhankelijke experimenten (mei–juni 2025).',
+      },
+    ],
   },
-  {
-    badge: 'Greenhouse',
-    headline: '+23.1%',
-    crop: 'Lettuce',
-    location: 'Antalya, Turkey',
-    detail: 'At 8 L/ha application rate. Clear dose-response: 5 L/ha gave +21.3%.',
-    sub: 'Replicated across two independent experiments (May–June 2025).',
-  },
-];
+};
+const t = copy[lang];
+const trials = t.trials;
 ---
 
 <div class="bg-white dark:bg-[#111] rounded-3xl overflow-hidden shadow-lg">
@@ -36,13 +84,13 @@ const trials = [
     <!-- Header -->
     <div class="text-center mb-10 reveal">
       <div class="inline-block mb-4 px-4 py-2 bg-dark-green/8 dark:bg-white/10 rounded-full">
-        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">INDEPENDENT FIELD TRIALS</span>
+        <span class="text-dark-green dark:text-cream font-semibold text-sm tracking-wide">{t.badge}</span>
       </div>
       <h3 class="text-2xl md:text-3xl font-display font-bold text-black dark:text-white mb-3">
-        Independently Verified Results
+        {t.title}
       </h3>
       <p class="text-black/40 dark:text-white/40 max-w-xl mx-auto text-sm">
-        Independent university field trials · Turkey, 2025
+        {t.sub}
       </p>
     </div>
 
@@ -77,14 +125,14 @@ const trials = [
     <!-- Mechanism Insight Callout -->
     <div class="reveal bg-dark-green/[0.03] dark:bg-white/[0.03] rounded-xl p-6 border-l-4 border-dark-green/20 dark:border-cream/20 mb-6">
       <p class="text-sm text-black/60 dark:text-white/50 leading-relaxed">
-        <span class="font-semibold text-black/80 dark:text-white/70">Why the mechanism matters:</span>
-        When soils receive full phosphorus fertilization, Fitazim adds only +2.2% — because there is no locked phosphorus left to release. This confirms Fitazim's mode of action: it unlocks the phosphorus already in your soil, making it most valuable where P input is reduced or absent.
+        <span class="font-semibold text-black/80 dark:text-white/70">{t.mechanismLabel}</span>
+        {t.mechanism}
       </p>
     </div>
 
     <!-- Source Footnote -->
     <p class="text-center text-[10px] text-black/25 dark:text-white/20">
-      Data from independent field trials conducted in farmer fields and commercial greenhouses, 2025. Yields measured at harvest. Statistical significance at LSD (α = 0.05).
+      {t.footnote}
     </p>
 
   </div>
