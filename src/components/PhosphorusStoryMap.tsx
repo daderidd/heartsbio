@@ -259,8 +259,9 @@ const chapterText: Record<Lang, Record<string, ChapterText>> = {
       badge: 'THE OPPORTUNITY',
       title: 'Unlock what is already there',
       body: 'HeartsBio\'s enzyme technology is designed to improve access to poorly available phosphorus fractions in soil, turning a trapped resource into usable nutrition. Fitazim works in the field. Bio-Dop works at the factory. Together, they target the phosphorus problem from both ends of the value chain.',
-      stat: { value: '$70B+', label: 'annual global phosphate fertilizer market' },
-      source: 'Straits Research (2024); World Bank Commodity Markets',
+      // Same figure as the homepage Problem section and pitch deck slide 6
+      stat: { value: '€30B', label: 'annual global phosphate fertilizer market' },
+      source: 'HeartsBio estimate based on 41–48 Mt P₂O₅ applied per year (FAO; USGS)',
     },
   },
   nl: {
@@ -336,8 +337,8 @@ const chapterText: Record<Lang, Record<string, ChapterText>> = {
       badge: 'DE KANS',
       title: 'Ontsluit wat er al is',
       body: 'De enzymtechnologie van HeartsBio is ontwikkeld om slecht beschikbare fosforfracties in de bodem beter toegankelijk te maken, zodat een vastgelegde voorraad bruikbare plantenvoeding wordt. Fitazim werkt in het veld. Bio-Dop werkt in de fabriek. Samen pakken ze het fosforprobleem aan vanaf beide kanten van de waardeketen.',
-      stat: { value: `Ruim $${NBSP}70${NBSP}mld.`, label: 'jaarlijkse wereldmarkt voor fosfaatkunstmest' },
-      source: 'Straits Research (2024); Wereldbank, Commodity Markets',
+      stat: { value: `€${NBSP}30${NBSP}mld.`, label: 'jaarlijkse wereldmarkt voor fosfaatkunstmest' },
+      source: 'Schatting HeartsBio op basis van 41–48 Mt P₂O₅ per jaar (FAO; USGS)',
     },
   },
 };
