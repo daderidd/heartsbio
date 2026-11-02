@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.heartsbio.nl',
+  site: 'https://heartsbio.nl',
   integrations: [
     tailwind(),
     react(),
